@@ -38,8 +38,11 @@ public class Constants {
     public static final int RECYCLER_VIEW_TYPE_CATEGORY         = 2;
     public static final int RECYCLER_VIEW_TYPE_SEARCH_KEYWORD   = 3;
 
+    public static final int RECYCLER_VIEW_TYPE_MY_STORY         = 0;
+
     public static final String ARGUMENTS_CATEGORY               = "ARGUMENTS_CATEGORY";
     public static final String ARGUMENTS_MUSICSTORY             = "ARGUMENTS_MUSICSTORY";
     public static final String ARGUMENTS_KEYWORD                = "ARGUMENTS_KEYWORD";
     public static final String ARGUMENTS_TYPE                   = "ARGUMENTS_TYPE";
+    public static final String ARGUMENTS_STORY_ID               = "ARGUMENTS_STORY_ID";
 }

@@ -1,0 +1,131 @@
+package org.metol.musicstory.adapter;
+
+import android.app.ActivityOptions;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.metol.musicstory.R;
+import org.metol.musicstory.activity.BaseActivity;
+import org.metol.musicstory.activity.EditStoryActivity;
+import org.metol.musicstory.model.Constants;
+import org.metol.musicstory.model.MusicStory;
+import org.metol.musicstory.util.GlideManager;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+/**
+ * Created by Broccoli.Huang on 2018/1/10.
+ */
+
+public class MyStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private final ArrayList<MusicStory> mData;
+
+    public MyStoryAdapter(ArrayList<MusicStory> data) {
+        this.mData = data;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType == Constants.RECYCLER_VIEW_TYPE_MY_STORY) {
+            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_my_story_list, parent, false));
+        }else{
+            return null;
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        if(viewHolder instanceof ViewHolder) {
+            ViewHolder holder = (ViewHolder) viewHolder;
+            MusicStory musicStory = getItem(position);
+            holder.itemView.setTag(R.id.tag_position, position);
+            Context cnx = holder.itemView.getContext();
+
+            GlideManager.setCardImage(cnx, musicStory.getCoverUrl(), holder.iv_card_cover_center);
+            GlideManager.setFbAvatarImage(cnx, musicStory.getFbId(), GlideManager.FbAvatarType.TYPE_SMALL, holder.iv_card_author_avatar);
+            GlideManager.setBackgroundImageWithGaussianBlur(cnx, musicStory.getCoverUrl(), holder.iv_card_background);
+            holder.tv_card_title.setText(musicStory.getStoryTitle());
+            holder.iv_card_play.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((BaseActivity)v.getContext()).openKKBOXUrlScheme(musicStory.getSongUrl());
+                }
+            });
+            holder.itemView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    ((BaseActivity) v.getContext()).showBottomSheet(musicStory);
+                }
+            });
+
+            if(TextUtils.isEmpty(musicStory.getArtistName())){
+                holder.tv_card_artist_name_and_song_name.setVisibility(View.GONE);
+            }else{
+                holder.tv_card_artist_name_and_song_name.setText(musicStory.getArtistName()+" - "+musicStory.getSongName());
+            }
+
+            holder.iv_card_edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO 已完成Firestore.updateMusicStory
+//                    Bundle bundle = new Bundle();
+//                    MusicStory musicStory = new MusicStory(tracks.getAlbum().getArtist().getId(), tracks.getAlbum().getArtist().getName(), tracks.getAlbum().getId(), tracks.getAlbum().getName(), tracks.getId(), tracks.getName(), tracks.getAlbum().getImages().get(tracks.getAlbum().getImages().size()-1).getUrl(), "", "", "", "", "", "", "", "", "", "", null);
+//                    bundle.putParcelable(Constants.ARGUMENTS_MUSICSTORY, musicStory);
+//                    Intent intent = new Intent(v.getContext(), EditStoryActivity.class);
+//                    intent.putExtra(Constants.ARGUMENTS_TYPE, EditStoryActivity.TYPE_ADD);
+//                    intent.putExtra(Constants.ARGUMENTS_MUSICSTORY, bundle);
+//
+//                    v.getContext().startActivity(intent, ActivityOptions.makeCustomAnimation(v.getContext(), R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
+                }
+            });
+
+            holder.iv_card_delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO 已完成Firestore.deleteMusicStory
+
+                }
+            });
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return mData == null ? 0 : mData.size();
+    }
+
+    public MusicStory getItem(int position) {
+        if(mData != null && position >= 0 && position < mData.size()) {
+            return mData.get(position);
+        }else{
+            return null;
+        }
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.iv_card_cover_center)                ImageView iv_card_cover_center;
+        @BindView(R.id.iv_card_background)                  ImageView iv_card_background;
+        @BindView(R.id.iv_card_author_avatar)               ImageView iv_card_author_avatar;
+        @BindView(R.id.iv_card_play)                        ImageView iv_card_play;
+        @BindView(R.id.tv_card_musicstory_title)            TextView  tv_card_title;
+        @BindView(R.id.tv_card_artist_name_and_song_name)   TextView  tv_card_artist_name_and_song_name;
+        @BindView(R.id.iv_card_edit)                        ImageView iv_card_edit;
+        @BindView(R.id.iv_card_delete)                      ImageView iv_card_delete;
+
+        public ViewHolder(View v) {
+            super(v);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+}

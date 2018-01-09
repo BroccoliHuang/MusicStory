@@ -100,6 +100,7 @@ public class KKBOXSearchTrackListViewAdapter extends RecyclerView.Adapter<Recycl
                         MusicStory musicStory = new MusicStory(tracks.getAlbum().getArtist().getId(), tracks.getAlbum().getArtist().getName(), tracks.getAlbum().getId(), tracks.getAlbum().getName(), tracks.getId(), tracks.getName(), tracks.getAlbum().getImages().get(tracks.getAlbum().getImages().size()-1).getUrl(), "", "", "", "", "", "", "", "", "", "", null);
                         bundle.putParcelable(Constants.ARGUMENTS_MUSICSTORY, musicStory);
                         Intent intent = new Intent(v.getContext(), EditStoryActivity.class);
+                        intent.putExtra(Constants.ARGUMENTS_TYPE, EditStoryActivity.TYPE_ADD);
                         intent.putExtra(Constants.ARGUMENTS_MUSICSTORY, bundle);
 
                         v.getContext().startActivity(intent, ActivityOptions.makeCustomAnimation(v.getContext(), R.anim.slide_in_right, R.anim.slide_out_left).toBundle());

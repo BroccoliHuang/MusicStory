@@ -46,7 +46,7 @@ public class Common extends Application {
         if(TextUtils.isEmpty(fbID)){
             fbID = SharedPreferencesManager.getString(SharedPreferencesManager.FB_ID, "");
         }else{
-            getMember(new CallbackMember() {
+            getMember(false, new CallbackMember() {
                 @Override
                 public void onMember(Member member) {
                     fbID = member.getFbId();
@@ -61,12 +61,14 @@ public class Common extends Application {
         Common.member = member;
     }
 
-    public static void getMember(CallbackMember callback){
-        if(member==null) {
+    public static void getMember(boolean forceReload, CallbackMember callback){
+        if(forceReload || member==null) {
             Firestore.getMember(getFbID(), new Firestore.Callback() {
                 @Override
                 public void onSuccess(Object object) {
                     if(object instanceof Member){
+                        setFbID(((Member)object).getFbId());
+                        setMember((Member)object);
                         callback.onMember((Member)object);
                     }else{
                         callback.onMember(null);

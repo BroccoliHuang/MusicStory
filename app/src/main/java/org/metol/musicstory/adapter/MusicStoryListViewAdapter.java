@@ -200,7 +200,6 @@ public class MusicStoryListViewAdapter extends RecyclerView.Adapter<RecyclerView
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_card_cover_center)                ImageView iv_card_cover_center;
         @BindView(R.id.iv_card_background)                  ImageView iv_card_background;
-        @BindView(R.id.iv_card_more)                        ImageView iv_card_more;
         @BindView(R.id.iv_card_author_avatar)               ImageView iv_card_author_avatar;
         @BindView(R.id.iv_card_play)                        ImageView iv_card_play;
         @BindView(R.id.tv_card_musicstory_title)            TextView  tv_card_title;

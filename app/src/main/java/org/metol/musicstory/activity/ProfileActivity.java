@@ -1,7 +1,9 @@
 package org.metol.musicstory.activity;
 
+import android.app.ActivityOptions;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
@@ -16,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.getkeepsafe.taptargetview.TapTarget;
@@ -39,6 +42,9 @@ public class ProfileActivity extends BaseActivity {
     private MenuItem            mi_save;
     private ImageView           iv_avatar;
     private TextView            tv_name;
+    private RelativeLayout      rl_my_story;
+    private ImageView           iv_my_story;
+    private TextView            tv_my_story;
     private MaterialEditText    met_nickname;
     private RadioButton         rb_male;
     private RadioButton         rb_female;
@@ -59,12 +65,15 @@ public class ProfileActivity extends BaseActivity {
         AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
         params.setScrollFlags(0);
 
-        Common.getMember(new Common.CallbackMember() {
+        Common.getMember(true, new Common.CallbackMember() {
             @Override
             public void onMember(Member member) {
                 mMember = member;
                 iv_avatar = (ImageView)inflated.findViewById(R.id.iv_avatar);
                 tv_name = ((TextView)inflated.findViewById(R.id.tv_name));
+                rl_my_story = (RelativeLayout)inflated.findViewById(R.id.rl_my_story);
+                iv_my_story = (ImageView)inflated.findViewById(R.id.iv_my_story);
+                tv_my_story = (TextView)inflated.findViewById(R.id.tv_my_story);
                 met_nickname = ((MaterialEditText)inflated.findViewById(R.id.met_nickname));
                 rb_male = ((RadioButton)inflated.findViewById(R.id.rb_male));
                 rb_female = ((RadioButton)inflated.findViewById(R.id.rb_female));
@@ -86,6 +95,13 @@ public class ProfileActivity extends BaseActivity {
                 met_email.setText(member.getEmail());
                 met_address.setText(member.getAddress());
 
+                View.OnClickListener onClickListenerMyStory = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(ProfileActivity.this, MyStoryActivity.class), ActivityOptions.makeCustomAnimation(ProfileActivity.this, R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
+                    }
+                };
+
                 TextWatcher textWatcher = new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -105,6 +121,9 @@ public class ProfileActivity extends BaseActivity {
                         setModify(true);
                     }
                 };
+                rl_my_story.setOnClickListener(onClickListenerMyStory);
+                iv_my_story.setOnClickListener(onClickListenerMyStory);
+                tv_my_story.setOnClickListener(onClickListenerMyStory);
                 met_nickname.addTextChangedListener(textWatcher);
                 rb_male.setOnCheckedChangeListener(onCheckedChangeListener);
                 rb_female.setOnCheckedChangeListener(onCheckedChangeListener);

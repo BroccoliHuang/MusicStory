@@ -131,6 +131,74 @@ public class Firestore {
                         }
 
                     }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        callback.onFailed("尋找故事失敗="+e.getMessage());
+                    }
+                });
+    }
+
+    public static void getMusicStoryByDocumentId(String documentId, @Nullable Callback callback){
+        Common.getFirebaseFirestore().collection(COLLECTION_MUSICSTORY)
+                .document(documentId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            try {
+                                callback.onSuccess(task.getResult().toObject(MusicStory.class));
+                            }catch (IllegalStateException ise){
+                                callback.onSuccess(null);
+                            }
+                        } else {
+                            callback.onFailed("尋找故事失敗");
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        callback.onFailed("尋找故事失敗="+e.getMessage());
+                    }
+                });
+    }
+
+    public static void updateMusicStory(String musicStoryDocumentId, MusicStory musicStory, @Nullable Callback callback){
+        Common.getFirebaseFirestore().collection(COLLECTION_MUSICSTORY)
+                .document(musicStoryDocumentId)
+                .set(musicStory)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        callback.onSuccess(null);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        callback.onFailed("修改故事失敗="+e.getMessage());
+                    }
+                });
+    }
+
+    public static void deleteMusicStory(String musicStoryDocumentId, @Nullable Callback callback){
+        Common.getFirebaseFirestore().collection(COLLECTION_MUSICSTORY)
+                .document(musicStoryDocumentId)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        callback.onSuccess(null);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        callback.onFailed("刪除故事失敗="+e.getMessage());
+                    }
                 });
     }
 

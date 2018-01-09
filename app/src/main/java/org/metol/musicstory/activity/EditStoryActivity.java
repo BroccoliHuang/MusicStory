@@ -38,6 +38,11 @@ import ren.qinc.edit.PerformEdit;
 //TODO 送出資料時要progressbar
 //TODO hashtag https://github.com/greenfrvr/hashtag-view
 public class EditStoryActivity extends BaseActivity {
+    public static final int TYPE_ADD    = 0;
+    public static final int TYPE_EDIT   = 1;
+    private int type = -1;
+    private String storyDocumentId;
+
     private FrameLayout fl_header;
     private ImageView   iv_sheet_cover;
     private ImageView   iv_sheet_background;
@@ -54,6 +59,8 @@ public class EditStoryActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        type = getIntent().getIntExtra(Constants.ARGUMENTS_TYPE, -1);
+        storyDocumentId = getIntent().getStringExtra(Constants.ARGUMENTS_STORY_ID);
         musicStory = (MusicStory)getIntent().getBundleExtra(Constants.ARGUMENTS_MUSICSTORY).get(Constants.ARGUMENTS_MUSICSTORY);
 
         View inflated = mVS_custom.inflate();
@@ -83,6 +90,22 @@ public class EditStoryActivity extends BaseActivity {
         tv_sheet_artist.setText(musicStory.getArtistName());
 
         mPerformEditStoryContent = new PerformEdit(et_story_content);
+
+        if(type==TYPE_EDIT) {
+            Firestore.getMusicStoryByDocumentId(storyDocumentId, new Firestore.Callback() {
+                @Override
+                public void onSuccess(Object object) {
+                    MusicStory musicStory = (MusicStory)object;
+                    et_story_title.setText(musicStory.getStoryTitle());
+                    et_story_content.setText(musicStory.getStoryContent());
+                }
+
+                @Override
+                public void onFailed(String reason) {
+
+                }
+            });
+        }
     }
 
     @Override
@@ -135,7 +158,7 @@ public class EditStoryActivity extends BaseActivity {
 //                    }
 //                }, mYear,mMonth, mDay).show();
 
-                Common.getMember(new Common.CallbackMember() {
+                Common.getMember(false, new Common.CallbackMember() {
                     @Override
                     public void onMember(Member member) {
                         if(member==null){
@@ -184,7 +207,13 @@ public class EditStoryActivity extends BaseActivity {
     }
     @Override
     protected String getStaticCenterTitle() {
-        return getResources().getString(R.string.addstory_title);
+        if(type==TYPE_ADD) {
+            return getResources().getString(R.string.addstory_title);
+        }else if(type==TYPE_ADD) {
+            return getResources().getString(R.string.editstory_title);
+        }else{
+            return "";
+        }
     }
 
     @Override
