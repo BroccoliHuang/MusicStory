@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <FrameLayout
         android:id="@+id/fl_header"
@@ -83,13 +82,26 @@
     </FrameLayout>
 
     <EditText
+        android:id="@+id/et_story_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fl_header"
+        android:layout_margin="6dp"
+        android:background="@android:color/transparent"
+        android:gravity="top|left"
+        android:hint="請輸入標題"
+        android:lineSpacingMultiplier="1.5"
+        android:textSize="18sp" />
+
+    <EditText
         android:id="@+id/et_story_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/et_story_title"
         android:layout_margin="6dp"
         android:background="@android:color/transparent"
         android:gravity="top|left"
         android:hint="寫下妳/你的故事吧~"
         android:lineSpacingMultiplier="1.5"
         android:textSize="14sp" />
-</LinearLayout>
+</RelativeLayout>

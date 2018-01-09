@@ -29,7 +29,7 @@ public class MusicStory implements Parcelable {
     private String location;
     private String longitude;//經度
     private String latitude;//緯度
-    private ArrayList<String> tag;
+    private ArrayList<String> tag = new ArrayList();
 
     public MusicStory(){
 

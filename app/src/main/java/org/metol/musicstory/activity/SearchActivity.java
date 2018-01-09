@@ -6,9 +6,13 @@ import android.support.v4.app.Fragment;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetSequence;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.metol.musicstory.fragment.CardBottomSheetFragment;
 import org.metol.musicstory.R;
 import org.metol.musicstory.fragment.KKBOXSearchListFragment;
+import org.metol.musicstory.model.BroadCastEvent;
 import org.metol.musicstory.model.Constants;
 import org.metol.musicstory.util.SharedPreferencesManager;
 import org.metol.musicstory.util.TapTargetManager;
@@ -44,15 +48,22 @@ public class SearchActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         keyword = getIntent().getStringExtra(Constants.ARGUMENTS_KEYWORD);
-
-//        mSearchView.setOnMenuClickListener(new SearchView.OnMenuClickListener() {
-//            @Override
-//            public void onMenuClick() {
-//                finish();
-//            }
-//        });
-        // mSearchView.setShouldClearOnOpen(true);
         super.onCreate(savedInstanceState);
+
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(BroadCastEvent event) {
+        if(event.getEventType() == BroadCastEvent.BroadCastType.SEARCH_ACTIVITY_SHOW_SNACK_BAR) {
+            showSnack((String)event.getData());
+        }
     }
 
     @Override
@@ -119,5 +130,4 @@ public class SearchActivity extends BaseActivity {
             }
         }, tapTargets);
     }
-
 }

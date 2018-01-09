@@ -5,6 +5,9 @@ import android.text.TextUtils;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.metol.musicstory.database.Firestore;
+import org.metol.musicstory.model.Member;
+import org.metol.musicstory.util.Api;
 import org.metol.musicstory.util.SharedPreferencesManager;
 
 /**
@@ -16,6 +19,7 @@ public class Common extends Application {
     public static boolean IS_DEBUG;
     private static FirebaseFirestore db = null;
     private static String fbID;
+    private static Member member;
 
     @Override
     public void onCreate() {
@@ -46,8 +50,38 @@ public class Common extends Application {
         return fbID;
     }
 
+    public static void setMember(Member member){
+        Common.member = member;
+    }
+
+    public static void getMember(CallbackMember callback){
+        if(member==null) {
+            Firestore.getMember(getFbID(), new Firestore.Callback() {
+                @Override
+                public void onSuccess(Object object) {
+                    if(object instanceof Member){
+                        callback.onMember((Member)object);
+                    }else{
+                        callback.onMember(null);
+                    }
+                }
+
+                @Override
+                public void onFailed(String reason) {
+                    callback.onMember(null);
+                }
+            });
+        }else{
+            callback.onMember(member);
+        }
+    }
+
     public boolean isDebug() {
         //上線請改false
         return true;
+    }
+
+    public interface CallbackMember{
+        void onMember(Member member);
     }
 }

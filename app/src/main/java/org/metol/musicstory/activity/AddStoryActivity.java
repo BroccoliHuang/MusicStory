@@ -3,6 +3,7 @@ package org.metol.musicstory.activity;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,24 +14,36 @@ import android.widget.TextView;
 
 import com.getkeepsafe.taptargetview.TapTarget;
 
+import org.greenrobot.eventbus.EventBus;
+import org.metol.musicstory.Common;
 import org.metol.musicstory.R;
+import org.metol.musicstory.database.Firestore;
 import org.metol.musicstory.fragment.CardBottomSheetFragment;
+import org.metol.musicstory.model.BroadCastEvent;
 import org.metol.musicstory.model.Constants;
+import org.metol.musicstory.model.Member;
 import org.metol.musicstory.model.MusicStory;
 import org.metol.musicstory.util.GlideManager;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
 import ren.qinc.edit.PerformEdit;
 
 /**
  * Created by Broccoli.Huang on 2018/1/3.
  */
 
+//TODO 送出資料時要progressbar
+//TODO hashtag https://github.com/greenfrvr/hashtag-view
 public class AddStoryActivity extends BaseActivity {
     private FrameLayout fl_header;
     private ImageView   iv_sheet_cover;
     private ImageView   iv_sheet_background;
     private TextView    tv_sheet_song_name;
     private TextView    tv_sheet_artist;
+    private EditText    et_story_title;
     private EditText    et_story_content;
     private PerformEdit mPerformEditStoryContent;
     private MenuItem    mi_undo;
@@ -41,7 +54,7 @@ public class AddStoryActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MusicStory musicStory = (MusicStory)getIntent().getBundleExtra(Constants.ARGUMENTS_MUSICSTORY).get(Constants.ARGUMENTS_MUSICSTORY);
+        musicStory = (MusicStory)getIntent().getBundleExtra(Constants.ARGUMENTS_MUSICSTORY).get(Constants.ARGUMENTS_MUSICSTORY);
 
         View inflated = mVS_custom.inflate();
 
@@ -50,6 +63,7 @@ public class AddStoryActivity extends BaseActivity {
         iv_sheet_background = (ImageView)inflated.findViewById(R.id.iv_sheet_background);
         tv_sheet_song_name = (TextView) inflated.findViewById(R.id.tv_sheet_song_name);
         tv_sheet_artist = (TextView)inflated.findViewById(R.id.tv_sheet_artist);
+        et_story_title = (EditText)inflated.findViewById(R.id.et_story_title);
         et_story_content = (EditText)inflated.findViewById(R.id.et_story_content);
 
         AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
@@ -89,6 +103,7 @@ public class AddStoryActivity extends BaseActivity {
         mi_ok.setVisible(true);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == mi_undo.getItemId()) {
@@ -98,7 +113,64 @@ public class AddStoryActivity extends BaseActivity {
             mPerformEditStoryContent.redo();
             return true;
         }else if(item.getItemId() == mi_ok.getItemId()) {
-            //TODO
+            if(TextUtils.isEmpty(et_story_title.getText().toString())) {
+                showSnack("請輸入標題");
+            }else if(TextUtils.isEmpty(et_story_content.getText().toString())){
+                showSnack("寫下故事吧");
+            }else {
+                //TODO 日期、地點、取得座標、hash tag
+//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//                builder.setTitle("故事日期");
+//                builder.setMessage("知道故事的日期區間嗎?");
+//                builder.setNegativeButton("忘了", null);
+//                builder.setPositiveButton("知道", null);
+//                builder.show();
+//                final Calendar c = Calendar.getInstance();
+//                int mYear = c.get(Calendar.YEAR);
+//                int mMonth = c.get(Calendar.MONTH);
+//                int mDay = c.get(Calendar.DAY_OF_MONTH);
+//                new DatePickerDialog(AddStoryActivity.this, new DatePickerDialog.OnDateSetListener() {
+//                    @Override
+//                    public void onDateSet(DatePicker view, int year, int month, int day) {
+//                    }
+//                }, mYear,mMonth, mDay).show();
+
+                Common.getMember(new Common.CallbackMember() {
+                    @Override
+                    public void onMember(Member member) {
+                        if(member==null){
+                            showSnack("故事新增失敗="+"找不到會員");
+                            return;
+                        }
+                        ArrayList<String> alTag = new ArrayList();
+
+                        musicStory.setStoryTitle(et_story_title.getText().toString());
+                        musicStory.setStoryContent(et_story_content.getText().toString());
+                        musicStory.setFbId(member.getFbId());
+                        musicStory.setFbName(member.getFbName());
+                        musicStory.setNickname(member.getNickname());
+                        musicStory.setStoryDate("");
+                        musicStory.setCreateTime(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
+                        musicStory.setLocation("");
+                        musicStory.setLongitude("");
+                        musicStory.setLatitude("");
+                        musicStory.setTag(alTag);
+
+                        Firestore.insertMusicStory(musicStory, new Firestore.Callback() {
+                            @Override
+                            public void onSuccess(Object object) {
+                                EventBus.getDefault().post(new BroadCastEvent(BroadCastEvent.BroadCastType.SEARCH_ACTIVITY_SHOW_SNACK_BAR, "故事新增成功"));
+                                finish();
+                            }
+
+                            @Override
+                            public void onFailed(String reason) {
+                                showSnack("故事新增失敗="+reason);
+                            }
+                        });
+                    }
+                });
+            }
             return true;
         }else{
             return super.onOptionsItemSelected(item);

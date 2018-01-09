@@ -5,31 +5,31 @@ package org.metol.musicstory.model;
  */
 
 public class Member {
-    private String address;
-    private String birthDate;
-    private Integer edm;
-    private String email;
     private String fbId;
     private String fbName;
     private String nickname;
+    private String gender;
+    private String email;
+    private String birthDate;
     private String phone;
-    private String sex;
+    private String address;
+    private Integer edm;
     private Integer status;
 
     public Member(){
 
     }
 
-    public Member(String address, String birthDate, Integer edm, String email, String fbId, String fbName, String nickname, String phone, String sex, Integer status) {
-        this.address = address;
-        this.birthDate = birthDate;
-        this.edm = edm;
-        this.email = email;
+    public Member(String fbId, String fbName, String nickname, String gender, String email, String birthDate, String phone, String address, Integer edm, Integer status) {
         this.fbId = fbId;
         this.fbName = fbName;
         this.nickname = nickname;
+        this.gender = gender;
+        this.email = email;
+        this.birthDate = birthDate;
         this.phone = phone;
-        this.sex = sex;
+        this.address = address;
+        this.edm = edm;
         this.status = status;
     }
 
@@ -97,12 +97,12 @@ public class Member {
         this.phone = phone;
     }
 
-    public String getSex() {
-        return sex;
+    public String getGender() {
+        return gender;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public Integer getStatus() {

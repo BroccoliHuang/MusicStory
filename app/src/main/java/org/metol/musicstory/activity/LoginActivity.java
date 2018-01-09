@@ -16,6 +16,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONObject;
+import org.metol.musicstory.Common;
 import org.metol.musicstory.R;
 import org.metol.musicstory.database.Firestore;
 import org.metol.musicstory.model.Member;
@@ -64,14 +65,13 @@ public class LoginActivity extends AppCompatActivity {
 			loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 				@Override
 				public void onSuccess(LoginResult loginResult) {
-					Api.getFBAccountData(loginResult.getAccessToken().getUserId(), new Api.Callback() {
+					Api.getFBAccountData(loginResult.getAccessToken().getUserId(), AccessToken.getCurrentAccessToken().getPermissions(), new Api.CallbackFBAccountData() {
 						@Override
-						public void onSuccess(@Nullable Object obj) {
-							JSONObject jsonObject = (JSONObject) obj;
-							Firestore.insertMember(new Member(jsonObject.optString("address"), BirthdayUtil.fbBirthday(jsonObject.optString("birthday")), 0, jsonObject.optString("email"), loginResult.getAccessToken().getUserId(), jsonObject.optString("name"), "", "", jsonObject.optString("gender"), 0), new Firestore.Callback() {
+						public void onSuccess(String id, String name, String gender, String birthday, String email, String address) {
+							Firestore.insertMember(new Member(id, name, "", gender, email, BirthdayUtil.fbBirthday(birthday), "", address, 0, 0), new Firestore.Callback() {
 								@Override
 								public void onSuccess(Object object) {
-									startTutorialOrMain();
+									afterFbLogin(id);
 								}
 
 								@Override
@@ -105,8 +105,23 @@ public class LoginActivity extends AppCompatActivity {
 				}
 			});
 		}else{
-			startTutorialOrMain();
+			afterFbLogin(accessToken.getUserId());
 		}
+	}
+
+	private void afterFbLogin(String fbId){
+		Firestore.getMember(fbId, new Firestore.Callback() {
+			@Override
+			public void onSuccess(Object object) {
+				Common.setMember((Member)object);
+				startTutorialOrMain();
+			}
+
+			@Override
+			public void onFailed(String reason) {
+
+			}
+		});
 	}
 
 	private void startTutorialOrMain(){

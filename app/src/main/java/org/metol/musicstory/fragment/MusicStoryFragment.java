@@ -16,6 +16,7 @@ import org.metol.musicstory.model.Constants;
  * Created by Broccoli.Huang on 2018/1/4.
  */
 
+//TODO hashtag https://github.com/greenfrvr/hashtag-view
 public class MusicStoryFragment extends Fragment{
     private static Callback_Sheet callback_Sheet;
     private MusicStory musicStory;

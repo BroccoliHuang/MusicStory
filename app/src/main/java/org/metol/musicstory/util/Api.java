@@ -4,9 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.metol.musicstory.Common;
 import org.metol.musicstory.R;
@@ -18,6 +16,7 @@ import org.metol.musicstory.model.KKBOX.Tracks;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -91,7 +90,7 @@ public class Api {
         OkHttpClient client = httpClient.build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Common.getApp().getString(R.string.api_domain))
+                .baseUrl(Common.getApp().getString(R.string.api_domain_kkbox))
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -111,9 +110,9 @@ public class Api {
     /**
      * @param
      * */
-    public static void getFBAccountData(String fbId, Callback callback) {
+    public static void getFBAccountData(String fbId, Set<String> permissions, CallbackFBAccountData callbackFBAccountData) {
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "name,birthday,email,gender,address");
+        parameters.putString("fields", "id,name,birthday,gender,address"+(permissions.contains("email")?",email":""));
 
         new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
@@ -122,7 +121,8 @@ public class Api {
                 HttpMethod.GET,
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
-                        callback.onSuccess(response.getJSONObject());
+                        JSONObject jsonObject = response.getJSONObject();
+                        callbackFBAccountData.onSuccess(jsonObject.optString("id"), jsonObject.optString("name"), jsonObject.optString("gender"), jsonObject.optString("birth"), jsonObject.optString("email"), jsonObject.optString("address"));
                     }
                 }
         ).executeAsync();
@@ -141,7 +141,7 @@ public class Api {
         params.put("offset", String.valueOf(offset*limit));
         params.put("limit", String.valueOf(limit));
 
-        Call<Search> call = apiService.getKKBOXSearch("https://api.kkbox.com/v1.1/search", params);
+        Call<Search> call = apiService.getKKBOXSearch("search", params);
         call.enqueue(new retrofit2.Callback<Search>() {
             @Override
             public void onResponse(Call<Search> call, retrofit2.Response<Search> response) {
@@ -162,7 +162,7 @@ public class Api {
         Map<String, String> params = new HashMap();
         params.put("territory", territory);
 
-        Call<Tracks> call = apiService.getKKBOXTracks("https://api.kkbox.com/v1.1/tracks/"+trackId, params);
+        Call<Tracks> call = apiService.getKKBOXTracks("tracks/"+trackId, params);
         call.enqueue(new retrofit2.Callback<Tracks>() {
             @Override
             public void onResponse(Call<Tracks> call, retrofit2.Response<Tracks> response) {
@@ -183,7 +183,7 @@ public class Api {
         Map<String, String> params = new HashMap();
         params.put("territory", territory);
 
-        Call<Albums> call = apiService.getKKBOXAlbums("https://api.kkbox.com/v1.1/albums/"+albumId, params);
+        Call<Albums> call = apiService.getKKBOXAlbums("albums/"+albumId, params);
         call.enqueue(new retrofit2.Callback<Albums>() {
             @Override
             public void onResponse(Call<Albums> call, retrofit2.Response<Albums> response) {
@@ -204,7 +204,7 @@ public class Api {
         Map<String, String> params = new HashMap();
         params.put("territory", territory);
 
-        Call<Artists> call = apiService.getKKBOXArtists("https://api.kkbox.com/v1.1/artists/"+artistId, params);
+        Call<Artists> call = apiService.getKKBOXArtists("artists/"+artistId, params);
         call.enqueue(new retrofit2.Callback<Artists>() {
             @Override
             public void onResponse(Call<Artists> call, retrofit2.Response<Artists> response) {
@@ -221,6 +221,12 @@ public class Api {
 
     public interface Callback {
         void onSuccess(@Nullable Object obj);
+        void onUnSuccess(int stateCode, String reason);
+        void onFailed();
+    }
+
+    public interface CallbackFBAccountData {
+        void onSuccess(String id, String name, String gender, String birthday, String email, String address);
         void onUnSuccess(int stateCode, String reason);
         void onFailed();
     }

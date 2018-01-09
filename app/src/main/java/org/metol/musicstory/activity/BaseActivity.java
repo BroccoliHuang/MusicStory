@@ -49,16 +49,17 @@ import butterknife.ButterKnife;
  * Created by Broccoli.Huang on 2018/1/3.
  */
 public abstract class BaseActivity extends AppCompatActivity{
-    @BindView(R.id.cl_main) CoordinatorLayout mCL_main;
-    @BindView(R.id.toolbar) Toolbar mToolbar;
-    @BindView(R.id.tv_toolbar_title) TextView mToolbarTitle;
-    @BindView(R.id.fab) FloatingActionButton mFAB;
-    @BindView(R.id.tab_layout) TabLayout mTabLayout;
-    @BindView(R.id.view_tab_shadow) View mViewTabShadow;
-    @BindView(R.id.view_pager) ViewPager mViewPager;
-    @BindView(R.id.fl_custom) FrameLayout mFL_custom;
-    @BindView(R.id.searchView) SearchView mSearchView;
-    @BindView(R.id.wv_urlscheme) WebView mWebViewUrlScheme;
+    @BindView(R.id.cl_main)             CoordinatorLayout       mCL_main;
+    @BindView(R.id.toolbar)             Toolbar                 mToolbar;
+    @BindView(R.id.tv_toolbar_title)    TextView                mToolbarTitle;
+    @BindView(R.id.fab)                 FloatingActionButton    mFAB;
+    @BindView(R.id.tab_layout)          TabLayout               mTabLayout;
+    @BindView(R.id.view_tab_shadow)     View                    mViewTabShadow;
+    @BindView(R.id.view_pager)          ViewPager               mViewPager;
+    @BindView(R.id.fl_custom)           FrameLayout             mFL_custom;
+    @BindView(R.id.searchView)          SearchView              mSearchView;
+    @BindView(R.id.wv_urlscheme)        WebView                 mWebViewUrlScheme;
+
     protected ViewStub mVS_custom;
     private MenuItem mi_search;
     private MenuItem mi_info;
@@ -279,6 +280,12 @@ public abstract class BaseActivity extends AppCompatActivity{
     /**
      * 會自動將該頁面之前產生的Toast清除後再顯示新的Toast
      */
+    public void showSnack(int res) {
+        showSnack(res, Snackbar.LENGTH_SHORT);
+    }
+    public void showSnack(CharSequence text) {
+        showSnack(text, Snackbar.LENGTH_SHORT);
+    }
     public void showSnack(int res, int duration) {
         if(mSnackbar != null) mSnackbar.dismiss();
         mSnackbar = Snackbar.make(mCL_main, res, duration);
@@ -385,7 +392,7 @@ public abstract class BaseActivity extends AppCompatActivity{
             mWebViewUrlScheme.getSettings().setJavaScriptEnabled(true);
             mWebViewUrlScheme.loadUrl(requestUrl);
         } catch (PackageManager.NameNotFoundException e) {
-            showSnack("您沒有安裝KKBOX哦", Snackbar.LENGTH_SHORT);
+            showSnack("您沒有安裝KKBOX哦");
         }
     }
 

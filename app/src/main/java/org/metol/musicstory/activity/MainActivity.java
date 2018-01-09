@@ -4,7 +4,6 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 
 import org.metol.musicstory.fragment.MusicStoryListFragment;
@@ -43,7 +42,7 @@ public class MainActivity extends BaseActivity {
 	public void onBackPressed() {
 		quitCount++;
 		if(quitCount==1){
-			showSnack("再按一次離開", Snackbar.LENGTH_SHORT);
+			showSnack("再按一次離開");
 			new Handler().postDelayed(new Runnable() {
 				@Override
 				public void run() {

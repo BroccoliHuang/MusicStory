@@ -23,6 +23,7 @@ import java.util.ArrayList;
  * Created by Broccoli.Huang on 2018/1/4.
  */
 
+//TODO 加上SwipeRefreshLayout重load
 public class MusicStoryListFragment extends BaseFragment implements CategoryButtons.Callback_CategoryButtons{
     MusicStoryListViewAdapter adapter;
     private int category;
