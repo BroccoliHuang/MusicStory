@@ -3,6 +3,7 @@ package org.metol.musicstory.activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -31,12 +32,14 @@ import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
 import com.melnykov.fab.FloatingActionButton;
 
+import org.metol.musicstory.Common;
 import org.metol.musicstory.R;
 import org.metol.musicstory.adapter.ViewPagerAdapter;
 import org.metol.musicstory.fragment.BaseFragment;
 import org.metol.musicstory.fragment.CardBottomSheetFragment;
 import org.metol.musicstory.model.MusicStory;
 import org.metol.musicstory.model.Constants;
+import org.metol.musicstory.util.GlideManager;
 import org.metol.musicstory.util.ImeUtils;
 
 import java.net.URISyntaxException;
@@ -79,7 +82,7 @@ public abstract class BaseActivity extends AppCompatActivity{
         mFAB.hide(false);
 
         setSupportActionBar(mToolbar);
-        mToolbar.inflateMenu(R.menu.activity_main);
+        mToolbar.inflateMenu(R.menu.menu_main);
         mToolbar.setBackgroundColor(getResources().getColor(R.color.toolbar_background));
         if (canToolBarBack()) {
             mToolbar.setNavigationIcon(R.drawable.ic_navigate_before_black_24dp);
@@ -345,13 +348,26 @@ public abstract class BaseActivity extends AppCompatActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
 
         mi_search = menu.findItem(R.id.action_search);
-        mi_info = menu.findItem(R.id.action_info);
+        mi_info = menu.findItem(R.id.action_profile);
 
         mi_search.setVisible(isSearchVisible());
         mi_info.setVisible(isInfoVisible());
+
+        if(isInfoVisible()) {
+            GlideManager.getDrawableFbAvatarFromUrl(BaseActivity.this, Common.getFbID(), GlideManager.FbAvatarType.TYPE_SMALL, new GlideManager.Callback() {
+                @Override
+                public void onDrawable(Drawable drawable) {
+                    if (drawable != null) mi_info.setIcon(drawable);
+                }
+
+                @Override
+                public void onBitmap(Bitmap bitmap) {
+                }
+            });
+        }
         return true;
     }
     @Override

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_avatar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:id="@+id/sv_profile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_name"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        android:scrollbarStyle="outsideOverlay">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/met_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="暱稱"
+                android:textSize="18sp"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelTextSize="16sp"
+                app:met_primaryColor="@color/app_theme" />
+
+            <RadioGroup
+                android:id="@+id/rg_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/met_nickname"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="男" />
+
+                <RadioButton
+                    android:id="@+id/rb_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:text="女" />
+            </RadioGroup>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/met_birth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rg_gender"
+                android:layout_marginTop="5dp"
+                android:hint="生日"
+                android:textSize="20sp"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelTextSize="16sp"
+                app:met_primaryColor="@color/app_theme" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/met_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/met_birth"
+                android:layout_marginTop="5dp"
+                android:hint="手機"
+                android:textSize="20sp"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelTextSize="16sp"
+                app:met_primaryColor="@color/app_theme" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/met_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/met_phone"
+                android:layout_marginTop="5dp"
+                android:hint="電子信箱"
+                android:textSize="20sp"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelTextSize="16sp"
+                app:met_primaryColor="@color/app_theme" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/met_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/met_email"
+                android:layout_marginTop="5dp"
+                android:hint="地址"
+                android:textSize="20sp"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelTextSize="16sp"
+                app:met_primaryColor="@color/app_theme" />
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

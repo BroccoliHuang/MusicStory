@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import org.metol.musicstory.Common;
 import org.metol.musicstory.R;
-import org.metol.musicstory.activity.AddStoryActivity;
+import org.metol.musicstory.activity.EditStoryActivity;
 import org.metol.musicstory.activity.BaseActivity;
 import org.metol.musicstory.activity.SearchActivity;
 import org.metol.musicstory.model.Constants;
@@ -99,7 +99,7 @@ public class KKBOXSearchTrackListViewAdapter extends RecyclerView.Adapter<Recycl
                         Bundle bundle = new Bundle();
                         MusicStory musicStory = new MusicStory(tracks.getAlbum().getArtist().getId(), tracks.getAlbum().getArtist().getName(), tracks.getAlbum().getId(), tracks.getAlbum().getName(), tracks.getId(), tracks.getName(), tracks.getAlbum().getImages().get(tracks.getAlbum().getImages().size()-1).getUrl(), "", "", "", "", "", "", "", "", "", "", null);
                         bundle.putParcelable(Constants.ARGUMENTS_MUSICSTORY, musicStory);
-                        Intent intent = new Intent(v.getContext(), AddStoryActivity.class);
+                        Intent intent = new Intent(v.getContext(), EditStoryActivity.class);
                         intent.putExtra(Constants.ARGUMENTS_MUSICSTORY, bundle);
 
                         v.getContext().startActivity(intent, ActivityOptions.makeCustomAnimation(v.getContext(), R.anim.slide_in_right, R.anim.slide_out_left).toBundle());

@@ -113,6 +113,7 @@ public class LoginActivity extends AppCompatActivity {
 		Firestore.getMember(fbId, new Firestore.Callback() {
 			@Override
 			public void onSuccess(Object object) {
+				Common.setFbID(fbId);
 				Common.setMember((Member)object);
 				startTutorialOrMain();
 			}

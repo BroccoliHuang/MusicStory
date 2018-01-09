@@ -37,7 +37,7 @@ import ren.qinc.edit.PerformEdit;
 
 //TODO 送出資料時要progressbar
 //TODO hashtag https://github.com/greenfrvr/hashtag-view
-public class AddStoryActivity extends BaseActivity {
+public class EditStoryActivity extends BaseActivity {
     private FrameLayout fl_header;
     private ImageView   iv_sheet_cover;
     private ImageView   iv_sheet_background;
@@ -58,6 +58,9 @@ public class AddStoryActivity extends BaseActivity {
 
         View inflated = mVS_custom.inflate();
 
+        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
+        params.setScrollFlags(0);
+
         fl_header = (FrameLayout)inflated.findViewById(R.id.fl_header);
         iv_sheet_cover = (ImageView)inflated.findViewById(R.id.iv_sheet_cover);
         iv_sheet_background = (ImageView)inflated.findViewById(R.id.iv_sheet_background);
@@ -66,11 +69,8 @@ public class AddStoryActivity extends BaseActivity {
         et_story_title = (EditText)inflated.findViewById(R.id.et_story_title);
         et_story_content = (EditText)inflated.findViewById(R.id.et_story_content);
 
-        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
-        params.setScrollFlags(0);
-
-        GlideManager.setSongImage(AddStoryActivity.this, musicStory.getCoverUrl(), iv_sheet_cover);
-        GlideManager.setBackgroundImageWithGaussianBlur(AddStoryActivity.this, musicStory.getCoverUrl(), iv_sheet_background);
+        GlideManager.setSongImage(EditStoryActivity.this, musicStory.getCoverUrl(), iv_sheet_cover);
+        GlideManager.setBackgroundImageWithGaussianBlur(EditStoryActivity.this, musicStory.getCoverUrl(), iv_sheet_background);
         View.OnClickListener onClick_TextMarquee = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,12 +87,12 @@ public class AddStoryActivity extends BaseActivity {
 
     @Override
     protected int getCustomView() {
-        return R.layout.activity_addstory;
+        return R.layout.activity_edit_story;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_add_story, menu);
+        getMenuInflater().inflate(R.menu.menu_edit_story, menu);
 
         mi_undo = menu.findItem(R.id.action_undo);
         mi_redo = menu.findItem(R.id.action_redo);
@@ -129,7 +129,7 @@ public class AddStoryActivity extends BaseActivity {
 //                int mYear = c.get(Calendar.YEAR);
 //                int mMonth = c.get(Calendar.MONTH);
 //                int mDay = c.get(Calendar.DAY_OF_MONTH);
-//                new DatePickerDialog(AddStoryActivity.this, new DatePickerDialog.OnDateSetListener() {
+//                new DatePickerDialog(EditStoryActivity.this, new DatePickerDialog.OnDateSetListener() {
 //                    @Override
 //                    public void onDateSet(DatePicker view, int year, int month, int day) {
 //                    }

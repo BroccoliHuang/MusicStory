@@ -45,6 +45,13 @@ public class Common extends Application {
     public static String getFbID(){
         if(TextUtils.isEmpty(fbID)){
             fbID = SharedPreferencesManager.getString(SharedPreferencesManager.FB_ID, "");
+        }else{
+            getMember(new CallbackMember() {
+                @Override
+                public void onMember(Member member) {
+                    fbID = member.getFbId();
+                }
+            });
         }
 
         return fbID;

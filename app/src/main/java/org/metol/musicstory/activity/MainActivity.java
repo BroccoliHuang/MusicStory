@@ -2,12 +2,17 @@ package org.metol.musicstory.activity;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
+import org.metol.musicstory.Common;
 import org.metol.musicstory.fragment.MusicStoryListFragment;
 import org.metol.musicstory.model.Constants;
+import org.metol.musicstory.util.GlideManager;
 import org.metol.musicstory.util.TapTargetManager;
 import org.metol.musicstory.R;
 import org.metol.musicstory.fragment.CardBottomSheetFragment;
@@ -96,7 +101,7 @@ public class MainActivity extends BaseActivity {
 
 	@Override
 	protected void intentInfoActivity() {
-		startActivity(new Intent(MainActivity.this, InfoActivity.class), ActivityOptions.makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
+		startActivity(new Intent(MainActivity.this, ProfileActivity.class), ActivityOptions.makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
 	}
 
 	@Override

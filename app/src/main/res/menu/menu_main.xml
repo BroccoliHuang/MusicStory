@@ -7,8 +7,8 @@
         android:title="搜尋"
         app:showAsAction="always"/>
     <item
-        android:id="@+id/action_info"
+        android:id="@+id/action_profile"
         android:icon="@drawable/ic_info_outline_black_24dp"
-        android:title="說明"
+        android:title="基本資料"
         app:showAsAction="always"/>
 </menu>

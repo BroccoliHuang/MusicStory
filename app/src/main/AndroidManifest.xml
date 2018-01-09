@@ -9,7 +9,7 @@
 
     <application
         android:name="org.metol.musicstory.Common"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:replace="android:icon,android:theme">
@@ -37,12 +37,12 @@
             android:theme="@style/AppTheme"
             android:launchMode="singleTask" />
 
-        <activity android:name="org.metol.musicstory.activity.AddStoryActivity"
+        <activity android:name="org.metol.musicstory.activity.EditStoryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:launchMode="singleTask" />
 
-        <activity android:name="org.metol.musicstory.activity.InfoActivity"
+        <activity android:name="org.metol.musicstory.activity.ProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:launchMode="singleTask" />
