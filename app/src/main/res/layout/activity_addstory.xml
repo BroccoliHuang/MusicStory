@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/fl_header"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#FFFFFF">
+
+        <ImageView
+            android:id="@+id/iv_sheet_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/iv_sheet_cover"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentLeft="true" />
+
+            <RelativeLayout
+                android:id="@+id/rl_sheet_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/iv_sheet_cover"
+                android:layout_alignTop="@+id/iv_sheet_cover"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@+id/iv_sheet_cover"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tv_sheet_song_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:maxLines="1"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:shadowColor="#222222"
+                    android:shadowRadius="20"
+                    android:singleLine="true"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_sheet_song_name"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="6dp">
+
+                    <TextView
+                        android:id="@+id/tv_sheet_artist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:maxLines="1"
+                        android:shadowColor="#222222"
+                        android:shadowRadius="20"
+                        android:singleLine="true"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp" />
+                </FrameLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </FrameLayout>
+
+    <EditText
+        android:id="@+id/et_story_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="6dp"
+        android:background="@android:color/transparent"
+        android:gravity="top|left"
+        android:hint="寫下妳/你的故事吧~"
+        android:lineSpacingMultiplier="1.5"
+        android:textSize="14sp" />
+</LinearLayout>

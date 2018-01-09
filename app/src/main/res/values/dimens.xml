@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="iv_card_cover_center_width_and_height">120dp</dimen>
+    <dimen name="iv_card_cover_left_right_width_and_height">90dp</dimen>
+</resources>

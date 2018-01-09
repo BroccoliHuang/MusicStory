@@ -1,0 +1,94 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginBottom="6dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="6dp"
+    card_view:cardCornerRadius="4dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:id="@+id/fl_card_cover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_card_background"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:id="@+id/iv_card_cover_center"
+                android:layout_width="@dimen/iv_card_cover_center_width_and_height"
+                android:layout_height="@dimen/iv_card_cover_center_width_and_height"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center" />
+
+            <ImageView
+                android:id="@+id/iv_card_play"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_margin="6dp"
+                android:layout_gravity="right|bottom"
+                android:src="@drawable/ic_play_circle_filled_black_24dp"/>
+        </FrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_author_and_title_and_song"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fl_card_cover"
+            android:layout_margin="8dp">
+
+            <ImageView
+                android:id="@+id/iv_card_author_avatar"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="2dp" />
+
+            <TextView
+                android:id="@+id/tv_card_musicstory_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/iv_card_more"
+                android:layout_toRightOf="@+id/iv_card_author_avatar"
+                android:lineSpacingMultiplier="1.2"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_card_artist_name_and_song_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_card_musicstory_title"
+                android:layout_marginTop="7dp"
+                android:layout_toLeftOf="@+id/iv_card_more"
+                android:lineSpacingMultiplier="1.3"
+                android:textColor="#555555"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/iv_card_more"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                app:srcCompat="@drawable/ic_more_vert_black_24dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

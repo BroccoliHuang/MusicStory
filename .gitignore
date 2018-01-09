@@ -1,0 +1,14 @@
+/build
+.idea
+.gradle
+gradle
+gradlew
+gradlew.bat
+local.properties
+.DS_Store
+/captures
+*.iml
+.externalNativeBuild
+*.apk
+strings.xml
+google-services.json

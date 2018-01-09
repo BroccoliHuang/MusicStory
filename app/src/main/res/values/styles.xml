@@ -1,0 +1,6 @@
+<resources>
+        <!--<item name="mdColor_primaryPalette">@color/app_theme_background</item>-->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+    </style>
+</resources>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="app_theme">#1EAFD4</color>
+    <color name="app_theme_background">#FFFFFF</color>
+
+    <color name="progressbar_loading">#1EAFD4</color>
+
+    <color name="toolbar_background">#F5F5F5</color>
+    <color name="tab_background">#F5F5F5</color>
+
+    <color name="taptarget_outer_circle">#84DBFE</color>
+    <color name="taptarget_target_circle">#FFFFFF</color>
+    <color name="taptarget_title">#FFFFFF</color>
+    <color name="taptarget_description">#FFFFFF</color>
+
+    <color name="menu_icon">#000000</color>
+
+    <color name="tab_icon_not_focus">#81848B</color>
+    <color name="tab_text_not_focus">#81848B</color>
+
+    <color name="fab_focus">#FFFFFF</color>
+    <color name="fab_pressed">#CCFFFFFF</color>
+    <!--focus color 26% alpha-->
+    <color name="fab_ripple">#42FFFFFF</color>
+
+    <color name="categorybuttons_background">#FFFFFF</color>
+    <color name="categorybuttons_pressed_button_background">#D0D2D1</color>
+    <color name="categorybuttons_pressed_button_font">#000000</color>
+    <color name="categorybuttons_not_pressed_button_border">#D0D2D1</color>
+    <color name="categorybuttons_not_pressed_button_font">#82858E</color>
+
+    <color name="cardlist_background">#FFFFFF</color>
+    <color name="cardlist_divider">#F5F5F5</color>
+    <color name="cardlist_playing_wave">#85DBFE</color>
+    <color name="cardlist_banner_background">#FFFFFF</color>
+    <color name="cardlist_promotion_wording">#07BAFD</color>
+    <color name="cardlist_search_keyword_wording">#07BAFD</color>
+
+
+    <color name="transparent">#00000000</color>
+
+    <color name="actionbar_title_color">#ffffff</color>
+    <color name="list_item1">#1b1c21</color>
+    <color name="list_item2">#2d322e</color>
+    <color name="list_item_press">#373149</color>
+    <color name="error_message">#ffc00000</color>
+
+</resources>

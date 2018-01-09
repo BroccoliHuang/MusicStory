@@ -1,0 +1,91 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'com.jakewharton.butterknife'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "26.0.2"
+
+    defaultConfig {
+        applicationId "org.metol.musicstory"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+//    signingConfigs {
+//        debug {
+//            v1SigningEnabled false
+//            v2SigningEnabled false
+//        }
+//        release {
+//            v1SigningEnabled true
+//            v2SigningEnabled true
+//        }
+//    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+ext.supportLibVersion = '25.3.1'
+ext.bottomsheet = '1.5.3'
+
+dependencies {
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.google.firebase:firebase-firestore:11.4.2'
+    compile "com.android.support:appcompat-v7:${supportLibVersion}"
+    compile "com.android.support:design:${supportLibVersion}"
+    compile "com.android.support:cardview-v7:${supportLibVersion}"
+    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.facebook.android:facebook-android-sdk:4.23.0'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    compile 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile 'com.melnykov:floatingactionbutton:1.3.0'
+    compile 'com.lapism:searchview:4.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'jp.wasabeef:glide-transformations:2.0.2'
+    compile 'com.getkeepsafe.taptargetview:taptargetview:1.9.1'
+    compile "com.flipboard:bottomsheet-core:${bottomsheet}"
+    compile "com.flipboard:bottomsheet-commons:${bottomsheet}"
+    // optional
+    compile('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
+        exclude module: 'support-v4'
+    }
+    compile('me.henrytao:smooth-app-bar-layout:25.2.0.0') {
+        exclude group: "com.android.support"
+    }
+    compile('me.henrytao:recyclerview:23.3.0') {
+        exclude group: "com.android.support"
+    }
+    compile('me.henrytao:mdcore:23.2.1') {
+        exclude group: "com.android.support"
+    }
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.2.0'
+    compile 'com.kkbox:openapideveloper:1.0.0'
+    compile 'com.koushikdutta.ion:ion:2.+'
+    testCompile 'junit:junit:4.12'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile 'ren.qinc.edit:lib:0.0.5'
+    compile 'com.andreabaccega:android-form-edittext:1.3.+'
+}
+repositories {
+    mavenCentral()
+}
+apply plugin: 'com.google.gms.google-services'

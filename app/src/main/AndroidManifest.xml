@@ -1,0 +1,72 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="org.metol.musicstory"
+    android:versionCode="1"
+    android:versionName="1.0">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name="org.metol.musicstory.Common"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon,android:theme">
+
+        <activity
+            android:name="org.metol.musicstory.activity.LoginActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="org.metol.musicstory.activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTask" >
+        </activity>
+
+        <activity android:name="org.metol.musicstory.activity.SearchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTask" />
+
+        <activity android:name="org.metol.musicstory.activity.AddStoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTask" />
+
+        <activity android:name="org.metol.musicstory.activity.InfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTask" />
+
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="android.app.default_searchable"
+            android:value=".BaseActivity" />
+    </application>
+</manifest>

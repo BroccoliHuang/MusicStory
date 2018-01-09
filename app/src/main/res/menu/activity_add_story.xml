@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_undo"
+        android:icon="@drawable/ic_undo_black_24dp"
+        android:title="復原"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/action_redo"
+        android:icon="@drawable/ic_redo_black_24dp"
+        android:title="取消復原"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_ok"
+        android:icon="@drawable/ic_check_black_24dp"
+        android:title="完成"
+        app:showAsAction="always"/>
+</menu>
