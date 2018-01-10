@@ -181,7 +181,7 @@ public class ProfileActivity extends BaseActivity {
             mMember.setAddress(met_address.getText().toString());
             Firestore.updateMember(mMember, new Firestore.Callback() {
                 @Override
-                public void onSuccess(Object object) {
+                public void onSuccess(Object... object) {
                     showSnack("已儲存");
                     setModify(false);
                 }

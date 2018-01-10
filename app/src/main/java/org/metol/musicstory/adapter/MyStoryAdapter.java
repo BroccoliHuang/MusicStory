@@ -15,6 +15,7 @@ import android.widget.TextView;
 import org.metol.musicstory.R;
 import org.metol.musicstory.activity.BaseActivity;
 import org.metol.musicstory.activity.EditStoryActivity;
+import org.metol.musicstory.database.Firestore;
 import org.metol.musicstory.model.Constants;
 import org.metol.musicstory.model.MusicStory;
 import org.metol.musicstory.util.GlideManager;
@@ -30,9 +31,11 @@ import butterknife.ButterKnife;
 
 public class MyStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final ArrayList<MusicStory> mData;
+    private final ArrayList<String> mDataMusicStoryDocumentId;
 
-    public MyStoryAdapter(ArrayList<MusicStory> data) {
+    public MyStoryAdapter(ArrayList<MusicStory> data, ArrayList<String> dataMusicStoryDocumentId) {
         this.mData = data;
+        this.mDataMusicStoryDocumentId = dataMusicStoryDocumentId;
     }
 
     @Override
@@ -78,23 +81,34 @@ public class MyStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.iv_card_edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO 已完成Firestore.updateMusicStory
-//                    Bundle bundle = new Bundle();
-//                    MusicStory musicStory = new MusicStory(tracks.getAlbum().getArtist().getId(), tracks.getAlbum().getArtist().getName(), tracks.getAlbum().getId(), tracks.getAlbum().getName(), tracks.getId(), tracks.getName(), tracks.getAlbum().getImages().get(tracks.getAlbum().getImages().size()-1).getUrl(), "", "", "", "", "", "", "", "", "", "", null);
-//                    bundle.putParcelable(Constants.ARGUMENTS_MUSICSTORY, musicStory);
-//                    Intent intent = new Intent(v.getContext(), EditStoryActivity.class);
-//                    intent.putExtra(Constants.ARGUMENTS_TYPE, EditStoryActivity.TYPE_ADD);
-//                    intent.putExtra(Constants.ARGUMENTS_MUSICSTORY, bundle);
-//
-//                    v.getContext().startActivity(intent, ActivityOptions.makeCustomAnimation(v.getContext(), R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable(Constants.ARGUMENTS_MUSICSTORY, mData.get(position));
+                    Intent intent = new Intent(v.getContext(), EditStoryActivity.class);
+                    intent.putExtra(Constants.ARGUMENTS_TYPE, EditStoryActivity.TYPE_EDIT);
+                    intent.putExtra(Constants.ARGUMENTS_MUSICSTORY, bundle);
+                    intent.putExtra(Constants.ARGUMENTS_STORY_ID, mDataMusicStoryDocumentId.get(position));
+
+                    v.getContext().startActivity(intent, ActivityOptions.makeCustomAnimation(v.getContext(), R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
                 }
             });
 
             holder.iv_card_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO 已完成Firestore.deleteMusicStory
+                    Firestore.deleteMusicStory(mDataMusicStoryDocumentId.get(position), new Firestore.Callback() {
+                        @Override
+                        public void onSuccess(Object... object) {
+                            mData.remove(position);
+                            mDataMusicStoryDocumentId.remove(position);
+                            notifyDataSetChanged();
+                            ((BaseActivity)cnx).showSnack("已刪除");
+                        }
 
+                        @Override
+                        public void onFailed(String reason) {
+                            ((BaseActivity)cnx).showSnack("刪除失敗="+reason);
+                        }
+                    });
                 }
             });
         }

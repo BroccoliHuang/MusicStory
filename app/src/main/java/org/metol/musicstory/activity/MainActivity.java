@@ -36,7 +36,7 @@ public class MainActivity extends BaseActivity {
 		if(SharedPreferencesManager.getBoolean(SharedPreferencesManager.IS_TAP_TARGET_TOOLBAR_SEARCH_BUTTON_SHOWN, false)){
 			requestShowTarget(
 					TapTargetManager.getTapTargetForMenuItem(mToolbar, R.id.action_search, "搜尋", "透過搜尋來新增故事吧~")
-					//TODO 基本資料、修改故事
+					//TODO 基本資料、修改故事的教學
 			);
 		}
 

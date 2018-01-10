@@ -16,6 +16,8 @@ import org.metol.musicstory.Common;
 import org.metol.musicstory.model.Member;
 import org.metol.musicstory.model.MusicStory;
 
+import java.util.ArrayList;
+
 /**
  * Created by Broccoli.Huang on 2018/1/8.
  */
@@ -33,7 +35,7 @@ public class Firestore {
     public static void insertMember(Member member, @Nullable Callback callback){
         getMember(member.getFbId(), new Callback() {
             @Override
-            public void onSuccess(Object object) {
+            public void onSuccess(Object... object) {
                 if(callback!=null) callback.onSuccess(null);
             }
 
@@ -122,7 +124,12 @@ public class Firestore {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             try {
-                                callback.onSuccess(task.getResult().toObjects(MusicStory.class));
+                                ArrayList<String> alDocumentId = new ArrayList();
+                                for(DocumentSnapshot documentSnapshot : task.getResult().getDocuments()){
+                                    alDocumentId.add(documentSnapshot.getId());
+                                }
+
+                                callback.onSuccess(task.getResult().toObjects(MusicStory.class), alDocumentId);
                             }catch (IllegalStateException ise){
                                 callback.onSuccess(null);
                             }
@@ -244,7 +251,7 @@ public class Firestore {
     }
 
     public interface Callback{
-        void onSuccess(Object object);
+        void onSuccess(Object... object);
         void onFailed(String reason);
     }
 

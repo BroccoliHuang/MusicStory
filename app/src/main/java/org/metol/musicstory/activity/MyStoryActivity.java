@@ -9,11 +9,15 @@ import android.view.View;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.melnykov.fab.FloatingActionButton;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.metol.musicstory.Common;
 import org.metol.musicstory.R;
 import org.metol.musicstory.adapter.MyStoryAdapter;
 import org.metol.musicstory.database.Firestore;
 import org.metol.musicstory.fragment.CardBottomSheetFragment;
+import org.metol.musicstory.model.BroadCastEvent;
 import org.metol.musicstory.model.MusicStory;
 
 import java.util.ArrayList;
@@ -29,6 +33,8 @@ public class MyStoryActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        EventBus.getDefault().register(this);
 
         View inflated = mVS_custom.inflate();
         
@@ -56,8 +62,8 @@ public class MyStoryActivity extends BaseActivity {
         });
         Firestore.getMusicStoryByFbId(Common.getFbID(), new Firestore.Callback() {
             @Override
-            public void onSuccess(Object object) {
-                rv_my_story.setAdapter(new MyStoryAdapter((ArrayList<MusicStory>)object));
+            public void onSuccess(Object... object) {
+                rv_my_story.setAdapter(new MyStoryAdapter((ArrayList<MusicStory>)object[0], (ArrayList<String>)object[1]));
             }
 
             @Override
@@ -65,6 +71,19 @@ public class MyStoryActivity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(BroadCastEvent event) {
+        if(event.getEventType() == BroadCastEvent.BroadCastType.SEARCH_ACTIVITY_SHOW_SNACK_BAR) {
+            showSnack((String)event.getData());
+        }
     }
 
     public void setFAB(final FloatingActionButton fab){

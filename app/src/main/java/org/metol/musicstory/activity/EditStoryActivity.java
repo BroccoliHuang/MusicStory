@@ -35,6 +35,7 @@ import ren.qinc.edit.PerformEdit;
  * Created by Broccoli.Huang on 2018/1/3.
  */
 
+//TODO 是否不儲存離開
 //TODO 送出資料時要progressbar
 //TODO hashtag https://github.com/greenfrvr/hashtag-view
 public class EditStoryActivity extends BaseActivity {
@@ -88,14 +89,16 @@ public class EditStoryActivity extends BaseActivity {
         tv_sheet_artist.setOnClickListener(onClick_TextMarquee);
         tv_sheet_song_name.setText(musicStory.getSongName());
         tv_sheet_artist.setText(musicStory.getArtistName());
+        et_story_title.setText(musicStory.getStoryTitle());
+        et_story_content.setText(musicStory.getStoryContent());
 
         mPerformEditStoryContent = new PerformEdit(et_story_content);
 
         if(type==TYPE_EDIT) {
             Firestore.getMusicStoryByDocumentId(storyDocumentId, new Firestore.Callback() {
                 @Override
-                public void onSuccess(Object object) {
-                    MusicStory musicStory = (MusicStory)object;
+                public void onSuccess(Object... object) {
+                    MusicStory musicStory = (MusicStory)object[0];
                     et_story_title.setText(musicStory.getStoryTitle());
                     et_story_content.setText(musicStory.getStoryContent());
                 }
@@ -141,23 +144,6 @@ public class EditStoryActivity extends BaseActivity {
             }else if(TextUtils.isEmpty(et_story_content.getText().toString())){
                 showSnack("寫下故事吧");
             }else {
-                //TODO 日期、地點、取得座標、hash tag
-//                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//                builder.setTitle("故事日期");
-//                builder.setMessage("知道故事的日期區間嗎?");
-//                builder.setNegativeButton("忘了", null);
-//                builder.setPositiveButton("知道", null);
-//                builder.show();
-//                final Calendar c = Calendar.getInstance();
-//                int mYear = c.get(Calendar.YEAR);
-//                int mMonth = c.get(Calendar.MONTH);
-//                int mDay = c.get(Calendar.DAY_OF_MONTH);
-//                new DatePickerDialog(EditStoryActivity.this, new DatePickerDialog.OnDateSetListener() {
-//                    @Override
-//                    public void onDateSet(DatePicker view, int year, int month, int day) {
-//                    }
-//                }, mYear,mMonth, mDay).show();
-
                 Common.getMember(false, new Common.CallbackMember() {
                     @Override
                     public void onMember(Member member) {
@@ -167,6 +153,7 @@ public class EditStoryActivity extends BaseActivity {
                         }
                         ArrayList<String> alTag = new ArrayList();
 
+                        //TODO 日期、地點、取得座標、hash tag
                         musicStory.setStoryTitle(et_story_title.getText().toString());
                         musicStory.setStoryContent(et_story_content.getText().toString());
                         musicStory.setFbId(member.getFbId());
@@ -179,18 +166,33 @@ public class EditStoryActivity extends BaseActivity {
                         musicStory.setLatitude("");
                         musicStory.setTag(alTag);
 
-                        Firestore.insertMusicStory(musicStory, new Firestore.Callback() {
-                            @Override
-                            public void onSuccess(Object object) {
-                                EventBus.getDefault().post(new BroadCastEvent(BroadCastEvent.BroadCastType.SEARCH_ACTIVITY_SHOW_SNACK_BAR, "故事新增成功"));
-                                finish();
-                            }
+                        if(type==TYPE_ADD){
+                            Firestore.insertMusicStory(musicStory, new Firestore.Callback() {
+                                @Override
+                                public void onSuccess(Object... object) {
+                                    EventBus.getDefault().post(new BroadCastEvent(BroadCastEvent.BroadCastType.SEARCH_ACTIVITY_SHOW_SNACK_BAR, "故事新增成功"));
+                                    finish();
+                                }
 
-                            @Override
-                            public void onFailed(String reason) {
-                                showSnack("故事新增失敗="+reason);
-                            }
-                        });
+                                @Override
+                                public void onFailed(String reason) {
+                                    showSnack("故事新增失敗=" + reason);
+                                }
+                            });
+                        }else if(type==TYPE_EDIT){
+                            Firestore.updateMusicStory(storyDocumentId, musicStory, new Firestore.Callback() {
+                                @Override
+                                public void onSuccess(Object... object) {
+                                    EventBus.getDefault().post(new BroadCastEvent(BroadCastEvent.BroadCastType.SEARCH_ACTIVITY_SHOW_SNACK_BAR, "故事更新成功"));
+                                    finish();
+                                }
+
+                                @Override
+                                public void onFailed(String reason) {
+                                    showSnack("故事更新失敗=" + reason);
+                                }
+                            });
+                        }
                     }
                 });
             }
@@ -209,7 +211,7 @@ public class EditStoryActivity extends BaseActivity {
     protected String getStaticCenterTitle() {
         if(type==TYPE_ADD) {
             return getResources().getString(R.string.addstory_title);
-        }else if(type==TYPE_ADD) {
+        }else if(type==TYPE_EDIT) {
             return getResources().getString(R.string.editstory_title);
         }else{
             return "";

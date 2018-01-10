@@ -65,11 +65,11 @@ public class Common extends Application {
         if(forceReload || member==null) {
             Firestore.getMember(getFbID(), new Firestore.Callback() {
                 @Override
-                public void onSuccess(Object object) {
-                    if(object instanceof Member){
-                        setFbID(((Member)object).getFbId());
-                        setMember((Member)object);
-                        callback.onMember((Member)object);
+                public void onSuccess(Object... object) {
+                    if(object[0] instanceof Member){
+                        setFbID(((Member)object[0]).getFbId());
+                        setMember((Member)object[0]);
+                        callback.onMember((Member)object[0]);
                     }else{
                         callback.onMember(null);
                     }

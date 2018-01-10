@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 
@@ -15,7 +14,6 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-import org.json.JSONObject;
 import org.metol.musicstory.Common;
 import org.metol.musicstory.R;
 import org.metol.musicstory.database.Firestore;
@@ -29,6 +27,8 @@ import butterknife.ButterKnife;
  * Created by Broccoli.Huang on 2018/1/3.
  */
 
+//TODO 強制更新
+//TODO 還沒有確定需不需要FB註冊登入之前，先不顯示FB按鈕，用全藍色加中間ICON當背景，需要登入再動畫帶入login按鈕
 public class LoginActivity extends AppCompatActivity {
 	public static final String IS_INTENT_BY_ACTIVITY = "is_intent_by_activity";
 	private Context mContext;
@@ -39,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
 	private Snackbar mSnackbar = null;
 	private CallbackManager callbackManager;
 
-//TODO 還沒有確定需不需要FB註冊登入之前，先不顯示FB按鈕，用全藍色加中間ICON當背景，需要登入再動畫帶入login按鈕
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -71,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
 						public void onSuccess(String id, String name, String gender, String birthday, String email, String address) {
 							Firestore.insertMember(new Member(id, name, "", gender, email, BirthdayUtil.fbBirthday(birthday), "", address, 0, 0), new Firestore.Callback() {
 								@Override
-								public void onSuccess(Object object) {
+								public void onSuccess(Object... object) {
 									afterFbLogin(id);
 								}
 
@@ -113,9 +112,9 @@ public class LoginActivity extends AppCompatActivity {
 	private void afterFbLogin(String fbId){
 		Firestore.getMember(fbId, new Firestore.Callback() {
 			@Override
-			public void onSuccess(Object object) {
+			public void onSuccess(Object... object) {
 				Common.setFbID(fbId);
-				Common.setMember((Member)object);
+				Common.setMember((Member)object[0]);
 				startTutorialOrMain();
 			}
 
