@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -81,27 +82,33 @@
         </RelativeLayout>
     </FrameLayout>
 
-    <EditText
-        android:id="@+id/et_story_title"
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/met_story_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/fl_header"
         android:layout_margin="6dp"
         android:background="@android:color/transparent"
         android:gravity="top|left"
-        android:hint="請輸入標題"
+        android:hint="標題"
         android:lineSpacingMultiplier="1.5"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelTextSize="18sp"
+        app:met_primaryColor="@color/app_theme" />
 
-    <EditText
-        android:id="@+id/et_story_content"
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/met_story_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/et_story_title"
+        android:layout_below="@+id/met_story_title"
         android:layout_margin="6dp"
         android:background="@android:color/transparent"
         android:gravity="top|left"
-        android:hint="寫下妳/你的故事吧~"
+        android:hint="故事"
         android:lineSpacingMultiplier="1.5"
-        android:textSize="14sp" />
+        android:textSize="16sp"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelTextSize="16sp"
+        app:met_primaryColor="@color/app_theme" />
 </RelativeLayout>

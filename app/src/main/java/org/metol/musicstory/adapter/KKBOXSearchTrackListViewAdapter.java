@@ -1,6 +1,7 @@
 package org.metol.musicstory.adapter;
 
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -82,13 +83,14 @@ public class KKBOXSearchTrackListViewAdapter extends RecyclerView.Adapter<Recycl
             if(viewHolder instanceof KKBOXSearchTrackListViewAdapter.ViewHolder) {
                 final KKBOXSearchTrackListViewAdapter.ViewHolder holder = (KKBOXSearchTrackListViewAdapter.ViewHolder) viewHolder;
                 Tracks tracks = getItem(position);
-
                 holder.itemView.setTag(R.id.tag_position, position);
+                Context cnx = holder.itemView.getContext();
+
                 holder.iv_add_story.setTag(R.id.tag_position, position);
                 holder.iv_song_cover.setTag(R.id.tag_position, position);
                 holder.iv_song_playstate.setTag(R.id.tag_position, position);
 
-                GlideManager.setSongImage(holder.iv_song_cover.getContext(), tracks.getAlbum().getImages().get(tracks.getAlbum().getImages().size()-1).getUrl(), holder.iv_song_cover);
+                GlideManager.setSongImage(cnx, tracks.getAlbum().getImages().get(tracks.getAlbum().getImages().size()-1).getUrl(), holder.iv_song_cover);
                 holder.tv_song_name.setText(tracks.getName());
                 holder.tv_song_singer.setText(tracks.getAlbum().getArtist().getName());
                 holder.iv_song_playstate.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
@@ -99,18 +101,18 @@ public class KKBOXSearchTrackListViewAdapter extends RecyclerView.Adapter<Recycl
                         Bundle bundle = new Bundle();
                         MusicStory musicStory = new MusicStory(tracks.getAlbum().getArtist().getId(), tracks.getAlbum().getArtist().getName(), tracks.getAlbum().getId(), tracks.getAlbum().getName(), tracks.getId(), tracks.getName(), tracks.getAlbum().getImages().get(tracks.getAlbum().getImages().size()-1).getUrl(), "", "", "", "", "", "", "", "", "", "", null);
                         bundle.putParcelable(Constants.ARGUMENTS_MUSICSTORY, musicStory);
-                        Intent intent = new Intent(v.getContext(), EditStoryActivity.class);
+                        Intent intent = new Intent(cnx, EditStoryActivity.class);
                         intent.putExtra(Constants.ARGUMENTS_TYPE, EditStoryActivity.TYPE_ADD);
                         intent.putExtra(Constants.ARGUMENTS_MUSICSTORY, bundle);
 
-                        v.getContext().startActivity(intent, ActivityOptions.makeCustomAnimation(v.getContext(), R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
+                        cnx.startActivity(intent, ActivityOptions.makeCustomAnimation(cnx, R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
                     }
                 });
 
                 View.OnClickListener onClick_CoverOrPlayState = new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        ((BaseActivity)v.getContext()).openKKBOXUrlScheme(tracks.getUrl());
+                        ((BaseActivity)cnx).openKKBOXUrlScheme(tracks.getUrl());
                     }
                 };
                 holder.iv_song_cover.setOnClickListener(onClick_CoverOrPlayState);
@@ -119,34 +121,35 @@ public class KKBOXSearchTrackListViewAdapter extends RecyclerView.Adapter<Recycl
 //            holder.tv_song_name.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
-//                    ((BaseActivity) v.getContext()).showSnack(holder.tv_song_name.getText(), Snackbar.LENGTH_LONG);
+//                    ((BaseActivity)cnx).showSnack(holder.tv_song_name.getText(), Snackbar.LENGTH_LONG);
 //                }
 //            });
 //            holder.tv_song_singer.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
-//                    ((BaseActivity) v.getContext()).showSnack(holder.tv_song_singer.getText(), Snackbar.LENGTH_LONG);
+//                    ((BaseActivity)cnx).showSnack(holder.tv_song_singer.getText(), Snackbar.LENGTH_LONG);
 //                }
 //            });
 
                 if(mFirstSongItemPosition == -1){
                     mFirstSongItemPosition = position;
                     if(!SharedPreferencesManager.getBoolean(SharedPreferencesManager.IS_TAP_TARGET_SEARCH_BUTTON_ADD_STORY_SHOWN, false) || !SharedPreferencesManager.getBoolean(SharedPreferencesManager.IS_TAP_TARGET_SEARCH_BUTTON_ADD_STORY_SHOWN, false)){
-                        ((SearchActivity)holder.fl_song_cover.getContext()).requestShowTarget(
+                        ((SearchActivity)cnx).requestShowTarget(
                                 TapTargetManager.getTapTargetForView(holder.fl_song_cover, "到KKBOX聽音樂囉~", "♪~♫~♪~♫~"),
                                 TapTargetManager.getTapTargetForView(holder.iv_add_story, "新增一段刻骨銘心的故事吧~", "歌只是文字與音符的組合，當人們賦予它故事，才開始有了意義")
                         );
                     }
                 }
+
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //TODO 新增一個Activity顯示其他人的故事，不過不是寫在這裡，要多一顆按鈕
+                        ((SearchActivity)cnx).showSnack("未來將開放觀看其他人的故事哦~", Snackbar.LENGTH_LONG);
+                    }
+                });
             }
 
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //TODO 新增一個Activity顯示其他人的故事，不過不是寫在這裡，要多一顆按鈕
-                    ((SearchActivity)viewHolder.itemView.getContext()).showSnack("未來將開放觀看其他人的故事哦~", Snackbar.LENGTH_LONG);
-                }
-            });
         }
     }
 

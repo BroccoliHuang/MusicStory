@@ -1,9 +1,13 @@
 package org.metol.musicstory.activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.getkeepsafe.taptargetview.TapTarget;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.greenrobot.eventbus.EventBus;
 import org.metol.musicstory.Common;
@@ -35,7 +40,6 @@ import ren.qinc.edit.PerformEdit;
  * Created by Broccoli.Huang on 2018/1/3.
  */
 
-//TODO 是否不儲存離開
 //TODO 送出資料時要progressbar
 //TODO hashtag https://github.com/greenfrvr/hashtag-view
 public class EditStoryActivity extends BaseActivity {
@@ -49,13 +53,14 @@ public class EditStoryActivity extends BaseActivity {
     private ImageView   iv_sheet_background;
     private TextView    tv_sheet_song_name;
     private TextView    tv_sheet_artist;
-    private EditText    et_story_title;
-    private EditText    et_story_content;
+    private MaterialEditText met_story_title;
+    private MaterialEditText met_story_content;
     private PerformEdit mPerformEditStoryContent;
     private MenuItem    mi_undo;
     private MenuItem    mi_redo;
     private MenuItem    mi_ok;
     private MusicStory  musicStory;
+    private boolean mIsModify = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,8 +79,8 @@ public class EditStoryActivity extends BaseActivity {
         iv_sheet_background = (ImageView)inflated.findViewById(R.id.iv_sheet_background);
         tv_sheet_song_name = (TextView) inflated.findViewById(R.id.tv_sheet_song_name);
         tv_sheet_artist = (TextView)inflated.findViewById(R.id.tv_sheet_artist);
-        et_story_title = (EditText)inflated.findViewById(R.id.et_story_title);
-        et_story_content = (EditText)inflated.findViewById(R.id.et_story_content);
+        met_story_title = (MaterialEditText)inflated.findViewById(R.id.met_story_title);
+        met_story_content = (MaterialEditText)inflated.findViewById(R.id.met_story_content);
 
         GlideManager.setSongImage(EditStoryActivity.this, musicStory.getCoverUrl(), iv_sheet_cover);
         GlideManager.setBackgroundImageWithGaussianBlur(EditStoryActivity.this, musicStory.getCoverUrl(), iv_sheet_background);
@@ -89,18 +94,19 @@ public class EditStoryActivity extends BaseActivity {
         tv_sheet_artist.setOnClickListener(onClick_TextMarquee);
         tv_sheet_song_name.setText(musicStory.getSongName());
         tv_sheet_artist.setText(musicStory.getArtistName());
-        et_story_title.setText(musicStory.getStoryTitle());
-        et_story_content.setText(musicStory.getStoryContent());
+        met_story_title.setText(musicStory.getStoryTitle());
+        met_story_content.setText(musicStory.getStoryContent());
 
-        mPerformEditStoryContent = new PerformEdit(et_story_content);
+        mPerformEditStoryContent = new PerformEdit(met_story_content);
 
         if(type==TYPE_EDIT) {
             Firestore.getMusicStoryByDocumentId(storyDocumentId, new Firestore.Callback() {
                 @Override
                 public void onSuccess(Object... object) {
                     MusicStory musicStory = (MusicStory)object[0];
-                    et_story_title.setText(musicStory.getStoryTitle());
-                    et_story_content.setText(musicStory.getStoryContent());
+                    met_story_title.setText(musicStory.getStoryTitle());
+                    met_story_content.setText(musicStory.getStoryContent());
+                    mIsModify = false;
                 }
 
                 @Override
@@ -109,6 +115,21 @@ public class EditStoryActivity extends BaseActivity {
                 }
             });
         }
+
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mIsModify = true;
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
+        met_story_title.addTextChangedListener(textWatcher);
+        met_story_content.addTextChangedListener(textWatcher);
     }
 
     @Override
@@ -139,9 +160,9 @@ public class EditStoryActivity extends BaseActivity {
             mPerformEditStoryContent.redo();
             return true;
         }else if(item.getItemId() == mi_ok.getItemId()) {
-            if(TextUtils.isEmpty(et_story_title.getText().toString())) {
+            if(TextUtils.isEmpty(met_story_title.getText().toString())) {
                 showSnack("請輸入標題");
-            }else if(TextUtils.isEmpty(et_story_content.getText().toString())){
+            }else if(TextUtils.isEmpty(met_story_content.getText().toString())){
                 showSnack("寫下故事吧");
             }else {
                 Common.getMember(false, new Common.CallbackMember() {
@@ -154,8 +175,8 @@ public class EditStoryActivity extends BaseActivity {
                         ArrayList<String> alTag = new ArrayList();
 
                         //TODO 日期、地點、取得座標、hash tag
-                        musicStory.setStoryTitle(et_story_title.getText().toString());
-                        musicStory.setStoryContent(et_story_content.getText().toString());
+                        musicStory.setStoryTitle(met_story_title.getText().toString());
+                        musicStory.setStoryContent(met_story_content.getText().toString());
                         musicStory.setFbId(member.getFbId());
                         musicStory.setFbName(member.getFbName());
                         musicStory.setNickname(member.getNickname());
@@ -199,6 +220,25 @@ public class EditStoryActivity extends BaseActivity {
             return true;
         }else{
             return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(mIsModify){
+            new AlertDialog.Builder(this)
+                    .setTitle("送出")
+                    .setMessage("還沒送出就要離開了嗎QQ?")
+                    .setNegativeButton("沒", null)
+                    .setPositiveButton("對", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mIsModify = false;
+                            onBackPressed();
+                        }
+                    }).show();
+        }else{
+            super.onBackPressed();
         }
     }
 

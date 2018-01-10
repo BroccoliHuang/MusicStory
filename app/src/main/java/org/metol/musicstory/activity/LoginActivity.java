@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -26,13 +28,13 @@ import org.metol.musicstory.util.Api;
 import org.metol.musicstory.util.BirthdayUtil;
 import org.metol.musicstory.util.SystemManager;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
  * Created by Broccoli.Huang on 2018/1/3.
  */
 
-//TODO 還沒有確定需不需要FB註冊登入之前，先不顯示FB按鈕，用全藍色加中間ICON當背景，需要登入再動畫帶入login按鈕
 public class LoginActivity extends AppCompatActivity {
 	public static final String IS_INTENT_BY_ACTIVITY = "is_intent_by_activity";
 	private Context mContext;
@@ -43,6 +45,8 @@ public class LoginActivity extends AppCompatActivity {
 	private Snackbar mSnackbar = null;
 	private CallbackManager callbackManager;
 	private Setting setting;
+	@BindView(R.id.rl_login_button) RelativeLayout rl_login_button;
+	@BindView(R.id.login_button) LoginButton login_button;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -112,13 +116,13 @@ public class LoginActivity extends AppCompatActivity {
 	private void afterCheckVersion(){
 		AccessToken accessToken = AccessToken.getCurrentAccessToken();
 		if(accessToken==null) {
+			rl_login_button.setVisibility(View.VISIBLE);
 			//FB Login
 			callbackManager = CallbackManager.Factory.create();
-			LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
 			//TODO 測試
 //			loginButton.setReadPermissions("email");
 
-			loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+			login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 				@Override
 				public void onSuccess(LoginResult loginResult) {
 					Api.getFBAccountData(loginResult.getAccessToken().getUserId(), AccessToken.getCurrentAccessToken().getPermissions(), new Api.CallbackFBAccountData() {

@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.facebook.login.LoginManager;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -30,6 +32,7 @@ import org.metol.musicstory.fragment.CardBottomSheetFragment;
 import org.metol.musicstory.R;
 import org.metol.musicstory.model.Member;
 import org.metol.musicstory.util.GlideManager;
+import org.metol.musicstory.util.SystemManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,6 +55,7 @@ public class ProfileActivity extends BaseActivity {
     private MaterialEditText    met_phone;
     private MaterialEditText    met_email;
     private MaterialEditText    met_address;
+    private Button              btn_logout;
     private boolean mIsModify = false;
     private Member mMember;
     private String birthDate = "";
@@ -81,6 +85,7 @@ public class ProfileActivity extends BaseActivity {
                 met_phone = ((MaterialEditText)inflated.findViewById(R.id.met_phone));
                 met_email = ((MaterialEditText)inflated.findViewById(R.id.met_email));
                 met_address = ((MaterialEditText)inflated.findViewById(R.id.met_address));
+                btn_logout = ((Button)inflated.findViewById(R.id.btn_logout));
 
                 GlideManager.setFbAvatarImage(ProfileActivity.this, Common.getFbID(), GlideManager.FbAvatarType.TYPE_LARGE, iv_avatar);
                 tv_name.setText(member.getFbName());
@@ -148,6 +153,14 @@ public class ProfileActivity extends BaseActivity {
                 met_phone.addTextChangedListener(textWatcher);
                 met_email.addTextChangedListener(textWatcher);
                 met_address.addTextChangedListener(textWatcher);
+
+                btn_logout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LoginManager.getInstance().logOut();
+                        finish();
+                    }
+                });
             }
         });
     }

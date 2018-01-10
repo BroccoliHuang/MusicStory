@@ -9,10 +9,11 @@
 
     <application
         android:name="org.metol.musicstory.Common"
-        android:icon="@mipmap/ic_logo"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-        tools:replace="android:icon,android:theme">
+        tools:replace="android:icon,android:roundIcon,android:theme">
 
         <activity
             android:name="org.metol.musicstory.activity.LoginActivity"

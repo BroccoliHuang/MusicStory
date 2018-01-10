@@ -11,7 +11,6 @@ import android.text.TextUtils;
 
 import org.metol.musicstory.fragment.MusicStoryListFragment;
 import org.metol.musicstory.model.Constants;
-import org.metol.musicstory.util.SystemManager;
 import org.metol.musicstory.util.TapTargetManager;
 import org.metol.musicstory.R;
 import org.metol.musicstory.fragment.CardBottomSheetFragment;

@@ -23,7 +23,6 @@ import java.util.ArrayList;
  * Created by Broccoli.Huang on 2018/1/4.
  */
 
-//TODO 加上SwipeRefreshLayout重load
 public class MusicStoryListFragment extends BaseFragment implements CategoryButtons.Callback_CategoryButtons{
     MusicStoryListViewAdapter adapter;
     private int category;
@@ -45,6 +44,7 @@ public class MusicStoryListFragment extends BaseFragment implements CategoryButt
 
     @Override
     protected void getRecyclerViewAdapter(final Callback_Adapter callback_adapter, final int index_category) {
+        if(adapter!=null) adapter.cleanData();
         loadData(category, 1, new Callback.API() {
             @Override
             public void onSuccess(Object object) {
@@ -133,5 +133,15 @@ public class MusicStoryListFragment extends BaseFragment implements CategoryButt
     @Override
     protected int[] getCategoryIndex() {
         return new int[]{Constants.CATEGORY_ALL};
+    }
+
+    @Override
+    protected boolean getSwipeRefreshLayoutEnable() {
+        return true;
+    }
+
+    @Override
+    protected boolean refreshOnResume() {
+        return true;
     }
 }

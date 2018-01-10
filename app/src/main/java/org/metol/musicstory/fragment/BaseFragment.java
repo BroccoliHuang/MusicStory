@@ -3,8 +3,10 @@ package org.metol.musicstory.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,7 @@ import static android.graphics.PorterDuff.Mode.MULTIPLY;
 
 public abstract class BaseFragment extends Fragment implements ObservableFragment {
     @BindView(R.id.rv_card) RecyclerView rv_card;
+    @BindView(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.pb_loading) ProgressBar pb_loading;
     private Unbinder unbinder;
     private LinearLayoutManager linearLayoutManager;
@@ -38,6 +41,16 @@ public abstract class BaseFragment extends Fragment implements ObservableFragmen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_base, container, false);
         unbinder = ButterKnife.bind(this, view);
+
+        swipeRefreshLayout.setColorSchemeResources(R.color.app_theme);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.app_theme_background);
+        swipeRefreshLayout.setEnabled(getSwipeRefreshLayoutEnable());
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
 
         pb_loading.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.app_theme), MULTIPLY);
 
@@ -74,6 +87,17 @@ public abstract class BaseFragment extends Fragment implements ObservableFragmen
 //        if(category != null && category.length>0){
 //            categorybuttons_category.setCategory(category, getCategoryCallback());
 //        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(refreshOnResume()) refresh();
+    }
+
+    private void refresh(){
+        load(0);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     protected void load(int index_category){
@@ -143,4 +167,6 @@ public abstract class BaseFragment extends Fragment implements ObservableFragmen
     protected abstract String[] getCategoryText();
     protected abstract int[] getCategoryIndex();
     protected abstract void getRecyclerViewAdapter(Callback_Adapter callback_adapter, int index_category);
+    protected abstract boolean getSwipeRefreshLayoutEnable();
+    protected abstract boolean refreshOnResume();
 }

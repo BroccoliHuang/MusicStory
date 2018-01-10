@@ -2,8 +2,10 @@ package org.metol.musicstory.adapter;
 
 import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -62,13 +64,13 @@ public class MyStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.iv_card_play.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((BaseActivity)v.getContext()).openKKBOXUrlScheme(musicStory.getSongUrl());
+                    ((BaseActivity)cnx).openKKBOXUrlScheme(musicStory.getSongUrl());
                 }
             });
             holder.itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    ((BaseActivity) v.getContext()).showBottomSheet(musicStory);
+                    ((BaseActivity)cnx).showBottomSheet(musicStory);
                 }
             });
 
@@ -83,12 +85,12 @@ public class MyStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(Constants.ARGUMENTS_MUSICSTORY, mData.get(position));
-                    Intent intent = new Intent(v.getContext(), EditStoryActivity.class);
+                    Intent intent = new Intent(cnx, EditStoryActivity.class);
                     intent.putExtra(Constants.ARGUMENTS_TYPE, EditStoryActivity.TYPE_EDIT);
                     intent.putExtra(Constants.ARGUMENTS_MUSICSTORY, bundle);
                     intent.putExtra(Constants.ARGUMENTS_STORY_ID, mDataMusicStoryDocumentId.get(position));
 
-                    v.getContext().startActivity(intent, ActivityOptions.makeCustomAnimation(v.getContext(), R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
+                    cnx.startActivity(intent, ActivityOptions.makeCustomAnimation(cnx, R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
                 }
             });
 
@@ -98,10 +100,26 @@ public class MyStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     Firestore.deleteMusicStory(mDataMusicStoryDocumentId.get(position), new Firestore.Callback() {
                         @Override
                         public void onSuccess(Object... object) {
-                            mData.remove(position);
-                            mDataMusicStoryDocumentId.remove(position);
-                            notifyDataSetChanged();
-                            ((BaseActivity)cnx).showSnack("已刪除");
+                            new AlertDialog.Builder(cnx)
+                                    .setTitle("刪除")
+                                    .setMessage("確定要刪除?")
+                                    .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            mData.remove(position);
+                                            mDataMusicStoryDocumentId.remove(position);
+                                            notifyDataSetChanged();
+                                            ((BaseActivity)cnx).showSnack("已刪除");
+                                        }
+                                    })
+                                    .setNegativeButton("否", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .setCancelable(false)
+                                    .show();
                         }
 
                         @Override

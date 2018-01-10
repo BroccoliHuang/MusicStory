@@ -59,6 +59,10 @@ public class MusicStoryListViewAdapter extends RecyclerView.Adapter<RecyclerView
         notifyItemInserted(0);
     }
 
+    public void cleanData(){
+        mData.clear();
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         if(viewType == Constants.RECYCLER_VIEW_TYPE_LOADING){
@@ -94,13 +98,13 @@ public class MusicStoryListViewAdapter extends RecyclerView.Adapter<RecyclerView
             holder.iv_card_play.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((BaseActivity)v.getContext()).openKKBOXUrlScheme(musicStory.getSongUrl());
+                    ((BaseActivity)cnx).openKKBOXUrlScheme(musicStory.getSongUrl());
                 }
             });
             holder.itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    ((BaseActivity) v.getContext()).showBottomSheet(musicStory);
+                    ((BaseActivity)cnx).showBottomSheet(musicStory);
                 }
             });
 
@@ -113,7 +117,7 @@ public class MusicStoryListViewAdapter extends RecyclerView.Adapter<RecyclerView
             if(mFirstSongItemPosition == -1){
                 mFirstSongItemPosition = position;
                 if(!SharedPreferencesManager.getBoolean(SharedPreferencesManager.IS_TAP_TARGET_MUSIC_STORY_LIST_BUTTON_LISTEN_SHOWN, false)){
-                    ((MainActivity)holder.iv_card_play.getContext()).requestShowTarget(
+                    ((MainActivity)cnx).requestShowTarget(
                             TapTargetManager.getTapTargetForView(holder.iv_card_play, "到KKBOX聽音樂囉~", "♪~♫~♪~♫~")
                     );
                 }
@@ -158,7 +162,7 @@ public class MusicStoryListViewAdapter extends RecyclerView.Adapter<RecyclerView
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                if (mData.get(mData.size() - 1) != null) {
+                if (mData.size()>0 && mData.get(mData.size()-1)!=null) {
                     mData.add(null);
                     notifyItemInserted(mData.size() - 1);
                 }
@@ -168,16 +172,18 @@ public class MusicStoryListViewAdapter extends RecyclerView.Adapter<RecyclerView
         return new Callback.LoadMore() {
             @Override
             public void onLoadMore(Object object) {
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mData.remove(mData.size() - 1);
-                        notifyItemRemoved(mData.size());
+                if(mData.size()>1 && mData.get(mData.size()-1)==null) {
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mData.remove(mData.size() - 1);
+                            notifyItemRemoved(mData.size());
 
-                        mData.addAll((ArrayList<MusicStory>)object);
-                        notifyDataSetChanged();
-                    }
-                });
+                            mData.addAll((ArrayList<MusicStory>) object);
+                            notifyDataSetChanged();
+                        }
+                    });
+                }
             }
         };
     }
