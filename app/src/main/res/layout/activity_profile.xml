@@ -156,7 +156,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/separator"
                 android:layout_centerHorizontal="true"
-                android:text="登出" />
+                android:text="登出"
+                android:textSize="16sp" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

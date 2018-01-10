@@ -173,6 +173,5 @@ public class MyStoryActivity extends BaseActivity {
 
     @Override
     protected void shownTapTarget(TapTarget... tapTargets) {
-
     }
 }

@@ -11,6 +11,8 @@ import org.metol.musicstory.Common;
 
 public class SharedPreferencesManager {
     public static final String IS_TAP_TARGET_TOOLBAR_SEARCH_BUTTON_SHOWN = "is_tap_target_toolbar_search_button_shown";
+    public static final String IS_TAP_TARGET_TOOLBAR_PROFILE_BUTTON_SHOWN = "is_tap_target_toolbar_profile_button_shown";
+    public static final String IS_TAP_TARGET_PROFILE_MY_STORY_BUTTON_SHOWN = "is_tap_target_profile_my_story_button_shown";
     public static final String IS_TAP_TARGET_SEARCH_BUTTON_LISTEN_SHOWN = "is_tap_target_search_button_listen_shown";
     public static final String IS_TAP_TARGET_SEARCH_BUTTON_ADD_STORY_SHOWN = "is_tap_target_search_button_add_story_shown";
     public static final String IS_TAP_TARGET_MUSIC_STORY_LIST_BUTTON_LISTEN_SHOWN = "is_tap_target_music_story_list_button_listen_shown";
@@ -32,6 +34,7 @@ public class SharedPreferencesManager {
     }
 
     public static void putBoolean(String key, boolean value){
-        spEditor.putBoolean(key, value).commit();
+        //TODO delete hard code
+//        spEditor.putBoolean(key, value).commit();
     }
 }

@@ -9,6 +9,7 @@ import com.getkeepsafe.taptargetview.TapTargetSequence;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.metol.musicstory.Common;
 import org.metol.musicstory.fragment.CardBottomSheetFragment;
 import org.metol.musicstory.R;
 import org.metol.musicstory.fragment.KKBOXSearchListFragment;
@@ -116,7 +117,7 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void shownTapTarget(TapTarget... tapTargets) {
-        TapTargetManager.showTutorialForView(SearchActivity.this, new TapTargetSequence.Listener() {
+        Common.getTapTargetManager().showTutorialForView(SearchActivity.this, new TapTargetSequence.Listener() {
             @Override
             public void onSequenceFinish() {
                 SharedPreferencesManager.putBoolean(SharedPreferencesManager.IS_TAP_TARGET_SEARCH_BUTTON_LISTEN_SHOWN, true);

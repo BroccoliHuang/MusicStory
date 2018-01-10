@@ -8,7 +8,9 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.util.Log;
 
+import org.metol.musicstory.Common;
 import org.metol.musicstory.fragment.MusicStoryListFragment;
 import org.metol.musicstory.model.Constants;
 import org.metol.musicstory.util.TapTargetManager;
@@ -47,10 +49,10 @@ public class MainActivity extends BaseActivity {
 					.show();
 		}
 
-		if(SharedPreferencesManager.getBoolean(SharedPreferencesManager.IS_TAP_TARGET_TOOLBAR_SEARCH_BUTTON_SHOWN, false)){
+		if(!SharedPreferencesManager.getBoolean(SharedPreferencesManager.IS_TAP_TARGET_TOOLBAR_SEARCH_BUTTON_SHOWN, false) || !SharedPreferencesManager.getBoolean(SharedPreferencesManager.IS_TAP_TARGET_TOOLBAR_PROFILE_BUTTON_SHOWN, false)){
 			requestShowTarget(
-					TapTargetManager.getTapTargetForMenuItem(mToolbar, R.id.action_search, "搜尋", "透過搜尋來新增故事吧~")
-					//TODO 基本資料、修改故事的教學
+					Common.getTapTargetManager().getTapTargetForMenuItem(mToolbar, R.id.action_search, "搜尋", "透過搜尋來新增故事吧~"),
+					Common.getTapTargetManager().getTapTargetForMenuItem(mToolbar, R.id.action_profile, "基本資料", "這裡可以修改自己的資料~")
 			);
 		}
 
@@ -88,10 +90,12 @@ public class MainActivity extends BaseActivity {
 
 	@Override
 	protected void shownTapTarget(TapTarget... tapTargets) {
-		TapTargetManager.showTutorialForView(MainActivity.this, new TapTargetSequence.Listener() {
+		Common.getTapTargetManager().showTutorialForView(MainActivity.this, new TapTargetSequence.Listener() {
 			@Override
 			public void onSequenceFinish() {
 				SharedPreferencesManager.putBoolean(SharedPreferencesManager.IS_TAP_TARGET_MUSIC_STORY_LIST_BUTTON_LISTEN_SHOWN, true);
+				SharedPreferencesManager.putBoolean(SharedPreferencesManager.IS_TAP_TARGET_TOOLBAR_SEARCH_BUTTON_SHOWN, true);
+				SharedPreferencesManager.putBoolean(SharedPreferencesManager.IS_TAP_TARGET_TOOLBAR_PROFILE_BUTTON_SHOWN, true);
 			}
 			@Override
 			public void onSequenceStep(TapTarget tapTarget, boolean b) {

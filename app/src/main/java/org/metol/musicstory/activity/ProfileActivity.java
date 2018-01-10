@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
 import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetSequence;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.metol.musicstory.Common;
@@ -32,7 +33,7 @@ import org.metol.musicstory.fragment.CardBottomSheetFragment;
 import org.metol.musicstory.R;
 import org.metol.musicstory.model.Member;
 import org.metol.musicstory.util.GlideManager;
-import org.metol.musicstory.util.SystemManager;
+import org.metol.musicstory.util.SharedPreferencesManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -69,15 +70,16 @@ public class ProfileActivity extends BaseActivity {
         AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
         params.setScrollFlags(0);
 
+        rl_my_story = (RelativeLayout)inflated.findViewById(R.id.rl_my_story);
+        iv_my_story = (ImageView)inflated.findViewById(R.id.iv_my_story);
+        tv_my_story = (TextView)inflated.findViewById(R.id.tv_my_story);
+
         Common.getMember(true, new Common.CallbackMember() {
             @Override
             public void onMember(Member member) {
                 mMember = member;
                 iv_avatar = (ImageView)inflated.findViewById(R.id.iv_avatar);
                 tv_name = ((TextView)inflated.findViewById(R.id.tv_name));
-                rl_my_story = (RelativeLayout)inflated.findViewById(R.id.rl_my_story);
-                iv_my_story = (ImageView)inflated.findViewById(R.id.iv_my_story);
-                tv_my_story = (TextView)inflated.findViewById(R.id.tv_my_story);
                 met_nickname = ((MaterialEditText)inflated.findViewById(R.id.met_nickname));
                 rb_male = ((RadioButton)inflated.findViewById(R.id.rb_male));
                 rb_female = ((RadioButton)inflated.findViewById(R.id.rb_female));
@@ -163,6 +165,12 @@ public class ProfileActivity extends BaseActivity {
                 });
             }
         });
+
+        if(!SharedPreferencesManager.getBoolean(SharedPreferencesManager.IS_TAP_TARGET_PROFILE_MY_STORY_BUTTON_SHOWN, false)){
+            requestShowTarget(
+                    Common.getTapTargetManager().getTapTargetForView(rl_my_story, "我的故事", "這裡可以修改寫過的故事~")
+            );
+        }
     }
 
     private void setModify(boolean isModify){
@@ -297,6 +305,17 @@ public class ProfileActivity extends BaseActivity {
 
     @Override
     protected void shownTapTarget(TapTarget... tapTargets) {
-
+        Common.getTapTargetManager().showTutorialForView(ProfileActivity.this, new TapTargetSequence.Listener() {
+            @Override
+            public void onSequenceFinish() {
+                SharedPreferencesManager.putBoolean(SharedPreferencesManager.IS_TAP_TARGET_PROFILE_MY_STORY_BUTTON_SHOWN, true);
+            }
+            @Override
+            public void onSequenceStep(TapTarget tapTarget, boolean b) {
+            }
+            @Override
+            public void onSequenceCanceled(TapTarget tapTarget) {
+            }
+        }, tapTargets);
     }
 }

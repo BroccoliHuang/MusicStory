@@ -16,7 +16,9 @@ import org.metol.musicstory.R;
  */
 
 public class TapTargetManager {
-    public static TapTarget getTapTargetForView(View view, String title, String description){
+    private TapTargetSequence tapTargetSequence;
+
+    public TapTarget getTapTargetForView(View view, String title, String description){
         return TapTarget.forView(view, title, description)
                 // All options below are optional
                 .outerCircleColor(R.color.taptarget_outer_circle)      // Specify a color for the outer circle
@@ -37,7 +39,7 @@ public class TapTargetManager {
                 .targetRadius(60);                  // Specify the target radius (in dp)
     }
 
-    public static TapTarget getTapTargetForMenuItem(Toolbar toolbar, @IdRes int menuItemId, String title, String description){
+    public TapTarget getTapTargetForMenuItem(Toolbar toolbar, @IdRes int menuItemId, String title, String description){
         //Menu Item
         return TapTarget.forToolbarMenuItem(toolbar, menuItemId, title, description)
                 // All options below are optional
@@ -59,15 +61,33 @@ public class TapTargetManager {
                 .targetRadius(40);                  // Specify the target radius (in dp)
     }
 
-    public static void showTutorialForView(final Activity activity, final TapTargetSequence.Listener tapTargetSequenceListener, final TapTarget... tapTargets) {
+    public void showTutorialForView(final Activity activity, final TapTargetSequence.Listener tapTargetSequenceListener, final TapTarget... tapTargets) {
         if(activity == null || tapTargets == null) return;
+
+        if(tapTargetSequence==null) tapTargetSequence = new TapTargetSequence(activity);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                new TapTargetSequence(activity)                 // `this` is an Activity
+                tapTargetSequence
                         .targets(tapTargets)
-                        .listener(tapTargetSequenceListener)
+                        .listener(new TapTargetSequence.Listener() {
+                            @Override
+                            public void onSequenceFinish() {
+                                tapTargetSequenceListener.onSequenceFinish();
+                                tapTargetSequence = null;
+                            }
+
+                            @Override
+                            public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) {
+                                tapTargetSequenceListener.onSequenceStep(lastTarget, targetClicked);
+                            }
+
+                            @Override
+                            public void onSequenceCanceled(TapTarget lastTarget) {
+                                tapTargetSequenceListener.onSequenceCanceled(lastTarget);
+                            }
+                        })
                         .continueOnCancel(true)
                         .considerOuterCircleCanceled(true)
                         .start();

@@ -9,6 +9,7 @@ import org.metol.musicstory.database.Firestore;
 import org.metol.musicstory.model.Member;
 import org.metol.musicstory.util.Api;
 import org.metol.musicstory.util.SharedPreferencesManager;
+import org.metol.musicstory.util.TapTargetManager;
 
 /**
  * Created by Broccoli.Huang on 2018/1/5.
@@ -20,6 +21,7 @@ public class Common extends Application {
     private static FirebaseFirestore db = null;
     private static String fbID;
     private static Member member;
+    private static TapTargetManager tapTargetManager;
 
     @Override
     public void onCreate() {
@@ -83,6 +85,11 @@ public class Common extends Application {
         }else{
             callback.onMember(member);
         }
+    }
+
+    public static TapTargetManager getTapTargetManager(){
+        if(tapTargetManager==null) tapTargetManager = new TapTargetManager();
+        return tapTargetManager;
     }
 
     public boolean isDebug() {

@@ -135,8 +135,8 @@ public class KKBOXSearchTrackListViewAdapter extends RecyclerView.Adapter<Recycl
                     mFirstSongItemPosition = position;
                     if(!SharedPreferencesManager.getBoolean(SharedPreferencesManager.IS_TAP_TARGET_SEARCH_BUTTON_ADD_STORY_SHOWN, false) || !SharedPreferencesManager.getBoolean(SharedPreferencesManager.IS_TAP_TARGET_SEARCH_BUTTON_ADD_STORY_SHOWN, false)){
                         ((SearchActivity)cnx).requestShowTarget(
-                                TapTargetManager.getTapTargetForView(holder.fl_song_cover, "到KKBOX聽音樂囉~", "♪~♫~♪~♫~"),
-                                TapTargetManager.getTapTargetForView(holder.iv_add_story, "新增一段刻骨銘心的故事吧~", "歌只是文字與音符的組合，當人們賦予它故事，才開始有了意義")
+                                Common.getTapTargetManager().getTapTargetForView(holder.fl_song_cover, "到KKBOX聽音樂囉~", "♪~♫~♪~♫~"),
+                                Common.getTapTargetManager().getTapTargetForView(holder.iv_add_story, "新增一段刻骨銘心的故事吧~", "歌只是文字與音符的組合，當人們賦予它故事，才開始有了意義")
                         );
                     }
                 }

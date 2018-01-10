@@ -118,7 +118,7 @@ public class MusicStoryListViewAdapter extends RecyclerView.Adapter<RecyclerView
                 mFirstSongItemPosition = position;
                 if(!SharedPreferencesManager.getBoolean(SharedPreferencesManager.IS_TAP_TARGET_MUSIC_STORY_LIST_BUTTON_LISTEN_SHOWN, false)){
                     ((MainActivity)cnx).requestShowTarget(
-                            TapTargetManager.getTapTargetForView(holder.iv_card_play, "到KKBOX聽音樂囉~", "♪~♫~♪~♫~")
+                            Common.getTapTargetManager().getTapTargetForView(holder.iv_card_play, "到KKBOX聽音樂囉~", "♪~♫~♪~♫~")
                     );
                 }
             }
