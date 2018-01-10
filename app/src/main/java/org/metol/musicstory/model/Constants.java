@@ -45,4 +45,6 @@ public class Constants {
     public static final String ARGUMENTS_KEYWORD                = "ARGUMENTS_KEYWORD";
     public static final String ARGUMENTS_TYPE                   = "ARGUMENTS_TYPE";
     public static final String ARGUMENTS_STORY_ID               = "ARGUMENTS_STORY_ID";
+    public static final String ARGUMENTS_ANNOUNCEMENT_TITLE     = "ARGUMENTS_ANNOUNCEMENT_TITLE";
+    public static final String ARGUMENTS_ANNOUNCEMENT_CONTENT   = "ARGUMENTS_ANNOUNCEMENT_CONTENT";
 }

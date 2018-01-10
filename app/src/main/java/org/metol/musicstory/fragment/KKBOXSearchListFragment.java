@@ -60,9 +60,9 @@ public class KKBOXSearchListFragment extends BaseFragment{
                     case Constants.TYPE_SEARCH_TRACK_BY_TRACK:
                         adapter = new KKBOXSearchTrackListViewAdapter((ArrayList<Tracks>)object, keyword);
                     case Constants.TYPE_SEARCH_TRACK_BY_ARTIST:
-                        //TODO
+                        //TODO 依歌手搜尋
                     case Constants.TYPE_SEARCH_TRACK_BY_ALBUM:
-                        //TODO
+                        //TODO 依專輯搜尋
                 }
 
                 callback_adapter.onAdapter(adapter);

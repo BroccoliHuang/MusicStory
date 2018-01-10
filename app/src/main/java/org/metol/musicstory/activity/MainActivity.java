@@ -1,18 +1,17 @@
 package org.metol.musicstory.activity;
 
 import android.app.ActivityOptions;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 
-import org.metol.musicstory.Common;
 import org.metol.musicstory.fragment.MusicStoryListFragment;
 import org.metol.musicstory.model.Constants;
-import org.metol.musicstory.util.GlideManager;
+import org.metol.musicstory.util.SystemManager;
 import org.metol.musicstory.util.TapTargetManager;
 import org.metol.musicstory.R;
 import org.metol.musicstory.fragment.CardBottomSheetFragment;
@@ -32,6 +31,22 @@ public class MainActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 //		ButterKnife.bind(this);
+
+		String announcementTitle = getIntent().getStringExtra(Constants.ARGUMENTS_ANNOUNCEMENT_TITLE);
+		String announcementContent = getIntent().getStringExtra(Constants.ARGUMENTS_ANNOUNCEMENT_CONTENT);
+		if(!TextUtils.isEmpty(announcementTitle) && !TextUtils.isEmpty(announcementContent)){
+			new AlertDialog.Builder(MainActivity.this)
+					.setTitle(announcementTitle)
+					.setMessage(announcementContent)
+					.setPositiveButton("好哦", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+						}
+					})
+					.setCancelable(false)
+					.show();
+		}
 
 		if(SharedPreferencesManager.getBoolean(SharedPreferencesManager.IS_TAP_TARGET_TOOLBAR_SEARCH_BUTTON_SHOWN, false)){
 			requestShowTarget(

@@ -1,28 +1,40 @@
 package org.metol.musicstory.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+
+import org.metol.musicstory.Common;
 
 /**
  * Created by Broccoli.Huang on 2018/1/4.
  */
 
 public class SystemManager {
-    public static String getPackageName(Context context) {
-        String package_name = context.getApplicationContext().getPackageName();
-        return package_name;
+    public static String getPackageName() {
+        return Common.getApp().getPackageName();
     }
 
-    public static String getVersionCode(Context mContext) {
-        PackageInfo pInfo = null;
+    public static String getAppVersionName() {
+        String versionName = "";
 
         try {
-            pInfo = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException var3) {
-            MyLog.i("tag", "NameNotFoundException");
+            versionName = Common.getApp().getPackageManager().getPackageInfo(Common.getApp().getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            MyLog.i("tag", "getAppVersionName NameNotFoundException="+e.getMessage());
+        } catch(Exception e) {
+            MyLog.i("tag", "getAppVersionName Exception="+e.getMessage());
         }
+        return versionName;
+    }
 
-        return String.valueOf(pInfo.versionCode);
+    public static void gotoGooglePlay(Context context, String packageName){
+        try {
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
+        }
     }
 }

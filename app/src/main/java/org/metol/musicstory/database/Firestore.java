@@ -15,6 +15,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import org.metol.musicstory.Common;
 import org.metol.musicstory.model.Member;
 import org.metol.musicstory.model.MusicStory;
+import org.metol.musicstory.model.Setting;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,10 @@ import java.util.ArrayList;
  */
 
 public class Firestore {
+    //Setting
+    private static final String COLLECTION_SETTING = "Setting";
+    private static final String DOCUMENT_ANDROID = "Android";
+
     //Member
     private static final String COLLECTION_MEMBER = "Member";
     private static final String FIELD_FB_ID = "fbId";
@@ -31,6 +36,26 @@ public class Firestore {
     //MusicStory
     private static final String COLLECTION_MUSICSTORY = "MusicStory";
 
+
+    public static void getSetting(@Nullable Callback callback){
+        Common.getFirebaseFirestore().collection(COLLECTION_SETTING)
+                .document(DOCUMENT_ANDROID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            try {
+                                callback.onSuccess(task.getResult().toObject(Setting.class));
+                            }catch (IllegalStateException ise){
+                                callback.onFailed("找不到設定資料");
+                            }
+                        } else {
+                            callback.onFailed("找不到設定資料");
+                        }
+                    }
+                });
+    }
 
     public static void insertMember(Member member, @Nullable Callback callback){
         getMember(member.getFbId(), new Callback() {
