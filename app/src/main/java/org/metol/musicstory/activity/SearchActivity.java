@@ -13,10 +13,10 @@ import org.metol.musicstory.Common;
 import org.metol.musicstory.fragment.CardBottomSheetFragment;
 import org.metol.musicstory.R;
 import org.metol.musicstory.fragment.KKBOXSearchListFragment;
+import org.metol.musicstory.fragment.NotYetFragment;
 import org.metol.musicstory.model.BroadCastEvent;
 import org.metol.musicstory.model.Constants;
 import org.metol.musicstory.util.SharedPreferencesManager;
-import org.metol.musicstory.util.TapTargetManager;
 
 import java.util.ArrayList;
 
@@ -34,8 +34,10 @@ public class SearchActivity extends BaseActivity {
     protected ArrayList<Fragment> getTabFragment() {
         ArrayList<Fragment> al_fragment = new ArrayList();
         al_fragment.add(KKBOXSearchListFragment.newInstanceForSearch(Constants.TYPE_SEARCH_TRACK_BY_TRACK,  keyword));
-        al_fragment.add(KKBOXSearchListFragment.newInstanceForSearch(Constants.TYPE_SEARCH_TRACK_BY_ARTIST, keyword));
-        al_fragment.add(KKBOXSearchListFragment.newInstanceForSearch(Constants.TYPE_SEARCH_TRACK_BY_ALBUM,  keyword));
+        al_fragment.add(NotYetFragment.newInstance());
+        al_fragment.add(NotYetFragment.newInstance());
+//        al_fragment.add(KKBOXSearchListFragment.newInstanceForSearch(Constants.TYPE_SEARCH_TRACK_BY_ARTIST, keyword));
+//        al_fragment.add(KKBOXSearchListFragment.newInstanceForSearch(Constants.TYPE_SEARCH_TRACK_BY_ALBUM,  keyword));
         return al_fragment;
     }
 

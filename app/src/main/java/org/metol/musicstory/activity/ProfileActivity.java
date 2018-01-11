@@ -34,6 +34,7 @@ import org.metol.musicstory.R;
 import org.metol.musicstory.model.Member;
 import org.metol.musicstory.util.GlideManager;
 import org.metol.musicstory.util.SharedPreferencesManager;
+import org.metol.musicstory.util.SystemManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -160,7 +161,10 @@ public class ProfileActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         LoginManager.getInstance().logOut();
-                        finish();
+                        //TODO 重寫關掉或重啟
+                        Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage( getBaseContext().getPackageName() );
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(i);
                     }
                 });
             }

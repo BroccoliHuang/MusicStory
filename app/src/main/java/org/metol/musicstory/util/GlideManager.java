@@ -37,7 +37,7 @@ public class GlideManager {
                 .load(url)
                 .crossFade()
                 .placeholder(new ColorDrawable(cnx.getResources().getColor(R.color.app_theme)))
-                .bitmapTransform(new BlurTransformation(cnx, 80))
+                .bitmapTransform(new BlurTransformation(cnx, 200))
                 .into(imageView);
     }
 

@@ -99,7 +99,7 @@
                 android:layout_below="@+id/rg_gender"
                 android:layout_marginTop="5dp"
                 android:hint="生日"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:met_floatingLabel="highlight"
                 app:met_floatingLabelTextSize="16sp"
                 app:met_primaryColor="@color/app_theme" />
@@ -111,7 +111,7 @@
                 android:layout_below="@+id/met_birth"
                 android:layout_marginTop="5dp"
                 android:hint="手機"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:met_floatingLabel="highlight"
                 app:met_floatingLabelTextSize="16sp"
                 app:met_primaryColor="@color/app_theme" />
@@ -123,7 +123,7 @@
                 android:layout_below="@+id/met_phone"
                 android:layout_marginTop="5dp"
                 android:hint="電子信箱"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:met_floatingLabel="highlight"
                 app:met_floatingLabelTextSize="16sp"
                 app:met_primaryColor="@color/app_theme" />
@@ -135,29 +135,21 @@
                 android:layout_below="@+id/met_email"
                 android:layout_marginTop="5dp"
                 android:hint="地址"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 app:met_floatingLabel="highlight"
                 app:met_floatingLabelTextSize="16sp"
                 app:met_primaryColor="@color/app_theme" />
-
-            <View
-                android:id="@+id/separator"
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:layout_below="@+id/met_address"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:background="#D2D2D2" />
 
             <Button
                 android:id="@+id/btn_logout"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/separator"
+                android:layout_below="@+id/met_address"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
                 android:text="登出"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

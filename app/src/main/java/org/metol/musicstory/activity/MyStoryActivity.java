@@ -25,7 +25,6 @@ import java.util.ArrayList;
 /**
  * Created by Broccoli.Huang on 2018/1/3.
  */
-
 public class MyStoryActivity extends BaseActivity {
     private RecyclerView rv_my_story;
     private LinearLayoutManager linearLayoutManager;
@@ -60,6 +59,11 @@ public class MyStoryActivity extends BaseActivity {
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         Firestore.getMusicStoryByFbId(Common.getFbID(), new Firestore.Callback() {
             @Override
             public void onSuccess(Object... object) {

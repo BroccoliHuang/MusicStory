@@ -25,7 +25,6 @@ import org.metol.musicstory.model.Constants;
 import org.metol.musicstory.model.Member;
 import org.metol.musicstory.model.Setting;
 import org.metol.musicstory.util.Api;
-import org.metol.musicstory.util.BirthdayUtil;
 import org.metol.musicstory.util.SystemManager;
 
 import butterknife.BindView;
@@ -34,7 +33,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Broccoli.Huang on 2018/1/3.
  */
-
+//TODO 多入口登入  https://github.com/mukeshsolanki/social-login-helper
 public class LoginActivity extends AppCompatActivity {
 	public static final String IS_INTENT_BY_ACTIVITY = "is_intent_by_activity";
 	private Context mContext;
@@ -119,16 +118,15 @@ public class LoginActivity extends AppCompatActivity {
 			rl_login_button.setVisibility(View.VISIBLE);
 			//FB Login
 			callbackManager = CallbackManager.Factory.create();
-			//TODO 測試
-//			loginButton.setReadPermissions("email");
+			login_button.setReadPermissions("email");
 
 			login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 				@Override
 				public void onSuccess(LoginResult loginResult) {
 					Api.getFBAccountData(loginResult.getAccessToken().getUserId(), AccessToken.getCurrentAccessToken().getPermissions(), new Api.CallbackFBAccountData() {
 						@Override
-						public void onSuccess(String id, String name, String gender, String birthday, String email, String address) {
-							Firestore.insertMember(new Member(id, name, "", gender, email, BirthdayUtil.fbBirthday(birthday), "", address, 0, 0), new Firestore.Callback() {
+						public void onSuccess(String id, String name, String gender, String email, String locale) {
+							Firestore.insertMember(new Member(id, name, "", gender, email, "", "", locale, 0, 0), new Firestore.Callback() {
 								@Override
 								public void onSuccess(Object... object) {
 									afterFbLogin(id);

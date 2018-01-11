@@ -65,7 +65,7 @@ public abstract class BaseActivity extends AppCompatActivity{
 
     protected ViewStub mVS_custom;
     private MenuItem mi_search;
-    private MenuItem mi_info;
+    private MenuItem mi_profile;
 
     private SearchHistoryTable mHistoryDatabase;
     private ViewPagerAdapter mViewPagerAdapter;
@@ -175,7 +175,7 @@ public abstract class BaseActivity extends AppCompatActivity{
         mFAB.setColorRipple(getResources().getColor(R.color.fab_ripple));
 
         mFAB.hide();
-        if(mViewPagerAdapter != null && position<=mViewPagerAdapter.getCount()-1 && mViewPagerAdapter.getItem(position) != null) {
+        if(mViewPagerAdapter != null && position<=mViewPagerAdapter.getCount()-1 && mViewPagerAdapter.getItem(position) != null && mViewPagerAdapter.getItem(position) instanceof BaseFragment) {
             ((BaseFragment) mViewPagerAdapter.getItem(position)).setFAB(mFAB);
         }
     }
@@ -351,16 +351,17 @@ public abstract class BaseActivity extends AppCompatActivity{
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         mi_search = menu.findItem(R.id.action_search);
-        mi_info = menu.findItem(R.id.action_profile);
+        //TODO mi_profile頭像太小
+        mi_profile = menu.findItem(R.id.action_profile);
 
         mi_search.setVisible(isSearchVisible());
-        mi_info.setVisible(isInfoVisible());
+        mi_profile.setVisible(isInfoVisible());
 
         if(isInfoVisible()) {
             GlideManager.getDrawableFbAvatarFromUrl(BaseActivity.this, Common.getFbID(), GlideManager.FbAvatarType.TYPE_SMALL, new GlideManager.Callback() {
                 @Override
                 public void onDrawable(Drawable drawable) {
-                    if (drawable != null) mi_info.setIcon(drawable);
+                    if (drawable != null) mi_profile.setIcon(drawable);
                 }
 
                 @Override
@@ -375,7 +376,7 @@ public abstract class BaseActivity extends AppCompatActivity{
         if(item.getItemId() == mi_search.getItemId()) {
             mSearchView.open(true, item);
             return true;
-        }else if(item.getItemId() == mi_info.getItemId()) {
+        }else if(item.getItemId() == mi_profile.getItemId()) {
             intentInfoActivity();
             return true;
         }else{

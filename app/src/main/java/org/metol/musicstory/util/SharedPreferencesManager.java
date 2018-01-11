@@ -34,7 +34,6 @@ public class SharedPreferencesManager {
     }
 
     public static void putBoolean(String key, boolean value){
-        //TODO delete hard code
-//        spEditor.putBoolean(key, value).commit();
+        spEditor.putBoolean(key, value).commit();
     }
 }

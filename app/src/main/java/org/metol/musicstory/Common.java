@@ -7,9 +7,20 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.metol.musicstory.database.Firestore;
 import org.metol.musicstory.model.Member;
-import org.metol.musicstory.util.Api;
 import org.metol.musicstory.util.SharedPreferencesManager;
 import org.metol.musicstory.util.TapTargetManager;
+
+//印出KeyHash
+//import android.content.ClipData;
+//import android.content.ClipboardManager;
+//import android.content.Context;
+//import android.content.pm.PackageInfo;
+//import android.content.pm.PackageManager;
+//import android.content.pm.Signature;
+//import android.util.Base64;
+//import android.util.Log;
+//import java.security.MessageDigest;
+//import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by Broccoli.Huang on 2018/1/5.
@@ -28,6 +39,25 @@ public class Common extends Application {
         super.onCreate();
         app = this;
         IS_DEBUG = isDebug();
+
+        //印出KeyHash
+//        try {
+//            PackageInfo info = getPackageManager().getPackageInfo(SystemManager.getPackageName(), PackageManager.GET_SIGNATURES);
+//            for (Signature signature : info.signatures) {
+//                MessageDigest md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                String KeyHash = Base64.encodeToString(md.digest(), Base64.DEFAULT);
+//                Log.d("KeyHash:", KeyHash);
+//
+//                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+//                ClipData clip = ClipData.newPlainText("KeyHash", KeyHash);
+//                clipboard.setPrimaryClip(clip);
+//            }
+//        } catch (PackageManager.NameNotFoundException e) {
+//
+//        } catch (NoSuchAlgorithmException e) {
+//
+//        }
     }
 
     public static synchronized Common getApp() {

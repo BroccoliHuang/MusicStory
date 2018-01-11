@@ -97,36 +97,36 @@ public class MyStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.iv_card_delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Firestore.deleteMusicStory(mDataMusicStoryDocumentId.get(position), new Firestore.Callback() {
-                        @Override
-                        public void onSuccess(Object... object) {
-                            new AlertDialog.Builder(cnx)
-                                    .setTitle("刪除")
-                                    .setMessage("確定要刪除?")
-                                    .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    new AlertDialog.Builder(cnx)
+                            .setTitle("刪除")
+                            .setMessage("確定要刪除?")
+                            .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Firestore.deleteMusicStory(mDataMusicStoryDocumentId.get(position), new Firestore.Callback() {
                                         @Override
-                                        public void onClick(DialogInterface dialog, int which) {
+                                        public void onSuccess(Object... object) {
                                             mData.remove(position);
                                             mDataMusicStoryDocumentId.remove(position);
                                             notifyDataSetChanged();
                                             ((BaseActivity)cnx).showSnack("已刪除");
                                         }
-                                    })
-                                    .setNegativeButton("否", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    })
-                                    .setCancelable(false)
-                                    .show();
-                        }
 
-                        @Override
-                        public void onFailed(String reason) {
-                            ((BaseActivity)cnx).showSnack("刪除失敗="+reason);
-                        }
-                    });
+                                        @Override
+                                        public void onFailed(String reason) {
+                                            ((BaseActivity)cnx).showSnack("刪除失敗="+reason);
+                                        }
+                                    });
+                                }
+                            })
+                            .setNegativeButton("否", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setCancelable(false)
+                            .show();
                 }
             });
         }

@@ -112,7 +112,7 @@ public class Api {
      * */
     public static void getFBAccountData(String fbId, Set<String> permissions, CallbackFBAccountData callbackFBAccountData) {
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,birthday,gender,address"+(permissions.contains("email")?",email":""));
+        parameters.putString("fields", "id,name,gender,locale"+(permissions.contains("email")?",email":""));
 
         new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
@@ -122,7 +122,7 @@ public class Api {
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
                         JSONObject jsonObject = response.getJSONObject();
-                        callbackFBAccountData.onSuccess(jsonObject.optString("id"), jsonObject.optString("name"), jsonObject.optString("gender"), jsonObject.optString("birth"), jsonObject.optString("email"), jsonObject.optString("address"));
+                        callbackFBAccountData.onSuccess(jsonObject.optString("id"), jsonObject.optString("name"), jsonObject.optString("gender"), jsonObject.optString("email"), jsonObject.optString("locale"));
                     }
                 }
         ).executeAsync();
@@ -226,7 +226,7 @@ public class Api {
     }
 
     public interface CallbackFBAccountData {
-        void onSuccess(String id, String name, String gender, String birthday, String email, String address);
+        void onSuccess(String id, String name, String gender, String email, String locale);
         void onUnSuccess(int stateCode, String reason);
         void onFailed();
     }

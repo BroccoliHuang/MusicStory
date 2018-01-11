@@ -146,6 +146,7 @@ public class MusicStoryListViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
     }
 
+    //TODO 改成寫在Fragment最上層
     protected static class CategoryViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.ll_listitem_category)
         LinearLayout ll_listitem_category;

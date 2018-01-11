@@ -59,13 +59,16 @@ public class KKBOXSearchListFragment extends BaseFragment{
                 switch(type) {
                     case Constants.TYPE_SEARCH_TRACK_BY_TRACK:
                         adapter = new KKBOXSearchTrackListViewAdapter((ArrayList<Tracks>)object, keyword);
+                        break;
                     case Constants.TYPE_SEARCH_TRACK_BY_ARTIST:
-                        //TODO 依歌手搜尋 https://docs-zhtw.kkbox.codes/v1.1/reference#artists-artist_id-toptracks 、
+                        //TODO 依歌手搜尋 https://docs-zhtw.kkbox.codes/v1.1/reference#artists-artist_id-toptracks
+                        break;
                     case Constants.TYPE_SEARCH_TRACK_BY_ALBUM:
                         //TODO 依專輯搜尋 https://docs-zhtw.kkbox.codes/v1.1/reference#albums-album_id-tracks
+                        break;
                 }
-
                 callback_adapter.onAdapter(adapter);
+
                 setLoadMore();
             }
 
