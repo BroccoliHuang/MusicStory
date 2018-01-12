@@ -29,10 +29,6 @@ public class Constants {
     public static final int CATEGORY_ALL                        = 0;
     public static final int CATEGORY_SHEET                      = 1;
 
-    public static final int TYPE_SEARCH_TRACK_BY_ARTIST         = 0;
-    public static final int TYPE_SEARCH_TRACK_BY_TRACK          = 1;
-    public static final int TYPE_SEARCH_TRACK_BY_ALBUM          = 2;
-
     public static final int RECYCLER_VIEW_TYPE_ITEM             = 0;
     public static final int RECYCLER_VIEW_TYPE_LOADING          = 1;
     public static final int RECYCLER_VIEW_TYPE_CATEGORY         = 2;

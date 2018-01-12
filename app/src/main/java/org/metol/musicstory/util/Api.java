@@ -108,7 +108,7 @@ public class Api {
         return "";
     }
 
-    //TODO birthday
+    //TODO 等FB審核birthday權限
     public static void getFBAccountData(String fbId, Set<String> permissions, CallbackFBAccountData callbackFBAccountData) {
         Bundle parameters = new Bundle();
         parameters.putString("fields", "id,name,gender,birthday,email");

@@ -28,9 +28,8 @@ public class KKBOXSearchListFragment extends BaseFragment{
     private String keyword;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
-    public static Fragment newInstanceForSearch(int type, String keyword) {
+    public static Fragment newInstanceForSearch(String keyword) {
         Bundle bundle = new Bundle();
-        bundle.putInt(Constants.ARGUMENTS_TYPE, type);
         bundle.putString(Constants.ARGUMENTS_KEYWORD, keyword);
 
         KKBOXSearchListFragment kkboxSearchListFragment = new KKBOXSearchListFragment();
@@ -56,17 +55,7 @@ public class KKBOXSearchListFragment extends BaseFragment{
         loadData(type, 0, new Callback.API() {
             @Override
             public void onSuccess(Object object) {
-                switch(type) {
-                    case Constants.TYPE_SEARCH_TRACK_BY_TRACK:
-                        adapter = new KKBOXSearchTrackListViewAdapter((ArrayList<Tracks>)object, keyword);
-                        break;
-                    case Constants.TYPE_SEARCH_TRACK_BY_ARTIST:
-                        //TODO 依歌手搜尋 https://docs-zhtw.kkbox.codes/v1.1/reference#artists-artist_id-toptracks
-                        break;
-                    case Constants.TYPE_SEARCH_TRACK_BY_ALBUM:
-                        //TODO 依專輯搜尋 https://docs-zhtw.kkbox.codes/v1.1/reference#albums-album_id-tracks
-                        break;
-                }
+                adapter = new KKBOXSearchTrackListViewAdapter((ArrayList<Tracks>)object, keyword);
                 callback_adapter.onAdapter(adapter);
 
                 setLoadMore();
@@ -105,31 +94,10 @@ public class KKBOXSearchListFragment extends BaseFragment{
 
     private void loadData(int type, int now_page, final Callback.API callback_Api) {
         String apiType = Api.KKBOXSearchType.TRACK;
-        switch(type) {
-            case Constants.TYPE_SEARCH_TRACK_BY_TRACK:
-                apiType = Api.KKBOXSearchType.TRACK;
-                break;
-            case Constants.TYPE_SEARCH_TRACK_BY_ARTIST:
-                apiType = Api.KKBOXSearchType.ARTIST;
-                break;
-            case Constants.TYPE_SEARCH_TRACK_BY_ALBUM:
-                apiType = Api.KKBOXSearchType.ALBUM;
-                break;
-        }
         Api.getKKBOXSearch(getActivity(), keyword, apiType, "TW", now_page, 20, new Api.Callback() {
             @Override
             public void onSuccess(@Nullable Object obj) {
-                switch(type) {
-                    case Constants.TYPE_SEARCH_TRACK_BY_TRACK:
-                        callback_Api.onSuccess(((Search)obj).getTracks().getData());
-                        break;
-                    case Constants.TYPE_SEARCH_TRACK_BY_ARTIST:
-                        callback_Api.onSuccess(((Search)obj).getArtists().getData());
-                        break;
-                    case Constants.TYPE_SEARCH_TRACK_BY_ALBUM:
-                        callback_Api.onSuccess(((Search)obj).getAlbums().getData());
-                        break;
-                }
+                callback_Api.onSuccess(((Search)obj).getTracks().getData());
             }
 
             @Override

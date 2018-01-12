@@ -27,17 +27,13 @@ import java.util.ArrayList;
 public class SearchActivity extends BaseActivity {
     @Override
     protected String[] getTabTitle() {
-        return new String[]{"依歌名", "依歌手", "依專輯"};
+        return new String[]{""};
     }
 
     @Override
     protected ArrayList<Fragment> getTabFragment() {
         ArrayList<Fragment> al_fragment = new ArrayList();
-        al_fragment.add(KKBOXSearchListFragment.newInstanceForSearch(Constants.TYPE_SEARCH_TRACK_BY_TRACK,  keyword));
-        al_fragment.add(NotYetFragment.newInstance());
-        al_fragment.add(NotYetFragment.newInstance());
-//        al_fragment.add(KKBOXSearchListFragment.newInstanceForSearch(Constants.TYPE_SEARCH_TRACK_BY_ARTIST, keyword));
-//        al_fragment.add(KKBOXSearchListFragment.newInstanceForSearch(Constants.TYPE_SEARCH_TRACK_BY_ALBUM,  keyword));
+        al_fragment.add(KKBOXSearchListFragment.newInstanceForSearch(keyword));
         return al_fragment;
     }
 
@@ -101,7 +97,7 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected boolean isShowTab() {
-        return true;
+        return false;
     }
 
     @Override
