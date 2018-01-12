@@ -34,7 +34,6 @@ import org.metol.musicstory.R;
 import org.metol.musicstory.model.Member;
 import org.metol.musicstory.util.GlideManager;
 import org.metol.musicstory.util.SharedPreferencesManager;
-import org.metol.musicstory.util.SystemManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,13 +49,10 @@ public class ProfileActivity extends BaseActivity {
     private RelativeLayout      rl_my_story;
     private ImageView           iv_my_story;
     private TextView            tv_my_story;
-    private MaterialEditText    met_nickname;
     private RadioButton         rb_male;
     private RadioButton         rb_female;
     private MaterialEditText    met_birth;
-    private MaterialEditText    met_phone;
     private MaterialEditText    met_email;
-    private MaterialEditText    met_address;
     private Button              btn_logout;
     private boolean mIsModify = false;
     private Member mMember;
@@ -81,27 +77,21 @@ public class ProfileActivity extends BaseActivity {
                 mMember = member;
                 iv_avatar = (ImageView)inflated.findViewById(R.id.iv_avatar);
                 tv_name = ((TextView)inflated.findViewById(R.id.tv_name));
-                met_nickname = ((MaterialEditText)inflated.findViewById(R.id.met_nickname));
                 rb_male = ((RadioButton)inflated.findViewById(R.id.rb_male));
                 rb_female = ((RadioButton)inflated.findViewById(R.id.rb_female));
                 met_birth = ((MaterialEditText)inflated.findViewById(R.id.met_birth));
-                met_phone = ((MaterialEditText)inflated.findViewById(R.id.met_phone));
                 met_email = ((MaterialEditText)inflated.findViewById(R.id.met_email));
-                met_address = ((MaterialEditText)inflated.findViewById(R.id.met_address));
                 btn_logout = ((Button)inflated.findViewById(R.id.btn_logout));
 
-                GlideManager.setFbAvatarImage(ProfileActivity.this, Common.getFbID(), GlideManager.FbAvatarType.TYPE_LARGE, iv_avatar);
-                tv_name.setText(member.getFbName());
-                met_nickname.setText(member.getNickname());
+                GlideManager.setFbAvatarImage(ProfileActivity.this, Common.getUid(), GlideManager.FbAvatarType.TYPE_LARGE, iv_avatar);
+                tv_name.setText(member.getName());
                 if(!TextUtils.isEmpty(member.getGender())) {
                     rb_male.setChecked(member.getGender().equals("male"));
                     rb_female.setChecked(member.getGender().equals("female"));
                 }
                 birthDate = member.getBirthDate();
                 met_birth.setText(member.getBirthDate());
-                met_phone.setText(member.getPhone());
                 met_email.setText(member.getEmail());
-                met_address.setText(member.getAddress());
 
                 View.OnClickListener onClickListenerMyStory = new View.OnClickListener() {
                     @Override
@@ -132,7 +122,6 @@ public class ProfileActivity extends BaseActivity {
                 rl_my_story.setOnClickListener(onClickListenerMyStory);
                 iv_my_story.setOnClickListener(onClickListenerMyStory);
                 tv_my_story.setOnClickListener(onClickListenerMyStory);
-                met_nickname.addTextChangedListener(textWatcher);
                 rb_male.setOnCheckedChangeListener(onCheckedChangeListener);
                 rb_female.setOnCheckedChangeListener(onCheckedChangeListener);
                 met_birth.setFocusable(false);
@@ -153,9 +142,7 @@ public class ProfileActivity extends BaseActivity {
                         }, mYear, mMonth, mDay).show();
                     }
                 });
-                met_phone.addTextChangedListener(textWatcher);
                 met_email.addTextChangedListener(textWatcher);
-                met_address.addTextChangedListener(textWatcher);
 
                 btn_logout.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -194,16 +181,13 @@ public class ProfileActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == mi_save.getItemId()){
-            mMember.setNickname(met_nickname.getText().toString());
             if(rb_male.isChecked()){
                 mMember.setGender("male");
             }else if(rb_female.isChecked()){
                 mMember.setGender("female");
             }
             mMember.setBirthDate(birthDate);
-            mMember.setPhone(met_phone.getText().toString());
             mMember.setEmail(met_email.getText().toString());
-            mMember.setAddress(met_address.getText().toString());
             Firestore.updateMember(mMember, new Firestore.Callback() {
                 @Override
                 public void onSuccess(Object... object) {

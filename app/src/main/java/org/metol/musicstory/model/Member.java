@@ -5,14 +5,11 @@ package org.metol.musicstory.model;
  */
 
 public class Member {
-    private String fbId;
-    private String fbName;
-    private String nickname;
+    private String uid;
+    private String name;
     private String gender;
     private String email;
     private String birthDate;
-    private String phone;
-    private String address;
     private Integer edm;
     private Integer status;
 
@@ -20,25 +17,14 @@ public class Member {
 
     }
 
-    public Member(String fbId, String fbName, String nickname, String gender, String email, String birthDate, String phone, String address, Integer edm, Integer status) {
-        this.fbId = fbId;
-        this.fbName = fbName;
-        this.nickname = nickname;
+    public Member(String uid, String name, String gender, String email, String birthDate, Integer edm, Integer status) {
+        this.uid = uid;
+        this.name = name;
         this.gender = gender;
         this.email = email;
         this.birthDate = birthDate;
-        this.phone = phone;
-        this.address = address;
         this.edm = edm;
         this.status = status;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getBirthDate() {
@@ -65,36 +51,20 @@ public class Member {
         this.email = email;
     }
 
-    public String getFbId() {
-        return fbId;
+    public String getUid() {
+        return uid;
     }
 
-    public void setFbId(String fb_id) {
-        this.fbId = fb_id;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public String getFbName() {
-        return fbName;
+    public String getName() {
+        return name;
     }
 
-    public void setFbName(String fb_name) {
-        this.fbName = fb_name;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nick_name) {
-        this.nickname = nick_name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getGender() {

@@ -358,7 +358,7 @@ public abstract class BaseActivity extends AppCompatActivity{
         mi_profile.setVisible(isInfoVisible());
 
         if(isInfoVisible()) {
-            GlideManager.getDrawableFbAvatarFromUrl(BaseActivity.this, Common.getFbID(), GlideManager.FbAvatarType.TYPE_SMALL, new GlideManager.Callback() {
+            GlideManager.getDrawableFbAvatarFromUrl(BaseActivity.this, Common.getUid(), GlideManager.FbAvatarType.TYPE_SMALL, new GlideManager.Callback() {
                 @Override
                 public void onDrawable(Drawable drawable) {
                     if (drawable != null) mi_profile.setIcon(drawable);

@@ -18,6 +18,7 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import org.metol.musicstory.BuildConfig;
 import org.metol.musicstory.Common;
 import org.metol.musicstory.R;
 import org.metol.musicstory.database.Firestore;
@@ -26,6 +27,8 @@ import org.metol.musicstory.model.Member;
 import org.metol.musicstory.model.Setting;
 import org.metol.musicstory.util.Api;
 import org.metol.musicstory.util.SystemManager;
+
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
 			@Override
 			public void onSuccess(Object... object) {
 				setting = (Setting)object[0];
-				if(SystemManager.getAppVersionName().equals(setting.getVersion())) {
+				if(BuildConfig.BUILD_TYPE.toLowerCase().equals("debug") || SystemManager.getAppVersionName().equals(setting.getVersion())) {
 					afterCheckVersion();
 				}else{
 					if(setting.isForce_update()){
@@ -118,18 +121,18 @@ public class LoginActivity extends AppCompatActivity {
 			rl_login_button.setVisibility(View.VISIBLE);
 			//FB Login
 			callbackManager = CallbackManager.Factory.create();
-			login_button.setReadPermissions("email");
+			login_button.setReadPermissions(Arrays.asList("public_profile","email"));
 
 			login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 				@Override
 				public void onSuccess(LoginResult loginResult) {
 					Api.getFBAccountData(loginResult.getAccessToken().getUserId(), AccessToken.getCurrentAccessToken().getPermissions(), new Api.CallbackFBAccountData() {
 						@Override
-						public void onSuccess(String id, String name, String gender, String email, String locale) {
-							Firestore.insertMember(new Member(id, name, "", gender, email, "", "", locale, 0, 0), new Firestore.Callback() {
+						public void onSuccess(String uid, String name, String gender, String birthday, String email) {
+							Firestore.insertMember(new Member(uid, name, gender, email, birthday, 0, 0), new Firestore.Callback() {
 								@Override
 								public void onSuccess(Object... object) {
-									afterFbLogin(id);
+									afterFbLogin((String)object[0]);
 								}
 
 								@Override
@@ -163,15 +166,15 @@ public class LoginActivity extends AppCompatActivity {
 				}
 			});
 		}else{
-			afterFbLogin(accessToken.getUserId());
+			afterFbLogin("fb-"+accessToken.getUserId());
 		}
 	}
 
-	private void afterFbLogin(String fbId){
-		Firestore.getMember(fbId, new Firestore.Callback() {
+	private void afterFbLogin(String uid){
+		Firestore.getMember(uid, new Firestore.Callback() {
 			@Override
 			public void onSuccess(Object... object) {
-				Common.setFbID(fbId);
+				Common.setUid(uid);
 				Common.setMember((Member)object[0]);
 				startTutorialOrMain();
 			}

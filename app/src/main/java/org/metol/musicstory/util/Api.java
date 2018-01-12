@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.json.JSONObject;
 import org.metol.musicstory.Common;
@@ -107,12 +108,10 @@ public class Api {
         return "";
     }
 
-    /**
-     * @param
-     * */
+    //TODO birthday
     public static void getFBAccountData(String fbId, Set<String> permissions, CallbackFBAccountData callbackFBAccountData) {
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,gender,locale"+(permissions.contains("email")?",email":""));
+        parameters.putString("fields", "id,name,gender,birthday,email");
 
         new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
@@ -122,7 +121,10 @@ public class Api {
                 new GraphRequest.Callback() {
                     public void onCompleted(GraphResponse response) {
                         JSONObject jsonObject = response.getJSONObject();
-                        callbackFBAccountData.onSuccess(jsonObject.optString("id"), jsonObject.optString("name"), jsonObject.optString("gender"), jsonObject.optString("email"), jsonObject.optString("locale"));
+                        if(jsonObject==null) return;
+                        String birthDay = jsonObject.optString("birthday");
+                        Log.i("develop", "birthDay="+birthDay);
+                        callbackFBAccountData.onSuccess("fb-"+jsonObject.optString("id"), jsonObject.optString("name"), jsonObject.optString("gender"), birthDay, jsonObject.optString("email"));
                     }
                 }
         ).executeAsync();
@@ -226,7 +228,7 @@ public class Api {
     }
 
     public interface CallbackFBAccountData {
-        void onSuccess(String id, String name, String gender, String email, String locale);
+        void onSuccess(String uid, String name, String gender, String birthday, String email);
         void onUnSuccess(int stateCode, String reason);
         void onFailed();
     }

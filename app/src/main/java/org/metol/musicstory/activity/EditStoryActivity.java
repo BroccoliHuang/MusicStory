@@ -11,7 +11,6 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -177,9 +176,8 @@ public class EditStoryActivity extends BaseActivity {
                         //TODO 日期、地點、取得座標、hash tag
                         musicStory.setStoryTitle(met_story_title.getText().toString());
                         musicStory.setStoryContent(met_story_content.getText().toString());
-                        musicStory.setFbId(member.getFbId());
-                        musicStory.setFbName(member.getFbName());
-                        musicStory.setNickname(member.getNickname());
+                        musicStory.setUid(member.getUid());
+                        musicStory.setName(member.getName());
                         musicStory.setStoryDate("");
                         musicStory.setCreateTime(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
                         musicStory.setLocation("");

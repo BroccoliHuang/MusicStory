@@ -64,7 +64,7 @@ public class MyStoryActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Firestore.getMusicStoryByFbId(Common.getFbID(), new Firestore.Callback() {
+        Firestore.getMusicStoryByUid(Common.getUid(), new Firestore.Callback() {
             @Override
             public void onSuccess(Object... object) {
                 rv_my_story.setAdapter(new MyStoryAdapter((ArrayList<MusicStory>)object[0], (ArrayList<String>)object[1]));

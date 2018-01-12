@@ -30,12 +30,11 @@ public class Firestore {
 
     //Member
     private static final String COLLECTION_MEMBER = "Member";
-    private static final String FIELD_FB_ID = "fbId";
+    private static final String FIELD_UID = "uid";
     private static final String FIELD_CREATE_TIME = "createTime";
 
     //MusicStory
     private static final String COLLECTION_MUSICSTORY = "MusicStory";
-
 
     public static void getSetting(@Nullable Callback callback){
         Common.getFirebaseFirestore().collection(COLLECTION_SETTING)
@@ -58,21 +57,21 @@ public class Firestore {
     }
 
     public static void insertMember(Member member, @Nullable Callback callback){
-        getMember(member.getFbId(), new Callback() {
+        getMember(member.getUid(), new Callback() {
             @Override
             public void onSuccess(Object... object) {
-                if(callback!=null) callback.onSuccess(null);
+                if(callback!=null) callback.onSuccess(((Member)object[0]).getUid());
             }
 
             @Override
             public void onFailed(String reason) {
                 Common.getFirebaseFirestore().collection(COLLECTION_MEMBER)
-                        .document(member.getFbId())
+                        .document(member.getUid())
                         .set(member)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                if(callback!=null) callback.onSuccess(null);
+                                if(callback!=null) callback.onSuccess(member.getUid());
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -85,9 +84,9 @@ public class Firestore {
         });
     }
 
-    public static void getMember(String fbID, @Nullable Callback callback){
+    public static void getMember(String uid, @Nullable Callback callback){
         Common.getFirebaseFirestore().collection(COLLECTION_MEMBER)
-                .document(fbID)
+                .document(uid)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -107,12 +106,12 @@ public class Firestore {
 
     public static void updateMember(Member member, @Nullable Callback callback){
         Common.getFirebaseFirestore().collection(COLLECTION_MEMBER)
-                .document(member.getFbId())
+                .document(member.getUid())
                 .set(member)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        callback.onSuccess(null);
+                        callback.onSuccess();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -129,7 +128,7 @@ public class Firestore {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        if(callback!=null) callback.onSuccess(null);
+                        if(callback!=null) callback.onSuccess();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -140,9 +139,9 @@ public class Firestore {
                 });
     }
 
-    public static void getMusicStoryByFbId(String fbId, @Nullable Callback callback){
+    public static void getMusicStoryByUid(String uid, @Nullable Callback callback){
         Common.getFirebaseFirestore().collection(COLLECTION_MUSICSTORY)
-                .whereEqualTo(FIELD_FB_ID, fbId)
+                .whereEqualTo(FIELD_UID, uid)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -156,7 +155,7 @@ public class Firestore {
 
                                 callback.onSuccess(task.getResult().toObjects(MusicStory.class), alDocumentId);
                             }catch (IllegalStateException ise){
-                                callback.onSuccess(null);
+                                callback.onSuccess();
                             }
                         } else {
                             callback.onFailed("尋找故事失敗");
@@ -183,7 +182,7 @@ public class Firestore {
                             try {
                                 callback.onSuccess(task.getResult().toObject(MusicStory.class));
                             }catch (IllegalStateException ise){
-                                callback.onSuccess(null);
+                                callback.onSuccess();
                             }
                         } else {
                             callback.onFailed("尋找故事失敗");
@@ -205,7 +204,7 @@ public class Firestore {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        callback.onSuccess(null);
+                        callback.onSuccess();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -223,7 +222,7 @@ public class Firestore {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        callback.onSuccess(null);
+                        callback.onSuccess();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

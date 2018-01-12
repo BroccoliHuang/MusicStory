@@ -21,7 +21,6 @@ import org.metol.musicstory.model.Constants;
 import org.metol.musicstory.util.Callback;
 import org.metol.musicstory.util.GlideManager;
 import org.metol.musicstory.util.SharedPreferencesManager;
-import org.metol.musicstory.util.TapTargetManager;
 import org.metol.musicstory.widget.CategoryButtons;
 
 import java.util.ArrayList;
@@ -92,7 +91,7 @@ public class MusicStoryListViewAdapter extends RecyclerView.Adapter<RecyclerView
             Context cnx = holder.itemView.getContext();
 
             GlideManager.setCardImage(cnx, musicStory.getCoverUrl(), holder.iv_card_cover_center);
-            GlideManager.setFbAvatarImage(cnx, musicStory.getFbId(), GlideManager.FbAvatarType.TYPE_SMALL, holder.iv_card_author_avatar);
+            GlideManager.setFbAvatarImage(cnx, musicStory.getUid(), GlideManager.FbAvatarType.TYPE_SMALL, holder.iv_card_author_avatar);
             GlideManager.setBackgroundImageWithGaussianBlur(cnx, musicStory.getCoverUrl(), holder.iv_card_background);
             holder.tv_card_title.setText(musicStory.getStoryTitle());
             holder.iv_card_play.setOnClickListener(new View.OnClickListener() {

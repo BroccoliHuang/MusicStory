@@ -21,9 +21,8 @@ public class MusicStory implements Parcelable {
     private String coverUrl;
     private String storyTitle;
     private String storyContent;
-    private String fbId;
-    private String fbName;
-    private String nickname;
+    private String uid;
+    private String name;
     private String storyDate;
     private String createTime;
     private String location;
@@ -35,7 +34,7 @@ public class MusicStory implements Parcelable {
 
     }
 
-    public MusicStory(String artistId, String artistName, String albumId, String albumName, String songId, String songName, String coverUrl, String storyTitle, String storyContent, String fbId, String fbName, String nickname, String storyDate, String createTime, String location, String longitude, String latitude, ArrayList<String> tag){
+    public MusicStory(String artistId, String artistName, String albumId, String albumName, String songId, String songName, String coverUrl, String storyTitle, String storyContent, String uid, String name, String storyDate, String createTime, String location, String longitude, String latitude, ArrayList<String> tag){
         this.artistId = artistId;
         this.artistName = artistName;
         this.albumId = albumId;
@@ -46,9 +45,8 @@ public class MusicStory implements Parcelable {
         this.coverUrl = coverUrl;
         this.storyTitle = storyTitle;
         this.storyContent = storyContent;
-        this.fbId = fbId;
-        this.fbName = fbName;
-        this.nickname = nickname;
+        this.uid = uid;
+        this.name = name;
         this.storyDate = storyDate;
         this.createTime = createTime;
         this.location = location;
@@ -68,9 +66,8 @@ public class MusicStory implements Parcelable {
         coverUrl = parcel.readString();
         storyTitle = parcel.readString();
         storyContent = parcel.readString();
-        fbId = parcel.readString();
-        fbName = parcel.readString();
-        nickname = parcel.readString();
+        uid = parcel.readString();
+        name = parcel.readString();
         storyDate = parcel.readString();
         createTime = parcel.readString();
         location = parcel.readString();
@@ -91,9 +88,8 @@ public class MusicStory implements Parcelable {
         dest.writeString(coverUrl);
         dest.writeString(storyTitle);
         dest.writeString(storyContent);
-        dest.writeString(fbId);
-        dest.writeString(fbName);
-        dest.writeString(nickname);
+        dest.writeString(uid);
+        dest.writeString(name);
         dest.writeString(storyDate);
         dest.writeString(createTime);
         dest.writeString(location);
@@ -202,28 +198,20 @@ public class MusicStory implements Parcelable {
         this.storyContent = storyContent;
     }
 
-    public String getFbId() {
-        return fbId;
+    public String getUid() {
+        return uid;
     }
 
-    public void setFbId(String fbId) {
-        this.fbId = fbId;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public String getFbName() {
-        return fbName;
+    public String getName() {
+        return name;
     }
 
-    public void setFbName(String fbName) {
-        this.fbName = fbName;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getStoryDate() {

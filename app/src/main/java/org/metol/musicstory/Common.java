@@ -30,7 +30,7 @@ public class Common extends Application {
     private static Common app = null;
     public static boolean IS_DEBUG;
     private static FirebaseFirestore db = null;
-    private static String fbID;
+    private static String uid;
     private static Member member;
     private static TapTargetManager tapTargetManager;
 
@@ -69,24 +69,24 @@ public class Common extends Application {
         return db;
     }
 
-    public static void setFbID(String fbID){
-        Common.fbID = fbID;
-        SharedPreferencesManager.putString(SharedPreferencesManager.FB_ID, fbID);
+    public static void setUid(String uid){
+        Common.uid = uid;
+        SharedPreferencesManager.putString(SharedPreferencesManager.UID, uid);
     }
 
-    public static String getFbID(){
-        if(TextUtils.isEmpty(fbID)){
-            fbID = SharedPreferencesManager.getString(SharedPreferencesManager.FB_ID, "");
+    public static String getUid(){
+        if(TextUtils.isEmpty(uid)){
+            uid = SharedPreferencesManager.getString(SharedPreferencesManager.UID, "");
         }else{
             getMember(false, new CallbackMember() {
                 @Override
                 public void onMember(Member member) {
-                    fbID = member.getFbId();
+                    uid = member.getUid();
                 }
             });
         }
 
-        return fbID;
+        return uid;
     }
 
     public static void setMember(Member member){
@@ -95,11 +95,11 @@ public class Common extends Application {
 
     public static void getMember(boolean forceReload, CallbackMember callback){
         if(forceReload || member==null) {
-            Firestore.getMember(getFbID(), new Firestore.Callback() {
+            Firestore.getMember(getUid(), new Firestore.Callback() {
                 @Override
                 public void onSuccess(Object... object) {
                     if(object[0] instanceof Member){
-                        setFbID(((Member)object[0]).getFbId());
+                        setUid(((Member)object[0]).getUid());
                         setMember((Member)object[0]);
                         callback.onMember((Member)object[0]);
                     }else{
