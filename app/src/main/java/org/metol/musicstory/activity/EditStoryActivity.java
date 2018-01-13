@@ -39,7 +39,6 @@ import ren.qinc.edit.PerformEdit;
  * Created by Broccoli.Huang on 2018/1/3.
  */
 
-//TODO 送出資料時要progressbar
 //TODO hashtag https://github.com/greenfrvr/hashtag-view
 public class EditStoryActivity extends BaseActivity {
     public static final int TYPE_ADD    = 0;

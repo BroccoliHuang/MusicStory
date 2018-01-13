@@ -2,6 +2,7 @@ package org.metol.musicstory.util;
 
 import android.util.Log;
 
+import org.metol.musicstory.BuildConfig;
 import org.metol.musicstory.Common;
 
 /**
@@ -10,7 +11,7 @@ import org.metol.musicstory.Common;
 
 public class MyLog {
     public static void i(final String tag, final String msg) {
-        if(Common.IS_DEBUG) {
+        if(BuildConfig.DEBUG) {
             final StackTraceElement stackTrace = new Exception().getStackTrace()[1];
 
             String fileName = stackTrace.getFileName();
@@ -25,7 +26,7 @@ public class MyLog {
     }
 
     public static void e(final String tag, final String msg){
-        if(Common.IS_DEBUG) {
+        if(BuildConfig.DEBUG) {
             Throwable throwable = new Throwable(msg);
             Log.e(tag, Log.getStackTraceString(throwable));
         }

@@ -27,10 +27,13 @@ import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetSequence;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import org.greenrobot.eventbus.EventBus;
 import org.metol.musicstory.Common;
 import org.metol.musicstory.database.Firestore;
 import org.metol.musicstory.fragment.CardBottomSheetFragment;
 import org.metol.musicstory.R;
+import org.metol.musicstory.model.BroadCastEvent;
+import org.metol.musicstory.model.Constants;
 import org.metol.musicstory.model.Member;
 import org.metol.musicstory.util.GlideManager;
 import org.metol.musicstory.util.SharedPreferencesManager;
@@ -148,10 +151,21 @@ public class ProfileActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         LoginManager.getInstance().logOut();
-                        //TODO 重寫關掉或重啟
-                        Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage( getBaseContext().getPackageName() );
-                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(i);
+                        SharedPreferencesManager.putString(SharedPreferencesManager.UID, "");
+                        Common.setUid("");
+
+                        new AlertDialog.Builder(ProfileActivity.this)
+                                .setTitle("登出")
+                                .setMessage("登出後即離開")
+                                .setPositiveButton("好", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        EventBus.getDefault().post(new BroadCastEvent(BroadCastEvent.BroadCastType.FINISH, null));
+                                    }
+                                })
+                                .setNegativeButton("不要", null)
+                                .setCancelable(false)
+                                .show();
                     }
                 });
             }

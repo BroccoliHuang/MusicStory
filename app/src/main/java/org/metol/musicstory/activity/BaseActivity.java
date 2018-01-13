@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -13,6 +14,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -32,11 +34,15 @@ import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
 import com.melnykov.fab.FloatingActionButton;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.metol.musicstory.Common;
 import org.metol.musicstory.R;
 import org.metol.musicstory.adapter.ViewPagerAdapter;
 import org.metol.musicstory.fragment.BaseFragment;
 import org.metol.musicstory.fragment.CardBottomSheetFragment;
+import org.metol.musicstory.model.BroadCastEvent;
 import org.metol.musicstory.model.MusicStory;
 import org.metol.musicstory.model.Constants;
 import org.metol.musicstory.util.GlideManager;
@@ -62,6 +68,7 @@ public abstract class BaseActivity extends AppCompatActivity{
     @BindView(R.id.fl_custom)           FrameLayout             mFL_custom;
     @BindView(R.id.searchView)          SearchView              mSearchView;
     @BindView(R.id.wv_urlscheme)        WebView                 mWebViewUrlScheme;
+    ContentLoadingProgressBar mProgressBar;//不知道為什麼ButterKnife綁定失敗
 
     protected ViewStub mVS_custom;
     private MenuItem mi_search;
@@ -75,8 +82,12 @@ public abstract class BaseActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_base);
         ButterKnife.bind(this);
+
+
+        mProgressBar = (ContentLoadingProgressBar)findViewById(R.id.clpb_loading);
 
         //Hide without an animation
         mFAB.hide(false);
@@ -103,7 +114,7 @@ public abstract class BaseActivity extends AppCompatActivity{
         if((getTabTitle() == null || getTabTitle().length == 0) && (getTabIcon() == null || getTabIcon().length == 0)) {
             mViewPager.setVisibility(View.GONE);
             mTabLayout.setVisibility(View.GONE);
-            mViewTabShadow.setVisibility(View.GONE);
+//            mViewTabShadow.setVisibility(View.GONE);
 
             mVS_custom = new ViewStub(this);
             mFL_custom.addView(mVS_custom);
@@ -142,7 +153,14 @@ public abstract class BaseActivity extends AppCompatActivity{
 
             onViewPagerPageSelected(nowPage);
         }
+        mProgressBar.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.app_theme), PorterDuff.Mode.MULTIPLY);
         initFAB(nowPage);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void onViewPagerPageSelected(int position){
@@ -279,6 +297,14 @@ public abstract class BaseActivity extends AppCompatActivity{
         shownTapTarget(tapTargets);
     }
 
+    public void setProgressBar(boolean isVisible){
+        if(isVisible){
+            mProgressBar.show();
+        }else{
+            mProgressBar.hide();
+        }
+    }
+
     private static Snackbar mSnackbar = null;
     /**
      * 會自動將該頁面之前產生的Toast清除後再顯示新的Toast
@@ -410,6 +436,13 @@ public abstract class BaseActivity extends AppCompatActivity{
             mWebViewUrlScheme.loadUrl(requestUrl);
         } catch (PackageManager.NameNotFoundException e) {
             showSnack("您沒有安裝KKBOX哦");
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(BroadCastEvent event) {
+        if(event.getEventType() == BroadCastEvent.BroadCastType.FINISH) {
+            finish();
         }
     }
 

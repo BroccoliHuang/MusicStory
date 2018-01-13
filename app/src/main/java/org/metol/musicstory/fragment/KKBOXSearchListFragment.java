@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.metol.musicstory.activity.BaseActivity;
 import org.metol.musicstory.adapter.KKBOXSearchTrackListViewAdapter;
 import org.metol.musicstory.listener.EndlessRecyclerOnScrollListener;
 import org.metol.musicstory.model.Constants;
@@ -93,20 +94,24 @@ public class KKBOXSearchListFragment extends BaseFragment{
     }
 
     private void loadData(int type, int now_page, final Callback.API callback_Api) {
+        ((BaseActivity)getActivity()).setProgressBar(true);
         String apiType = Api.KKBOXSearchType.TRACK;
         Api.getKKBOXSearch(getActivity(), keyword, apiType, "TW", now_page, 20, new Api.Callback() {
             @Override
             public void onSuccess(@Nullable Object obj) {
+                ((BaseActivity)getActivity()).setProgressBar(false);
                 callback_Api.onSuccess(((Search)obj).getTracks().getData());
             }
 
             @Override
             public void onUnSuccess(int stateCode, String reason) {
+                ((BaseActivity)getActivity()).setProgressBar(false);
 
             }
 
             @Override
             public void onFailed() {
+                ((BaseActivity)getActivity()).setProgressBar(false);
 
             }
         });

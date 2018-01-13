@@ -28,9 +28,8 @@ import org.metol.musicstory.util.TapTargetManager;
 
 public class Common extends Application {
     private static Common app = null;
-    public static boolean IS_DEBUG;
     private static FirebaseFirestore db = null;
-    private static String uid;
+    private static String uid = "";
     private static Member member;
     private static TapTargetManager tapTargetManager;
 
@@ -38,7 +37,6 @@ public class Common extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
-        IS_DEBUG = isDebug();
 
         //印出KeyHash
 //        try {
@@ -120,11 +118,6 @@ public class Common extends Application {
     public static TapTargetManager getTapTargetManager(){
         if(tapTargetManager==null) tapTargetManager = new TapTargetManager();
         return tapTargetManager;
-    }
-
-    public boolean isDebug() {
-        //上線請改false
-        return true;
     }
 
     public interface CallbackMember{

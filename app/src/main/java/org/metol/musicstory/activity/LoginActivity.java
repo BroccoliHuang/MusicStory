@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Broccoli.Huang on 2018/1/3.
  */
-//TODO 多入口登入  https://github.com/mukeshsolanki/social-login-helper
+//TODO 加入Google Login
 public class LoginActivity extends AppCompatActivity {
 	public static final String IS_INTENT_BY_ACTIVITY = "is_intent_by_activity";
 	private Context mContext;
@@ -126,6 +126,7 @@ public class LoginActivity extends AppCompatActivity {
 			login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 				@Override
 				public void onSuccess(LoginResult loginResult) {
+					rl_login_button.setVisibility(View.GONE);
 					Api.getFBAccountData(loginResult.getAccessToken().getUserId(), AccessToken.getCurrentAccessToken().getPermissions(), new Api.CallbackFBAccountData() {
 						@Override
 						public void onSuccess(String uid, String name, String gender, String birthday, String email) {

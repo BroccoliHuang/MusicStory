@@ -64,15 +64,17 @@ public class MyStoryActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        setProgressBar(true);
         Firestore.getMusicStoryByUid(Common.getUid(), new Firestore.Callback() {
             @Override
             public void onSuccess(Object... object) {
+                setProgressBar(false);
                 rv_my_story.setAdapter(new MyStoryAdapter((ArrayList<MusicStory>)object[0], (ArrayList<String>)object[1]));
             }
 
             @Override
             public void onFailed(String reason) {
-
+                setProgressBar(false);
             }
         });
     }
