@@ -97,7 +97,7 @@ public class MusicStoryListViewAdapter extends RecyclerView.Adapter<RecyclerView
             holder.iv_card_play.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((BaseActivity)cnx).openKKBOXUrlScheme(musicStory.getSongUrl());
+                    ((BaseActivity)cnx).openKKBOXUrlScheme("https://event.kkbox.com/content/song/"+musicStory.getSongId());
                 }
             });
             holder.itemView.setOnClickListener(new View.OnClickListener(){

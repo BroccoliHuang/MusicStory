@@ -1,10 +1,25 @@
 package org.metol.musicstory.model;
 
+import java.util.ArrayList;
+
 /**
  * Created by Broccoli.Huang on 2018/1/6.
  */
 
 public class Member {
+    //如果不get沒有被使用過Firestore就不會新增該欄位
+    public ArrayList<Object> pleaseAddGetForFirebaseBug(){
+        ArrayList<Object> al = new ArrayList();
+        al.add(getUid());
+        al.add(getName());
+        al.add(getGender());
+        al.add(getEmail());
+        al.add(getBirthDate());
+        al.add(getEdm());
+        al.add(getStatus());
+        return al;
+    }
+
     private String uid;
     private String name;
     private String gender;

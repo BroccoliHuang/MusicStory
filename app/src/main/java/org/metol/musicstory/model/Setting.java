@@ -1,10 +1,22 @@
 package org.metol.musicstory.model;
 
+import java.util.ArrayList;
+
 /**
  * Created by Broccoli.Huang on 2018/1/6.
  */
 
 public class Setting {
+    //如果不get沒有被使用過Firestore就不會新增該欄位
+    public ArrayList<Object> pleaseAddGetForFirebaseBug(){
+        ArrayList<Object> al = new ArrayList();
+        al.add(getVersion());
+        al.add(getForce_update());
+        al.add(getAnnouncement_title());
+        al.add(getAnnouncement_content());
+        return al;
+    }
+
     private String version;
     private boolean force_update;
     private String announcement_title;
@@ -29,7 +41,7 @@ public class Setting {
         this.version = version;
     }
 
-    public boolean isForce_update() {
+    public boolean getForce_update() {
         return force_update;
     }
 

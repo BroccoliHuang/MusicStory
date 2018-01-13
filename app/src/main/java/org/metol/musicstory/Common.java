@@ -2,11 +2,14 @@ package org.metol.musicstory;
 
 import android.app.Application;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.metol.musicstory.database.Firestore;
 import org.metol.musicstory.model.Member;
+import org.metol.musicstory.model.MusicStory;
+import org.metol.musicstory.model.Setting;
 import org.metol.musicstory.util.SharedPreferencesManager;
 import org.metol.musicstory.util.TapTargetManager;
 
@@ -37,6 +40,13 @@ public class Common extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
+
+        //↓請勿刪除!!  為了Firestore 2018/01/13開始有的Bug，Model內的Get函數一定要用得到才會被新增到資料庫
+        new MusicStory().pleaseAddGetForFirebaseBug();
+        new Member().pleaseAddGetForFirebaseBug();
+        new Setting().pleaseAddGetForFirebaseBug();
+        //↑
+
 
         //印出KeyHash
 //        try {

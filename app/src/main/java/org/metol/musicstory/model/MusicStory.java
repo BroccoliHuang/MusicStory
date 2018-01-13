@@ -2,7 +2,6 @@ package org.metol.musicstory.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.TextUtils;
 
 import java.util.ArrayList;
 
@@ -11,13 +10,35 @@ import java.util.ArrayList;
  */
 
 public class MusicStory implements Parcelable {
+    //如果不get沒有被使用過Firestore就不會新增該欄位
+    public ArrayList<Object> pleaseAddGetForFirebaseBug(){
+        ArrayList<Object> al = new ArrayList();
+        al.add(getArtistId());
+        al.add(getArtistName());
+        al.add(getAlbumId());
+        al.add(getAlbumName());
+        al.add(getSongId());
+        al.add(getSongName());
+        al.add(getCoverUrl());
+        al.add(getStoryTitle());
+        al.add(getStoryContent());
+        al.add(getUid());
+        al.add(getName());
+        al.add(getStoryDate());
+        al.add(getCreateTime());
+        al.add(getLocation());
+        al.add(getLongitude());
+        al.add(getLatitude());
+        al.add(getTag());
+        return al;
+    }
+
     private String artistId;
     private String artistName;
     private String albumId;
     private String albumName;
     private String songId;
     private String songName;
-    private String songUrl;
     private String coverUrl;
     private String storyTitle;
     private String storyContent;
@@ -41,7 +62,6 @@ public class MusicStory implements Parcelable {
         this.albumName = albumName;
         this.songId = songId;
         this.songName = songName;
-        setSongUrlBySongId(this.songId);
         this.coverUrl = coverUrl;
         this.storyTitle = storyTitle;
         this.storyContent = storyContent;
@@ -62,7 +82,6 @@ public class MusicStory implements Parcelable {
         albumName = parcel.readString();
         songId = parcel.readString();
         songName = parcel.readString();
-        songUrl = parcel.readString();
         coverUrl = parcel.readString();
         storyTitle = parcel.readString();
         storyContent = parcel.readString();
@@ -84,7 +103,6 @@ public class MusicStory implements Parcelable {
         dest.writeString(albumName);
         dest.writeString(songId);
         dest.writeString(songName);
-        dest.writeString(songUrl);
         dest.writeString(coverUrl);
         dest.writeString(storyTitle);
         dest.writeString(storyContent);
@@ -151,7 +169,6 @@ public class MusicStory implements Parcelable {
 
     public void setSongId(String songId) {
         this.songId = songId;
-        setSongUrlBySongId(this.songId);
     }
 
     public String getSongName() {
@@ -160,18 +177,6 @@ public class MusicStory implements Parcelable {
 
     public void setSongName(String songName) {
         this.songName = songName;
-    }
-
-    public String getSongUrl() {
-        return TextUtils.isEmpty(this.songUrl)?"https://event.kkbox.com/content/song/"+songId : this.songUrl;
-    }
-
-    public void setSongUrlBySongId(String songId) {
-        this.songUrl = "https://event.kkbox.com/content/song/"+songId;
-    }
-
-    public void setSongUrl(String songUrl) {
-        this.songUrl = songUrl;
     }
 
     public String getCoverUrl() {

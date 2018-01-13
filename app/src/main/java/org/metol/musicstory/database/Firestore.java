@@ -61,6 +61,7 @@ public class Firestore {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         if(progressBar!=null) progressBar.hide();
+                        callback.onFailed("找不到設定資料");
                     }
                 });
     }
@@ -120,6 +121,7 @@ public class Firestore {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         if(progressBar!=null) progressBar.hide();
+                        callback.onFailed("找不到會員資料");
                     }
                 });
     }

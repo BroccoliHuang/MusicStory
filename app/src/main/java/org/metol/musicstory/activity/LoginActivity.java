@@ -26,6 +26,7 @@ import org.metol.musicstory.model.Constants;
 import org.metol.musicstory.model.Member;
 import org.metol.musicstory.model.Setting;
 import org.metol.musicstory.util.Api;
+import org.metol.musicstory.util.StatusManager;
 import org.metol.musicstory.util.SystemManager;
 
 import java.util.Arrays;
@@ -71,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 				if(BuildConfig.BUILD_TYPE.toLowerCase().equals("debug") || SystemManager.getAppVersionName().equals(setting.getVersion())) {
 					afterCheckVersion();
 				}else{
-					if(setting.isForce_update()){
+					if(setting.getForce_update()){
 						new AlertDialog.Builder(LoginActivity.this)
 								.setTitle("更新")
 								.setMessage("檢查到新版本需要更新")
@@ -182,7 +183,8 @@ public class LoginActivity extends AppCompatActivity {
 
 			@Override
 			public void onFailed(String reason) {
-
+				StatusManager.Logout();
+				afterCheckVersion();
 			}
 		});
 	}

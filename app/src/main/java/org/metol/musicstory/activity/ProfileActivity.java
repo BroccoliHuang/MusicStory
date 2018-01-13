@@ -37,6 +37,7 @@ import org.metol.musicstory.model.Constants;
 import org.metol.musicstory.model.Member;
 import org.metol.musicstory.util.GlideManager;
 import org.metol.musicstory.util.SharedPreferencesManager;
+import org.metol.musicstory.util.StatusManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -150,9 +151,7 @@ public class ProfileActivity extends BaseActivity {
                 btn_logout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        LoginManager.getInstance().logOut();
-                        SharedPreferencesManager.putString(SharedPreferencesManager.UID, "");
-                        Common.setUid("");
+                        StatusManager.Logout();
 
                         new AlertDialog.Builder(ProfileActivity.this)
                                 .setTitle("登出")
