@@ -1,19 +1,18 @@
 package org.metol.musicstory.model.KKBOX.Search;
 
+import android.support.annotation.Keep;
+
 /**
  * Created by Broccoli.Huang on 2018/1/6.
  */
 
+@Keep
 public class Search {
-    private SearchSummary summary;
-
-    private SearchTracks tracks;
-
-    private SearchArtists artists;
-
-    private SearchAlbums albums;
-
-    private SearchPaging paging;
+    public SearchSummary summary;
+    public SearchTracks tracks;
+    public SearchArtists artists;
+    public SearchAlbums albums;
+    public SearchPaging paging;
 
     public SearchSummary getSummary ()
     {

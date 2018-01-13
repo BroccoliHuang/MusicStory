@@ -35,7 +35,7 @@ public class MainActivity extends BaseActivity {
 
 		String announcementTitle = getIntent().getStringExtra(Constants.ARGUMENTS_ANNOUNCEMENT_TITLE);
 		String announcementContent = getIntent().getStringExtra(Constants.ARGUMENTS_ANNOUNCEMENT_CONTENT);
-		if(!TextUtils.isEmpty(announcementTitle) && !TextUtils.isEmpty(announcementContent)){
+		if(!TextUtils.isEmpty(announcementTitle) && !TextUtils.isEmpty(announcementContent) && !announcementContent.equals(SharedPreferencesManager.getString(SharedPreferencesManager.LAST_ANNOUNCEMENT_CONTENT, ""))){
 			new AlertDialog.Builder(MainActivity.this)
 					.setTitle(announcementTitle)
 					.setMessage(announcementContent)
@@ -43,6 +43,7 @@ public class MainActivity extends BaseActivity {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							dialog.dismiss();
+							SharedPreferencesManager.putString(SharedPreferencesManager.LAST_ANNOUNCEMENT_CONTENT, announcementContent);
 						}
 					})
 					.setCancelable(false)

@@ -1,5 +1,7 @@
 package org.metol.musicstory.model.KKBOX.Search;
 
+import android.support.annotation.Keep;
+
 import org.metol.musicstory.model.KKBOX.Artists;
 
 import java.util.ArrayList;
@@ -8,12 +10,11 @@ import java.util.ArrayList;
  * Created by Broccoli.Huang on 2018/1/7.
  */
 
+@Keep
 public class SearchArtists {
-    private SearchSummary summary;
-
-    private ArrayList<Artists> data;
-
-    private SearchPaging paging;
+    public SearchSummary summary;
+    public ArrayList<Artists> data;
+    public SearchPaging paging;
 
     public SearchSummary getSummary ()
     {

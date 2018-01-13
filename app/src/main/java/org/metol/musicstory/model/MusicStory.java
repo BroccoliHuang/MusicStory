@@ -9,6 +9,7 @@ import java.util.ArrayList;
 /**
  * Created by Broccoli.Huang on 2018/1/6.
  */
+
 @Keep
 public class MusicStory implements Parcelable {
     public String artistId;

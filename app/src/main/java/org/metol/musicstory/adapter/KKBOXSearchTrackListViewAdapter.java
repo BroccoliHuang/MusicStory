@@ -145,7 +145,7 @@ public class KKBOXSearchTrackListViewAdapter extends RecyclerView.Adapter<Recycl
                     @Override
                     public void onClick(View v) {
                         //TODO 新增一個Activity顯示其他人的故事，不過不是寫在這裡，要多一顆按鈕
-                        ((SearchActivity)cnx).showSnack("未來將開放觀看其他人的故事哦~", Snackbar.LENGTH_LONG);
+//                        ((SearchActivity)cnx).showSnack("未來將開放觀看其他人的故事哦~", Snackbar.LENGTH_LONG);
                     }
                 });
             }

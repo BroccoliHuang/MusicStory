@@ -16,6 +16,7 @@ public class SharedPreferencesManager {
     public static final String IS_TAP_TARGET_SEARCH_BUTTON_LISTEN_SHOWN = "is_tap_target_search_button_listen_shown";
     public static final String IS_TAP_TARGET_SEARCH_BUTTON_ADD_STORY_SHOWN = "is_tap_target_search_button_add_story_shown";
     public static final String IS_TAP_TARGET_MUSIC_STORY_LIST_BUTTON_LISTEN_SHOWN = "is_tap_target_music_story_list_button_listen_shown";
+    public static final String LAST_ANNOUNCEMENT_CONTENT = "last_announcement_content";
     public static final String UID = "uid";
 
     protected static SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(Common.getApp());

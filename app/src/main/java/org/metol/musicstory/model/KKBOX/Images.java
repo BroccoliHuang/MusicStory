@@ -1,15 +1,16 @@
 package org.metol.musicstory.model.KKBOX;
 
+import android.support.annotation.Keep;
+
 /**
  * Created by Broccoli.Huang on 2018/1/5.
  */
 
+@Keep
 public class Images {
-    private String height;
-
-    private String width;
-
-    private String url;
+    public String height;
+    public String width;
+    public String url;
 
     public String getHeight ()
     {

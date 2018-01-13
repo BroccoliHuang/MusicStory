@@ -14,6 +14,7 @@ import org.metol.musicstory.util.SharedPreferencesManager;
 import org.metol.musicstory.util.TapTargetManager;
 
 //印出KeyHash
+//import org.metol.musicstory.util.SystemManager;
 //import android.content.ClipData;
 //import android.content.ClipboardManager;
 //import android.content.Context;
@@ -21,7 +22,6 @@ import org.metol.musicstory.util.TapTargetManager;
 //import android.content.pm.PackageManager;
 //import android.content.pm.Signature;
 //import android.util.Base64;
-//import android.util.Log;
 //import java.security.MessageDigest;
 //import java.security.NoSuchAlgorithmException;
 
@@ -48,7 +48,7 @@ public class Common extends Application {
 //                MessageDigest md = MessageDigest.getInstance("SHA");
 //                md.update(signature.toByteArray());
 //                String KeyHash = Base64.encodeToString(md.digest(), Base64.DEFAULT);
-//                Log.d("KeyHash:", KeyHash);
+//                Log.i("KeyHash:", KeyHash);
 //
 //                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 //                ClipData clip = ClipData.newPlainText("KeyHash", KeyHash);

@@ -1,27 +1,23 @@
 package org.metol.musicstory.model.KKBOX;
 
+import android.support.annotation.Keep;
+
 import java.util.ArrayList;
 
 /**
  * Created by Broccoli.Huang on 2018/1/5.
  */
 
+@Keep
 public class Albums {
-    private String id;
-
-    private String explicitness;
-
-    private String name;
-
-    private String release_date;
-
-    private ArrayList<Images> images;
-
-    private ArrayList<String> available_territories;
-
-    private Artists artist;
-
-    private String url;
+    public String id;
+    public String explicitness;
+    public String name;
+    public String release_date;
+    public ArrayList<Images> images;
+    public ArrayList<String> available_territories;
+    public Artists artist;
+    public String url;
 
     public String getId ()
     {

@@ -1,11 +1,14 @@
 package org.metol.musicstory.model.KKBOX.Search;
 
+import android.support.annotation.Keep;
+
 /**
  * Created by Broccoli.Huang on 2018/1/6.
  */
 
+@Keep
 public class SearchSummary {
-    private String total;
+    public String total;
 
     public String getTotal ()
     {
