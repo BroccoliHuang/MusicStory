@@ -7,6 +7,7 @@ package org.metol.musicstory.model;
 public class BroadCastEvent {
     public enum BroadCastType {
         SEARCH_ACTIVITY_SHOW_SNACK_BAR,
+        MY_STORY_ACTIVITY_SHOW_SNACK_BAR,
         FINISH
     }
 

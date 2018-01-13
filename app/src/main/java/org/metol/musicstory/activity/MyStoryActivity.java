@@ -33,8 +33,6 @@ public class MyStoryActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        EventBus.getDefault().register(this);
-
         View inflated = mVS_custom.inflate();
         
         AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) mToolbar.getLayoutParams();
@@ -64,30 +62,21 @@ public class MyStoryActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setProgressBar(true);
-        Firestore.getMusicStoryByUid(Common.getUid(), new Firestore.Callback() {
+        Firestore.getMusicStoryByUid(Common.getUid(), getProgressBar(), new Firestore.Callback() {
             @Override
             public void onSuccess(Object... object) {
-                setProgressBar(false);
                 rv_my_story.setAdapter(new MyStoryAdapter((ArrayList<MusicStory>)object[0], (ArrayList<String>)object[1]));
             }
 
             @Override
             public void onFailed(String reason) {
-                setProgressBar(false);
             }
         });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(BroadCastEvent event) {
-        if(event.getEventType() == BroadCastEvent.BroadCastType.SEARCH_ACTIVITY_SHOW_SNACK_BAR) {
+        if(event.getEventType() == BroadCastEvent.BroadCastType.MY_STORY_ACTIVITY_SHOW_SNACK_BAR) {
             showSnack((String)event.getData());
         }
     }

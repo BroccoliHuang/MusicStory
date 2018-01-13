@@ -202,7 +202,7 @@ public class ProfileActivity extends BaseActivity {
             }
             mMember.setBirthDate(birthDate);
             mMember.setEmail(met_email.getText().toString());
-            Firestore.updateMember(mMember, new Firestore.Callback() {
+            Firestore.updateMember(mMember, getProgressBar(), new Firestore.Callback() {
                 @Override
                 public void onSuccess(Object... object) {
                     showSnack("已儲存");

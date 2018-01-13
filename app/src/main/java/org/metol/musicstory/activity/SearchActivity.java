@@ -48,14 +48,6 @@ public class SearchActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         keyword = getIntent().getStringExtra(Constants.ARGUMENTS_KEYWORD);
         super.onCreate(savedInstanceState);
-
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

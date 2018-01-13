@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -57,6 +58,8 @@ public class EditStoryActivity extends BaseActivity {
     private MenuItem    mi_undo;
     private MenuItem    mi_redo;
     private MenuItem    mi_ok;
+    private ContentLoadingProgressBar clpb_loading;//不知道為什麼ButterKnife綁定失敗
+
     private MusicStory  musicStory;
     private boolean mIsModify = false;
 
@@ -79,6 +82,7 @@ public class EditStoryActivity extends BaseActivity {
         tv_sheet_artist = (TextView)inflated.findViewById(R.id.tv_sheet_artist);
         met_story_title = (MaterialEditText)inflated.findViewById(R.id.met_story_title);
         met_story_content = (MaterialEditText)inflated.findViewById(R.id.met_story_content);
+        clpb_loading = (ContentLoadingProgressBar)inflated.findViewById(R.id.clpb_loading);
 
         GlideManager.setSongImage(EditStoryActivity.this, musicStory.getCoverUrl(), iv_sheet_cover);
         GlideManager.setBackgroundImageWithGaussianBlur(EditStoryActivity.this, musicStory.getCoverUrl(), iv_sheet_background);
@@ -98,7 +102,7 @@ public class EditStoryActivity extends BaseActivity {
         mPerformEditStoryContent = new PerformEdit(met_story_content);
 
         if(type==TYPE_EDIT) {
-            Firestore.getMusicStoryByDocumentId(storyDocumentId, new Firestore.Callback() {
+            Firestore.getMusicStoryByDocumentId(storyDocumentId, null, new Firestore.Callback() {
                 @Override
                 public void onSuccess(Object... object) {
                     MusicStory musicStory = (MusicStory)object[0];
@@ -109,7 +113,6 @@ public class EditStoryActivity extends BaseActivity {
 
                 @Override
                 public void onFailed(String reason) {
-
                 }
             });
         }
@@ -185,7 +188,7 @@ public class EditStoryActivity extends BaseActivity {
                         musicStory.setTag(alTag);
 
                         if(type==TYPE_ADD){
-                            Firestore.insertMusicStory(musicStory, new Firestore.Callback() {
+                            Firestore.insertMusicStory(musicStory, clpb_loading, new Firestore.Callback() {
                                 @Override
                                 public void onSuccess(Object... object) {
                                     EventBus.getDefault().post(new BroadCastEvent(BroadCastEvent.BroadCastType.SEARCH_ACTIVITY_SHOW_SNACK_BAR, "故事新增成功"));
@@ -198,10 +201,10 @@ public class EditStoryActivity extends BaseActivity {
                                 }
                             });
                         }else if(type==TYPE_EDIT){
-                            Firestore.updateMusicStory(storyDocumentId, musicStory, new Firestore.Callback() {
+                            Firestore.updateMusicStory(storyDocumentId, musicStory, clpb_loading, new Firestore.Callback() {
                                 @Override
                                 public void onSuccess(Object... object) {
-                                    EventBus.getDefault().post(new BroadCastEvent(BroadCastEvent.BroadCastType.SEARCH_ACTIVITY_SHOW_SNACK_BAR, "故事更新成功"));
+                                    EventBus.getDefault().post(new BroadCastEvent(BroadCastEvent.BroadCastType.MY_STORY_ACTIVITY_SHOW_SNACK_BAR, "故事更新成功"));
                                     finish();
                                 }
 

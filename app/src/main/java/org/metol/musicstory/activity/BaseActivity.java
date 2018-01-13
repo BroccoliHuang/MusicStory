@@ -68,7 +68,7 @@ public abstract class BaseActivity extends AppCompatActivity{
     @BindView(R.id.fl_custom)           FrameLayout             mFL_custom;
     @BindView(R.id.searchView)          SearchView              mSearchView;
     @BindView(R.id.wv_urlscheme)        WebView                 mWebViewUrlScheme;
-    ContentLoadingProgressBar mProgressBar;//不知道為什麼ButterKnife綁定失敗
+    private ContentLoadingProgressBar mProgressBar;//不知道為什麼ButterKnife綁定失敗
 
     protected ViewStub mVS_custom;
     private MenuItem mi_search;
@@ -85,7 +85,6 @@ public abstract class BaseActivity extends AppCompatActivity{
         EventBus.getDefault().register(this);
         setContentView(R.layout.activity_base);
         ButterKnife.bind(this);
-
 
         mProgressBar = (ContentLoadingProgressBar)findViewById(R.id.clpb_loading);
 
@@ -297,12 +296,8 @@ public abstract class BaseActivity extends AppCompatActivity{
         shownTapTarget(tapTargets);
     }
 
-    public void setProgressBar(boolean isVisible){
-        if(isVisible){
-            mProgressBar.show();
-        }else{
-            mProgressBar.hide();
-        }
+    public ContentLoadingProgressBar getProgressBar(){
+        return mProgressBar;
     }
 
     private static Snackbar mSnackbar = null;

@@ -111,4 +111,12 @@
         app:met_floatingLabel="highlight"
         app:met_floatingLabelTextSize="16sp"
         app:met_primaryColor="@color/app_theme" />
+
+    <android.support.v4.widget.ContentLoadingProgressBar
+        android:id="@+id/clpb_loading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 </RelativeLayout>

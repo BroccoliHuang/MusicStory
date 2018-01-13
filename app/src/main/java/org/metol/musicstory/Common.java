@@ -93,7 +93,7 @@ public class Common extends Application {
 
     public static void getMember(boolean forceReload, CallbackMember callback){
         if(forceReload || member==null) {
-            Firestore.getMember(getUid(), new Firestore.Callback() {
+            Firestore.getMember(getUid(), null, new Firestore.Callback() {
                 @Override
                 public void onSuccess(Object... object) {
                     if(object[0] instanceof Member){

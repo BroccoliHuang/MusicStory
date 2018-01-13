@@ -64,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
 			animate_finish_out = R.anim.slide_out_right;
 		}
 
-		Firestore.getSetting(new Firestore.Callback() {
+		Firestore.getSetting(null, new Firestore.Callback() {
 			@Override
 			public void onSuccess(Object... object) {
 				setting = (Setting)object[0];
@@ -130,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
 					Api.getFBAccountData(loginResult.getAccessToken().getUserId(), AccessToken.getCurrentAccessToken().getPermissions(), new Api.CallbackFBAccountData() {
 						@Override
 						public void onSuccess(String uid, String name, String gender, String birthday, String email) {
-							Firestore.insertMember(new Member(uid, name, gender, email, birthday, 0, 0), new Firestore.Callback() {
+							Firestore.insertMember(new Member(uid, name, gender, email, birthday, 0, 0), null, new Firestore.Callback() {
 								@Override
 								public void onSuccess(Object... object) {
 									afterFbLogin((String)object[0]);
@@ -172,7 +172,7 @@ public class LoginActivity extends AppCompatActivity {
 	}
 
 	private void afterFbLogin(String uid){
-		Firestore.getMember(uid, new Firestore.Callback() {
+		Firestore.getMember(uid, null, new Firestore.Callback() {
 			@Override
 			public void onSuccess(Object... object) {
 				Common.setUid(uid);

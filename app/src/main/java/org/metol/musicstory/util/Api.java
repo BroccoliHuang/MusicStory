@@ -3,6 +3,7 @@ package org.metol.musicstory.util;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -133,7 +134,8 @@ public class Api {
     /**
      * @param offset 頁數，從0開始
      * */
-    public static void getKKBOXSearch(Context context, String keyword, String type, String territory, int offset, int limit, Callback callback) {
+    public static void getKKBOXSearch(Context context, String keyword, String type, String territory, int offset, int limit, @Nullable ContentLoadingProgressBar progressBar, Callback callback) {
+        if(progressBar!=null) progressBar.show();
         ApiService apiService = createApiClient(getKKBOXToken(context));
 
         Map<String, String> params = new HashMap();
@@ -147,12 +149,14 @@ public class Api {
         call.enqueue(new retrofit2.Callback<Search>() {
             @Override
             public void onResponse(Call<Search> call, retrofit2.Response<Search> response) {
+                if(progressBar!=null) progressBar.hide();
                 if (response == null || response.body() == null) return;
                 callback.onSuccess(response.body());
             }
 
             @Override
             public void onFailure(Call<Search> call, Throwable t) {
+                if(progressBar!=null) progressBar.hide();
                 callback.onFailed();
             }
         });

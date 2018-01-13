@@ -103,7 +103,7 @@ public class MyStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             .setPositiveButton("是", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Firestore.deleteMusicStory(mDataMusicStoryDocumentId.get(position), new Firestore.Callback() {
+                                    Firestore.deleteMusicStory(mDataMusicStoryDocumentId.get(position), ((BaseActivity)cnx).getProgressBar(), new Firestore.Callback() {
                                         @Override
                                         public void onSuccess(Object... object) {
                                             mData.remove(position);
