@@ -157,7 +157,7 @@ public class KKBOXSearchTrackListViewAdapter extends RecyclerView.Adapter<Recycl
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                if(mData.get(mData.size() - 1)!=null) {
+                if(mData.size()>0 && mData.get(mData.size() - 1)!=null) {
                     mData.add(null);
                     notifyItemInserted(mData.size() - 1);
                 }
@@ -167,18 +167,20 @@ public class KKBOXSearchTrackListViewAdapter extends RecyclerView.Adapter<Recycl
         return new Callback.LoadMore() {
             @Override
             public void onLoadMore(Object object) {
-                new Handler().post(new Runnable() {
-                   @Override
-                   public void run() {
-                       mData.remove(mData.size() - 1);
-                       notifyItemRemoved(mData.size());
+                if(mData.size()>1 && mData.get(mData.size()-1)==null) {
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mData.remove(mData.size() - 1);
+                            notifyItemRemoved(mData.size());
 
-                       for(Tracks tracks: (ArrayList<Tracks>)object){
-                           mData.add(tracks);
-                       }
-                       notifyDataSetChanged();
-                   }
-                });
+                            for (Tracks tracks : (ArrayList<Tracks>) object) {
+                                mData.add(tracks);
+                            }
+                            notifyDataSetChanged();
+                        }
+                    });
+                }
             }
         };
     }
@@ -229,7 +231,7 @@ public class KKBOXSearchTrackListViewAdapter extends RecyclerView.Adapter<Recycl
 
             ll_listitem_search_keyword.setBackgroundColor(Common.getApp().getResources().getColor(R.color.cardlist_background));
             tv_listitem_search_keyword.setText("您搜尋的是："+mSearchKeyWord);
-            tv_listitem_search_keyword.setTextColor(Common.getApp().getResources().getColor(R.color.cardlist_search_keyword_wording));
+            tv_listitem_search_keyword.setTextColor(Common.getApp().getResources().getColor(R.color.app_theme));
         }
     }
 

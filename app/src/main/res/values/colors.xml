@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--TODO default圖跟色碼顏色太深了-->
+    <!--1EAFD4-->
 <resources>
-    <color name="app_theme">#1EAFD4</color>
+    <color name="app_theme">#00AED8</color>
     <color name="app_theme_background">#FFFFFF</color>
-
-    <color name="progressbar_loading">#1EAFD4</color>
 
     <color name="toolbar_background">#F5F5F5</color>
     <color name="tab_background">#F5F5F5</color>
@@ -25,18 +24,14 @@
     <color name="fab_ripple">#42FFFFFF</color>
 
     <color name="categorybuttons_background">#FFFFFF</color>
-    <color name="categorybuttons_pressed_button_background">#D0D2D1</color>
-    <color name="categorybuttons_pressed_button_font">#000000</color>
-    <color name="categorybuttons_not_pressed_button_border">#D0D2D1</color>
-    <color name="categorybuttons_not_pressed_button_font">#82858E</color>
+    <color name="categorybuttons_pressed_button_background">#E9E9E9</color>
+    <color name="categorybuttons_pressed_button_font">#333333</color>
+    <color name="categorybuttons_not_pressed_button_border">#E9E9E9</color>
+    <color name="categorybuttons_not_pressed_button_font">#4B4B4B</color>
 
     <color name="cardlist_background">#FFFFFF</color>
     <color name="cardlist_divider">#F5F5F5</color>
     <color name="cardlist_playing_wave">#85DBFE</color>
-    <color name="cardlist_banner_background">#FFFFFF</color>
-    <color name="cardlist_promotion_wording">#07BAFD</color>
-    <color name="cardlist_search_keyword_wording">#07BAFD</color>
-
 
     <color name="transparent">#00000000</color>
 

@@ -109,7 +109,7 @@ public class MusicStoryListFragment extends BaseFragment implements CategoryButt
 
     private DocumentSnapshot myLastVisible = null;
     private void loadData(int category, int now_page, Callback.API callback_Api) {
-        Firestore.getMusicStory(myLastVisible, 10, ((BaseActivity)getActivity()).getProgressBar(), new Firestore.CallbackLoadMore() {
+        Firestore.getMusicStory(myLastVisible, 10, (now_page==0 ? ((BaseActivity)getActivity()).getProgressBar() : null), new Firestore.CallbackLoadMore() {
             @Override
             public void onSuccess(Object object) {
                 callback_Api.onSuccess(object);

@@ -68,6 +68,7 @@
                 android:layout_toLeftOf="@+id/iv_card_edit"
                 android:layout_toRightOf="@+id/iv_card_author_avatar"
                 android:lineSpacingMultiplier="1.2"
+                android:textColor="#333333"
                 android:textSize="16sp" />
 
             <TextView
@@ -78,7 +79,7 @@
                 android:layout_marginTop="7dp"
                 android:layout_toLeftOf="@+id/iv_card_edit"
                 android:lineSpacingMultiplier="1.3"
-                android:textColor="#555555"
+                android:textColor="#A0A098"
                 android:textSize="12sp" />
 
             <ImageView

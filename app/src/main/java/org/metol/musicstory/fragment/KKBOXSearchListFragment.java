@@ -95,7 +95,7 @@ public class KKBOXSearchListFragment extends BaseFragment{
 
     private void loadData(int type, int now_page, final Callback.API callback_Api) {
         String apiType = Api.KKBOXSearchType.TRACK;
-        Api.getKKBOXSearch(getActivity(), keyword, apiType, "TW", now_page, 20, ((BaseActivity)getActivity()).getProgressBar(),  new Api.Callback() {
+        Api.getKKBOXSearch(getActivity(), keyword, apiType, "TW", now_page, 20, (now_page==0 ? ((BaseActivity)getActivity()).getProgressBar() : null),  new Api.Callback() {
             @Override
             public void onSuccess(@Nullable Object obj) {
                 callback_Api.onSuccess(((Search)obj).getTracks().getData());
