@@ -41,13 +41,6 @@ public class Common extends Application {
         super.onCreate();
         app = this;
 
-        //↓請勿刪除!!  為了Firestore 2018/01/13開始有的Bug，Model內的Get函數一定要用得到才會被新增到資料庫
-        new MusicStory().pleaseAddGetForFirebaseBug();
-        new Member().pleaseAddGetForFirebaseBug();
-        new Setting().pleaseAddGetForFirebaseBug();
-        //↑
-
-
         //印出KeyHash
 //        try {
 //            PackageInfo info = getPackageManager().getPackageInfo(SystemManager.getPackageName(), PackageManager.GET_SIGNATURES);

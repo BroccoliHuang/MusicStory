@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 				if(BuildConfig.BUILD_TYPE.toLowerCase().equals("debug") || SystemManager.getAppVersionName().equals(setting.getVersion())) {
 					afterCheckVersion();
 				}else{
-					if(setting.getForce_update()){
+					if(setting.getForceUpdate()){
 						new AlertDialog.Builder(LoginActivity.this)
 								.setTitle("更新")
 								.setMessage("檢查到新版本需要更新")
@@ -195,8 +195,8 @@ public class LoginActivity extends AppCompatActivity {
 			public void run() {
 				Intent intent = new Intent();
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-				intent.putExtra(Constants.ARGUMENTS_ANNOUNCEMENT_TITLE, setting.getAnnouncement_title());
-				intent.putExtra(Constants.ARGUMENTS_ANNOUNCEMENT_CONTENT, setting.getAnnouncement_content());
+				intent.putExtra(Constants.ARGUMENTS_ANNOUNCEMENT_TITLE, setting.getAnnouncementTitle());
+				intent.putExtra(Constants.ARGUMENTS_ANNOUNCEMENT_CONTENT, setting.getAnnouncementContent());
 				intent.setClass(mContext, MainActivity.class);
 				startActivity(intent);
 				animate_finish_in = R.anim.slide_in_right;

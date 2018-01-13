@@ -1,32 +1,19 @@
 package org.metol.musicstory.model;
 
-import java.util.ArrayList;
+import android.support.annotation.Keep;
 
 /**
  * Created by Broccoli.Huang on 2018/1/6.
  */
-
+@Keep
 public class Member {
-    //如果不get沒有被使用過Firestore就不會新增該欄位
-    public ArrayList<Object> pleaseAddGetForFirebaseBug(){
-        ArrayList<Object> al = new ArrayList();
-        al.add(getUid());
-        al.add(getName());
-        al.add(getGender());
-        al.add(getEmail());
-        al.add(getBirthDate());
-        al.add(getEdm());
-        al.add(getStatus());
-        return al;
-    }
-
-    private String uid;
-    private String name;
-    private String gender;
-    private String email;
-    private String birthDate;
-    private Integer edm;
-    private Integer status;
+    public String uid;
+    public String name;
+    public String gender;
+    public String email;
+    public String birthDate;
+    public Integer edm;
+    public Integer status;
 
     public Member(){
 

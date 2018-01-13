@@ -2,54 +2,32 @@ package org.metol.musicstory.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Keep;
 
 import java.util.ArrayList;
 
 /**
  * Created by Broccoli.Huang on 2018/1/6.
  */
-
+@Keep
 public class MusicStory implements Parcelable {
-    //如果不get沒有被使用過Firestore就不會新增該欄位
-    public ArrayList<Object> pleaseAddGetForFirebaseBug(){
-        ArrayList<Object> al = new ArrayList();
-        al.add(getArtistId());
-        al.add(getArtistName());
-        al.add(getAlbumId());
-        al.add(getAlbumName());
-        al.add(getSongId());
-        al.add(getSongName());
-        al.add(getCoverUrl());
-        al.add(getStoryTitle());
-        al.add(getStoryContent());
-        al.add(getUid());
-        al.add(getName());
-        al.add(getStoryDate());
-        al.add(getCreateTime());
-        al.add(getLocation());
-        al.add(getLongitude());
-        al.add(getLatitude());
-        al.add(getTag());
-        return al;
-    }
-
-    private String artistId;
-    private String artistName;
-    private String albumId;
-    private String albumName;
-    private String songId;
-    private String songName;
-    private String coverUrl;
-    private String storyTitle;
-    private String storyContent;
-    private String uid;
-    private String name;
-    private String storyDate;
-    private String createTime;
-    private String location;
-    private String longitude;//經度
-    private String latitude;//緯度
-    private ArrayList<String> tag = new ArrayList();
+    public String artistId;
+    public String artistName;
+    public String albumId;
+    public String albumName;
+    public String songId;
+    public String songName;
+    public String coverUrl;
+    public String storyTitle;
+    public String storyContent;
+    public String uid;
+    public String name;
+    public String storyDate;
+    public String createTime;
+    public String location;
+    public String longitude;//經度
+    public String latitude;//緯度
+    public ArrayList<String> tag = new ArrayList();
 
     public MusicStory(){
 
