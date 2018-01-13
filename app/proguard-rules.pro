@@ -38,7 +38,23 @@
   **[] $VALUES;
   public *;
 }
-
-# for DexGuard only
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 # Glide end
+
+-keep class com.sun.tools.**
+-dontwarn butterknife.compiler.**
+-dontwarn com.google.auto.**
+-dontwarn com.squareup.javapoet.**
+
+
+# EventBus start
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
+# EventBus end
