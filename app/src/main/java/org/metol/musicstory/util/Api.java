@@ -110,10 +110,9 @@ public class Api {
         return "";
     }
 
-    //TODO 等FB審核birthday權限
     public static void getFBAccountData(String fbId, Set<String> permissions, CallbackFBAccountData callbackFBAccountData) {
         Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,gender,birthday,email");
+        parameters.putString("fields", "id,name,gender,email");
 
         new GraphRequest(
                 AccessToken.getCurrentAccessToken(),
@@ -124,9 +123,7 @@ public class Api {
                     public void onCompleted(GraphResponse response) {
                         JSONObject jsonObject = response.getJSONObject();
                         if(jsonObject==null) return;
-                        String birthDay = jsonObject.optString("birthday");
-                        Log.i("develop", "birthDay="+birthDay);
-                        callbackFBAccountData.onSuccess(jsonObject.optString("email"), Constants.PREFIX_FB+jsonObject.optString("id"), jsonObject.optString("name"), jsonObject.optString("gender"), birthDay);
+                        callbackFBAccountData.onSuccess(jsonObject.optString("email"), Constants.PREFIX_FB+jsonObject.optString("id"), jsonObject.optString("name"), jsonObject.optString("gender"));
                     }
                 }
         ).executeAsync();
@@ -233,7 +230,7 @@ public class Api {
     }
 
     public interface CallbackFBAccountData {
-        void onSuccess(String email, String id, String name, String gender, String birthday);
+        void onSuccess(String email, String id, String name, String gender);
         void onUnSuccess(int stateCode, String reason);
         void onFailed();
     }

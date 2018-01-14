@@ -65,7 +65,7 @@
                 android:id="@+id/rg_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="15dp"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -83,23 +83,11 @@
             </RadioGroup>
 
             <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/met_birth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rg_gender"
-                android:layout_marginTop="5dp"
-                android:hint="生日"
-                android:textSize="18sp"
-                app:met_floatingLabel="highlight"
-                app:met_floatingLabelTextSize="16sp"
-                app:met_primaryColor="@color/app_theme" />
-
-            <com.rengwuxian.materialedittext.MaterialEditText
                 android:id="@+id/met_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/met_birth"
-                android:layout_marginTop="5dp"
+                android:layout_below="@+id/rg_gender"
+                android:layout_marginTop="15dp"
                 android:enabled="false"
                 android:hint="電子信箱"
                 android:textSize="18sp"

@@ -12,7 +12,6 @@ public class Member {
     public String uid;
     public String name;
     public String gender;
-    public String birthDate;
     public Integer edm;
     public Integer status;
 
@@ -20,12 +19,11 @@ public class Member {
 
     }
 
-    public Member(String email, String uid, String name, String gender, String birthDate, Integer edm, Integer status) {
+    public Member(String email, String uid, String name, String gender, Integer edm, Integer status) {
         this.email = email;
         this.uid = uid;
         this.name = name;
         this.gender = gender;
-        this.birthDate = birthDate;
         this.edm = edm;
         this.status = status;
     }
@@ -44,14 +42,6 @@ public class Member {
 
     public void setUid(String uid) {
         this.uid = uid;
-    }
-
-    public String getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(String birth_date) {
-        this.birthDate = birth_date;
     }
 
     public Integer getEdm() {

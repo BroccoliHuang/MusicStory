@@ -1,7 +1,6 @@
 package org.metol.musicstory.activity;
 
 import android.app.ActivityOptions;
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,9 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -38,7 +37,6 @@ import org.metol.musicstory.util.SharedPreferencesManager;
 import org.metol.musicstory.util.StatusManager;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 /**
  * Created by Broccoli.Huang on 2018/1/3.
@@ -53,12 +51,10 @@ public class ProfileActivity extends BaseActivity {
     private TextView            tv_my_story;
     private RadioButton         rb_male;
     private RadioButton         rb_female;
-    private MaterialEditText    met_birth;
     private MaterialEditText    met_email;
     private Button              btn_logout;
     private boolean mIsModify = false;
     private Member mMember;
-    private String birthDate = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,7 +77,6 @@ public class ProfileActivity extends BaseActivity {
                 tv_name = ((TextView)inflated.findViewById(R.id.tv_name));
                 rb_male = ((RadioButton)inflated.findViewById(R.id.rb_male));
                 rb_female = ((RadioButton)inflated.findViewById(R.id.rb_female));
-                met_birth = ((MaterialEditText)inflated.findViewById(R.id.met_birth));
                 met_email = ((MaterialEditText)inflated.findViewById(R.id.met_email));
                 btn_logout = ((Button)inflated.findViewById(R.id.btn_logout));
 
@@ -90,9 +85,9 @@ public class ProfileActivity extends BaseActivity {
                 if(!TextUtils.isEmpty(member.getGender())) {
                     rb_male.setChecked(member.getGender().equals("male"));
                     rb_female.setChecked(member.getGender().equals("female"));
+                    rb_male.setEnabled(false);
+                    rb_female.setEnabled(false);
                 }
-                birthDate = member.getBirthDate();
-                met_birth.setText(member.getBirthDate());
                 met_email.setText(member.getEmail());
 
                 View.OnClickListener onClickListenerMyStory = new View.OnClickListener() {
@@ -126,24 +121,6 @@ public class ProfileActivity extends BaseActivity {
                 tv_my_story.setOnClickListener(onClickListenerMyStory);
                 rb_male.setOnCheckedChangeListener(onCheckedChangeListener);
                 rb_female.setOnCheckedChangeListener(onCheckedChangeListener);
-                met_birth.setFocusable(false);
-                met_birth.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final Calendar c = Calendar.getInstance();
-                        int mYear = c.get(Calendar.YEAR);
-                        int mMonth = c.get(Calendar.MONTH);
-                        int mDay = c.get(Calendar.DAY_OF_MONTH);
-                        new DatePickerDialog(ProfileActivity.this, new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                setModify(true);
-                                birthDate = String.format("%02d", year)+String.format("%02d", month+1)+String.format("%02d", dayOfMonth);
-                                met_birth.setText(birthDate);
-                            }
-                        }, mYear, mMonth, mDay).show();
-                    }
-                });
                 met_email.addTextChangedListener(textWatcher);
 
                 btn_logout.setOnClickListener(new View.OnClickListener() {
@@ -197,7 +174,6 @@ public class ProfileActivity extends BaseActivity {
             }else if(rb_female.isChecked()){
                 mMember.setGender("female");
             }
-            mMember.setBirthDate(birthDate);
             mMember.setEmail(met_email.getText().toString());
             Firestore.updateMember(mMember, getProgressBar(), new Firestore.Callback() {
                 @Override

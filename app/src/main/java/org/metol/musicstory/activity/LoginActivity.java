@@ -137,8 +137,8 @@ public class LoginActivity extends AppCompatActivity {
 					tv_no_login.setVisibility(View.GONE);
 					Api.getFBAccountData(loginResult.getAccessToken().getUserId(), AccessToken.getCurrentAccessToken().getPermissions(), new Api.CallbackFBAccountData() {
 						@Override
-						public void onSuccess(String email, String id, String name, String gender, String birthday) {
-							Firestore.insertMember(new Member(email, id, name, gender, birthday, 0, 0), null, new Firestore.Callback() {
+						public void onSuccess(String email, String id, String name, String gender) {
+							Firestore.insertMember(new Member(email, id, name, gender, 0, 0), null, new Firestore.Callback() {
 								@Override
 								public void onSuccess(Object... object) {
 									afterLogin((String)object[0]);
