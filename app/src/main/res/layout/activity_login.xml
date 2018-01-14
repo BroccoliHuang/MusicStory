@@ -1,30 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@android:color/white"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:background="@android:color/white">
 
     <ImageView
         android:id="@+id/iv_logo"
         android:layout_width="160dp"
         android:layout_height="160dp"
+        android:layout_above="@+id/rl_login_button"
+        android:layout_centerInParent="true"
         app:srcCompat="@drawable/icon" />
 
     <RelativeLayout
         android:id="@+id/rl_login_button"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="100dp"
+        android:layout_above="@+id/tv_no_login"
         android:visibility="gone">
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
     </RelativeLayout>
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_no_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        android:text="暫不登入"
+        android:textColor="#757575"
+        android:textSize="15sp"
+        android:visibility="gone" />
+</RelativeLayout>

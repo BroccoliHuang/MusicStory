@@ -28,7 +28,7 @@ import org.metol.musicstory.model.BroadCastEvent;
 import org.metol.musicstory.model.Constants;
 import org.metol.musicstory.model.Member;
 import org.metol.musicstory.model.MusicStory;
-import org.metol.musicstory.util.GlideManager;
+import org.metol.musicstory.util.ImageUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -84,8 +84,8 @@ public class EditStoryActivity extends BaseActivity {
         met_story_content = (MaterialEditText)inflated.findViewById(R.id.met_story_content);
         clpb_loading = (ContentLoadingProgressBar)inflated.findViewById(R.id.clpb_loading);
 
-        GlideManager.setSongImage(EditStoryActivity.this, musicStory.getCoverUrl(), iv_sheet_cover);
-        GlideManager.setBackgroundImageWithGaussianBlur(EditStoryActivity.this, musicStory.getCoverUrl(), iv_sheet_background);
+        ImageUtils.setSongImage(EditStoryActivity.this, musicStory.getCoverUrl(), iv_sheet_cover);
+        ImageUtils.setBackgroundImageWithGaussianBlur(EditStoryActivity.this, musicStory.getCoverUrl(), iv_sheet_background);
         View.OnClickListener onClick_TextMarquee = new View.OnClickListener() {
             @Override
             public void onClick(View v) {

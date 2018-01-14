@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -50,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
 	private Setting setting;
 	@BindView(R.id.rl_login_button) RelativeLayout rl_login_button;
 	@BindView(R.id.login_button) LoginButton login_button;
+	@BindView(R.id.tv_no_login) TextView tv_no_login;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -120,21 +122,24 @@ public class LoginActivity extends AppCompatActivity {
 		AccessToken accessToken = AccessToken.getCurrentAccessToken();
 		if(accessToken==null) {
 			rl_login_button.setVisibility(View.VISIBLE);
-			//FB Login
+			tv_no_login.setVisibility(View.VISIBLE);
+
 			callbackManager = CallbackManager.Factory.create();
 			login_button.setReadPermissions(Arrays.asList("public_profile","email"));
 
+			//FB Login
 			login_button.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 				@Override
 				public void onSuccess(LoginResult loginResult) {
 					rl_login_button.setVisibility(View.GONE);
+					tv_no_login.setVisibility(View.GONE);
 					Api.getFBAccountData(loginResult.getAccessToken().getUserId(), AccessToken.getCurrentAccessToken().getPermissions(), new Api.CallbackFBAccountData() {
 						@Override
 						public void onSuccess(String uid, String name, String gender, String birthday, String email) {
 							Firestore.insertMember(new Member(uid, name, gender, email, birthday, 0, 0), null, new Firestore.Callback() {
 								@Override
 								public void onSuccess(Object... object) {
-									afterFbLogin((String)object[0]);
+									afterLogin((String)object[0]);
 								}
 
 								@Override
@@ -167,12 +172,20 @@ public class LoginActivity extends AppCompatActivity {
 					mSnackbar.show();
 				}
 			});
+
+			//no login
+			tv_no_login.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					startTutorialOrMain();
+				}
+			});
 		}else{
-			afterFbLogin("fb-"+accessToken.getUserId());
+			afterLogin("fb-"+accessToken.getUserId());
 		}
 	}
 
-	private void afterFbLogin(String uid){
+	private void afterLogin(String uid){
 		Firestore.getMember(uid, null, new Firestore.Callback() {
 			@Override
 			public void onSuccess(Object... object) {
@@ -193,15 +206,20 @@ public class LoginActivity extends AppCompatActivity {
 		new Handler().postDelayed(new Runnable(){
 			@Override
 			public void run() {
-				Intent intent = new Intent();
-				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-				intent.putExtra(Constants.ARGUMENTS_ANNOUNCEMENT_TITLE, setting.getAnnouncementTitle());
-				intent.putExtra(Constants.ARGUMENTS_ANNOUNCEMENT_CONTENT, setting.getAnnouncementContent());
-				intent.setClass(mContext, MainActivity.class);
-				startActivity(intent);
-				animate_finish_in = R.anim.slide_in_right;
-				animate_finish_out = R.anim.slide_out_left;
-				finish();
+				if(getIntent().getBooleanExtra(IS_INTENT_BY_ACTIVITY, false)) {
+					setResult(RESULT_OK);
+					finish();
+				}else{
+					Intent intent = new Intent();
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+					intent.putExtra(Constants.ARGUMENTS_ANNOUNCEMENT_TITLE, setting.getAnnouncementTitle());
+					intent.putExtra(Constants.ARGUMENTS_ANNOUNCEMENT_CONTENT, setting.getAnnouncementContent());
+					intent.setClass(mContext, MainActivity.class);
+					startActivity(intent);
+					animate_finish_in = R.anim.slide_in_right;
+					animate_finish_out = R.anim.slide_out_left;
+					finish();
+				}
 			}}, LESS_DELAY_TIME_MILLIS_BEFORE_ENTER_MAIN-(System.currentTimeMillis()-startTime));
 	}
 

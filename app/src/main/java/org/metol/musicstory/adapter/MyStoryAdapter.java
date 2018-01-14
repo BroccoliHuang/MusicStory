@@ -20,7 +20,7 @@ import org.metol.musicstory.activity.EditStoryActivity;
 import org.metol.musicstory.database.Firestore;
 import org.metol.musicstory.model.Constants;
 import org.metol.musicstory.model.MusicStory;
-import org.metol.musicstory.util.GlideManager;
+import org.metol.musicstory.util.ImageUtils;
 
 import java.util.ArrayList;
 
@@ -57,9 +57,9 @@ public class MyStoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.setTag(R.id.tag_position, position);
             Context cnx = holder.itemView.getContext();
 
-            GlideManager.setCardImage(cnx, musicStory.getCoverUrl(), holder.iv_card_cover_center);
-            GlideManager.setFbAvatarImage(cnx, musicStory.getUid(), GlideManager.FbAvatarType.TYPE_SMALL, holder.iv_card_author_avatar);
-            GlideManager.setBackgroundImageWithGaussianBlur(cnx, musicStory.getCoverUrl(), holder.iv_card_background);
+            ImageUtils.setCardImage(cnx, musicStory.getCoverUrl(), holder.iv_card_cover_center);
+            ImageUtils.setFbAvatarImage(cnx, musicStory.getUid(), ImageUtils.FbAvatarType.TYPE_SMALL, holder.iv_card_author_avatar);
+            ImageUtils.setBackgroundImageWithGaussianBlur(cnx, musicStory.getCoverUrl(), holder.iv_card_background);
             holder.tv_card_title.setText(musicStory.getStoryTitle());
             holder.iv_card_play.setOnClickListener(new View.OnClickListener() {
                 @Override

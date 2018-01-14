@@ -2,10 +2,14 @@ package org.metol.musicstory.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.text.TextUtils;
@@ -23,7 +27,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
  * Created by Broccoli.Huang on 2018/1/4.
  */
 
-public class GlideManager {
+public class ImageUtils {
     public class FbAvatarType{
         public static final String TYPE_SMALL = "small";
         public static final String TYPE_NORMAL = "normal";

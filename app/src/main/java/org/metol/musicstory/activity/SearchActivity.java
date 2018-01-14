@@ -6,14 +6,12 @@ import android.support.v4.app.Fragment;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetSequence;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.metol.musicstory.Common;
 import org.metol.musicstory.fragment.CardBottomSheetFragment;
 import org.metol.musicstory.R;
 import org.metol.musicstory.fragment.KKBOXSearchListFragment;
-import org.metol.musicstory.fragment.NotYetFragment;
 import org.metol.musicstory.model.BroadCastEvent;
 import org.metol.musicstory.model.Constants;
 import org.metol.musicstory.util.SharedPreferencesManager;

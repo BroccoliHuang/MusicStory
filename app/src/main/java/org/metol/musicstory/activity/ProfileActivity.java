@@ -22,7 +22,6 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.facebook.login.LoginManager;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.getkeepsafe.taptargetview.TapTargetSequence;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -33,9 +32,8 @@ import org.metol.musicstory.database.Firestore;
 import org.metol.musicstory.fragment.CardBottomSheetFragment;
 import org.metol.musicstory.R;
 import org.metol.musicstory.model.BroadCastEvent;
-import org.metol.musicstory.model.Constants;
 import org.metol.musicstory.model.Member;
-import org.metol.musicstory.util.GlideManager;
+import org.metol.musicstory.util.ImageUtils;
 import org.metol.musicstory.util.SharedPreferencesManager;
 import org.metol.musicstory.util.StatusManager;
 
@@ -87,7 +85,7 @@ public class ProfileActivity extends BaseActivity {
                 met_email = ((MaterialEditText)inflated.findViewById(R.id.met_email));
                 btn_logout = ((Button)inflated.findViewById(R.id.btn_logout));
 
-                GlideManager.setFbAvatarImage(ProfileActivity.this, Common.getUid(), GlideManager.FbAvatarType.TYPE_LARGE, iv_avatar);
+                ImageUtils.setFbAvatarImage(ProfileActivity.this, Common.getUid(), ImageUtils.FbAvatarType.TYPE_LARGE, iv_avatar);
                 tv_name.setText(member.getName());
                 if(!TextUtils.isEmpty(member.getGender())) {
                     rb_male.setChecked(member.getGender().equals("male"));

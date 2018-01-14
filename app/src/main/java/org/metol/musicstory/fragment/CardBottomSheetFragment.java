@@ -19,7 +19,7 @@ import com.flipboard.bottomsheet.commons.BottomSheetFragment;
 import org.metol.musicstory.R;
 import org.metol.musicstory.model.MusicStory;
 import org.metol.musicstory.model.Constants;
-import org.metol.musicstory.util.GlideManager;
+import org.metol.musicstory.util.ImageUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,8 +68,8 @@ public class CardBottomSheetFragment extends BottomSheetFragment {
                     }
                 }))
                 .commit();
-        GlideManager.setSongImage(getActivity(), mMusicStory.getCoverUrl(), iv_sheet_cover);
-        GlideManager.setBackgroundImageWithGaussianBlur(getActivity(), mMusicStory.getCoverUrl(), iv_sheet_background);
+        ImageUtils.setSongImage(getActivity(), mMusicStory.getCoverUrl(), iv_sheet_cover);
+        ImageUtils.setBackgroundImageWithGaussianBlur(getActivity(), mMusicStory.getCoverUrl(), iv_sheet_background);
         tv_sheet_name.setText(mMusicStory.getStoryTitle());
         tv_bar_sheet_name.setText(mMusicStory.getStoryTitle());
         View.OnClickListener onClick_TextMarquee = new View.OnClickListener() {

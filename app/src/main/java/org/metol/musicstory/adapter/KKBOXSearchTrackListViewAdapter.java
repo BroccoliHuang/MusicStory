@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +20,14 @@ import org.metol.musicstory.Common;
 import org.metol.musicstory.R;
 import org.metol.musicstory.activity.EditStoryActivity;
 import org.metol.musicstory.activity.BaseActivity;
+import org.metol.musicstory.activity.LoginActivity;
 import org.metol.musicstory.activity.SearchActivity;
 import org.metol.musicstory.model.Constants;
 import org.metol.musicstory.model.KKBOX.Tracks;
 import org.metol.musicstory.model.MusicStory;
 import org.metol.musicstory.util.Callback;
-import org.metol.musicstory.util.GlideManager;
+import org.metol.musicstory.util.ImageUtils;
 import org.metol.musicstory.util.SharedPreferencesManager;
-import org.metol.musicstory.util.TapTargetManager;
 
 import java.util.ArrayList;
 
@@ -90,7 +90,7 @@ public class KKBOXSearchTrackListViewAdapter extends RecyclerView.Adapter<Recycl
                 holder.iv_song_cover.setTag(R.id.tag_position, position);
                 holder.iv_song_playstate.setTag(R.id.tag_position, position);
 
-                GlideManager.setSongImage(cnx, tracks.getAlbum().getImages().get(tracks.getAlbum().getImages().size()-1).getUrl(), holder.iv_song_cover);
+                ImageUtils.setSongImage(cnx, tracks.getAlbum().getImages().get(tracks.getAlbum().getImages().size()-1).getUrl(), holder.iv_song_cover);
                 holder.tv_song_name.setText(tracks.getName());
                 holder.tv_song_singer.setText(tracks.getAlbum().getArtist().getName());
                 holder.iv_song_playstate.setImageResource(R.drawable.ic_play_circle_filled_black_24dp);
@@ -98,14 +98,18 @@ public class KKBOXSearchTrackListViewAdapter extends RecyclerView.Adapter<Recycl
                 holder.iv_add_story.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        Bundle bundle = new Bundle();
-                        MusicStory musicStory = new MusicStory(tracks.getAlbum().getArtist().getId(), tracks.getAlbum().getArtist().getName(), tracks.getAlbum().getId(), tracks.getAlbum().getName(), tracks.getId(), tracks.getName(), tracks.getAlbum().getImages().get(tracks.getAlbum().getImages().size()-1).getUrl(), "", "", "", "", "", "", "", "", "", null);
-                        bundle.putParcelable(Constants.ARGUMENTS_MUSICSTORY, musicStory);
-                        Intent intent = new Intent(cnx, EditStoryActivity.class);
-                        intent.putExtra(Constants.ARGUMENTS_TYPE, EditStoryActivity.TYPE_ADD);
-                        intent.putExtra(Constants.ARGUMENTS_MUSICSTORY, bundle);
+                        if(TextUtils.isEmpty(Common.getUid())){
+                            cnx.startActivity(new Intent(cnx, LoginActivity.class).putExtra(LoginActivity.IS_INTENT_BY_ACTIVITY, true), ActivityOptions.makeCustomAnimation(cnx, R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
+                        }else{
+                            Bundle bundle = new Bundle();
+                            MusicStory musicStory = new MusicStory(tracks.getAlbum().getArtist().getId(), tracks.getAlbum().getArtist().getName(), tracks.getAlbum().getId(), tracks.getAlbum().getName(), tracks.getId(), tracks.getName(), tracks.getAlbum().getImages().get(tracks.getAlbum().getImages().size() - 1).getUrl(), "", "", "", "", "", "", "", "", "", null);
+                            bundle.putParcelable(Constants.ARGUMENTS_MUSICSTORY, musicStory);
+                            Intent intent = new Intent(cnx, EditStoryActivity.class);
+                            intent.putExtra(Constants.ARGUMENTS_TYPE, EditStoryActivity.TYPE_ADD);
+                            intent.putExtra(Constants.ARGUMENTS_MUSICSTORY, bundle);
 
-                        cnx.startActivity(intent, ActivityOptions.makeCustomAnimation(cnx, R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
+                            cnx.startActivity(intent, ActivityOptions.makeCustomAnimation(cnx, R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
+                        }
                     }
                 });
 

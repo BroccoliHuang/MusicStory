@@ -92,6 +92,6 @@ public class TapTargetManager {
                         .considerOuterCircleCanceled(true)
                         .start();
             }
-        }, 500);
+        }, 0);
     }
 }

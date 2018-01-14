@@ -1,9 +1,11 @@
 package org.metol.musicstory.activity;
 
+import android.app.ActivityOptions;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -45,7 +47,7 @@ import org.metol.musicstory.fragment.CardBottomSheetFragment;
 import org.metol.musicstory.model.BroadCastEvent;
 import org.metol.musicstory.model.MusicStory;
 import org.metol.musicstory.model.Constants;
-import org.metol.musicstory.util.GlideManager;
+import org.metol.musicstory.util.ImageUtils;
 import org.metol.musicstory.util.ImeUtils;
 
 import java.net.URISyntaxException;
@@ -58,6 +60,8 @@ import butterknife.ButterKnife;
  * Created by Broccoli.Huang on 2018/1/3.
  */
 public abstract class BaseActivity extends AppCompatActivity{
+    public static final int LOGIN_REQUEST_CODE = 0;
+
     @BindView(R.id.cl_main)             CoordinatorLayout       mCL_main;
     @BindView(R.id.toolbar)             Toolbar                 mToolbar;
     @BindView(R.id.tv_toolbar_title)    TextView                mToolbarTitle;
@@ -68,6 +72,7 @@ public abstract class BaseActivity extends AppCompatActivity{
     @BindView(R.id.fl_custom)           FrameLayout             mFL_custom;
     @BindView(R.id.searchView)          SearchView              mSearchView;
     @BindView(R.id.wv_urlscheme)        WebView                 mWebViewUrlScheme;
+
     private ContentLoadingProgressBar mProgressBar;//不知道為什麼ButterKnife綁定失敗
 
     protected ViewStub mVS_custom;
@@ -363,6 +368,18 @@ public abstract class BaseActivity extends AppCompatActivity{
                     }
                 }
             }
+        }else if(requestCode == LOGIN_REQUEST_CODE && resultCode == RESULT_OK){
+            ImageUtils.getDrawableFbAvatarFromUrl(BaseActivity.this, Common.getUid(), ImageUtils.FbAvatarType.TYPE_SMALL, new ImageUtils.Callback() {
+                @Override
+                public void onDrawable(Drawable drawable) {
+                    if (drawable != null) mi_profile.setIcon(drawable);
+                }
+
+                @Override
+                public void onBitmap(Bitmap bitmap) {
+                }
+            });
+            intentInfoActivity();
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -379,16 +396,20 @@ public abstract class BaseActivity extends AppCompatActivity{
         mi_profile.setVisible(isInfoVisible());
 
         if(isInfoVisible()) {
-            GlideManager.getDrawableFbAvatarFromUrl(BaseActivity.this, Common.getUid(), GlideManager.FbAvatarType.TYPE_SMALL, new GlideManager.Callback() {
-                @Override
-                public void onDrawable(Drawable drawable) {
-                    if (drawable != null) mi_profile.setIcon(drawable);
-                }
+            if(TextUtils.isEmpty(Common.getUid())){
+                mi_profile.setIcon(R.drawable.ic_avatar_black_24dp);
+            }else{
+                ImageUtils.getDrawableFbAvatarFromUrl(BaseActivity.this, Common.getUid(), ImageUtils.FbAvatarType.TYPE_SMALL, new ImageUtils.Callback() {
+                    @Override
+                    public void onDrawable(Drawable drawable) {
+                        if (drawable != null) mi_profile.setIcon(drawable);
+                    }
 
-                @Override
-                public void onBitmap(Bitmap bitmap) {
-                }
-            });
+                    @Override
+                    public void onBitmap(Bitmap bitmap) {
+                    }
+                });
+            }
         }
         return true;
     }
@@ -398,7 +419,13 @@ public abstract class BaseActivity extends AppCompatActivity{
             mSearchView.open(true, item);
             return true;
         }else if(item.getItemId() == mi_profile.getItemId()) {
-            intentInfoActivity();
+            if(TextUtils.isEmpty(Common.getUid())){
+                Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
+                intent.putExtra(LoginActivity.IS_INTENT_BY_ACTIVITY, true);
+                startActivityForResult(intent, BaseActivity.LOGIN_REQUEST_CODE, ActivityOptions.makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
+            }else{
+                intentInfoActivity();
+            }
             return true;
         }else{
             return super.onOptionsItemSelected(item);
