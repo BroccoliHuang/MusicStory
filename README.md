@@ -2,7 +2,7 @@
 =====
 
 <p align="center">
-![](app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
+  <img src="https://github.com/tn00373427/MusicStory/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png">
 </p>
 
 <a href="https://play.google.com/store/apps/details?id=org.metol.musicstory">
