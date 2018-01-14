@@ -10,8 +10,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -31,7 +31,6 @@ import org.metol.musicstory.util.Api;
 import org.metol.musicstory.util.StatusManager;
 import org.metol.musicstory.util.SystemManager;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.BindView;
@@ -53,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 	private Setting setting;
 	@BindView(R.id.rl_login_button) RelativeLayout rl_login_button;
 	@BindView(R.id.login_button) LoginButton login_button;
-	@BindView(R.id.tv_no_login) TextView tv_no_login;
+	@BindView(R.id.btn_no_login) Button btn_no_login;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -124,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
 		AccessToken accessToken = AccessToken.getCurrentAccessToken();
 		if(accessToken==null) {
 			rl_login_button.setVisibility(View.VISIBLE);
-			tv_no_login.setVisibility(View.VISIBLE);
+			btn_no_login.setVisibility(View.VISIBLE);
 
 			callbackManager = CallbackManager.Factory.create();
 			login_button.setReadPermissions(Arrays.asList("public_profile","email"));
@@ -134,11 +133,11 @@ public class LoginActivity extends AppCompatActivity {
 				@Override
 				public void onSuccess(LoginResult loginResult) {
 					rl_login_button.setVisibility(View.GONE);
-					tv_no_login.setVisibility(View.GONE);
+					btn_no_login.setVisibility(View.GONE);
 					Api.getFBAccountData(loginResult.getAccessToken().getUserId(), AccessToken.getCurrentAccessToken().getPermissions(), new Api.CallbackFBAccountData() {
 						@Override
 						public void onSuccess(String email, String id, String name, String gender) {
-							Firestore.insertMember(new Member(email, id, name, gender, 0, 0), null, new Firestore.Callback() {
+							Firestore.insertMember(new Member(email, id, name, gender, 1, 0), null, new Firestore.Callback() {
 								@Override
 								public void onSuccess(Object... object) {
 									afterLogin((String)object[0]);
@@ -176,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
 			});
 
 			//no login
-			tv_no_login.setOnClickListener(new View.OnClickListener() {
+			btn_no_login.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					startTutorialOrMain();

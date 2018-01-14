@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:layout_marginBottom="100dp"
-        android:layout_above="@+id/tv_no_login"
+        android:layout_above="@+id/btn_no_login"
         android:visibility="gone">
 
         <com.facebook.login.widget.LoginButton
@@ -32,15 +32,15 @@
             android:layout_centerVertical="true" />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_no_login"
+    <Button
+        android:id="@+id/btn_no_login"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
-        android:text="暫不登入"
-        android:textColor="#757575"
-        android:textSize="15sp"
-        android:visibility="gone" />
+        android:text="直接進入"
+        android:visibility="gone"
+        android:textSize="14sp" />
 </RelativeLayout>
