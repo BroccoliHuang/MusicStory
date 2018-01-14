@@ -1,9 +1,11 @@
 package org.metol.musicstory.activity;
 
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
@@ -109,6 +111,7 @@ public class EditStoryActivity extends BaseActivity {
                     met_story_title.setText(musicStory.getStoryTitle());
                     met_story_content.setText(musicStory.getStoryContent());
                     mIsModify = false;
+                    setOKEnable(false);
                 }
 
                 @Override
@@ -124,6 +127,7 @@ public class EditStoryActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mIsModify = true;
+                setOKEnable(!TextUtils.isEmpty(met_story_title.getText()) && !TextUtils.isEmpty(met_story_content.getText()));
             }
             @Override
             public void afterTextChanged(Editable s) {
@@ -149,7 +153,16 @@ public class EditStoryActivity extends BaseActivity {
         mi_undo.setVisible(true);
         mi_redo.setVisible(true);
         mi_ok.setVisible(true);
+
+        setOKEnable(false);
         return true;
+    }
+
+    private void setOKEnable(boolean enable){
+        Drawable d = getResources().getDrawable(R.drawable.ic_check_black_24dp);
+        DrawableCompat.setTint(d, getResources().getColor(enable ? R.color.toolbar_menu_item_ok_enable : R.color.toolbar_menu_item_ok_disable));
+        mi_ok.setIcon(d);
+        mi_ok.setEnabled(enable);
     }
 
     @Override
@@ -161,63 +174,57 @@ public class EditStoryActivity extends BaseActivity {
             mPerformEditStoryContent.redo();
             return true;
         }else if(item.getItemId() == mi_ok.getItemId()) {
-            if(TextUtils.isEmpty(met_story_title.getText().toString())) {
-                showSnack("請輸入標題");
-            }else if(TextUtils.isEmpty(met_story_content.getText().toString())){
-                showSnack("寫下故事吧");
-            }else {
-                Common.getMember(false, new Common.CallbackMember() {
-                    @Override
-                    public void onMember(Member member) {
-                        if(member==null){
-                            showSnack("故事新增失敗="+"找不到會員");
-                            return;
-                        }
-                        ArrayList<String> alTag = new ArrayList();
-
-                        //TODO 日期、地點、取得座標、hash tag
-                        musicStory.setStoryTitle(met_story_title.getText().toString());
-                        musicStory.setStoryContent(met_story_content.getText().toString());
-                        musicStory.setEmail(member.getEmail());
-                        musicStory.setUid(member.getUid());
-                        musicStory.setName(member.getName());
-                        musicStory.setStoryDate("");
-                        musicStory.setCreateTime(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
-                        musicStory.setLocation("");
-                        musicStory.setLongitude("");
-                        musicStory.setLatitude("");
-                        musicStory.setTag(alTag);
-
-                        if(type==TYPE_ADD){
-                            Firestore.insertMusicStory(musicStory, clpb_loading, new Firestore.Callback() {
-                                @Override
-                                public void onSuccess(Object... object) {
-                                    EventBus.getDefault().post(new BroadCastEvent(BroadCastEvent.BroadCastType.SEARCH_ACTIVITY_SHOW_SNACK_BAR, "故事新增成功"));
-                                    finish();
-                                }
-
-                                @Override
-                                public void onFailed(String reason) {
-                                    showSnack("故事新增失敗=" + reason);
-                                }
-                            });
-                        }else if(type==TYPE_EDIT){
-                            Firestore.updateMusicStory(storyDocumentId, musicStory, clpb_loading, new Firestore.Callback() {
-                                @Override
-                                public void onSuccess(Object... object) {
-                                    EventBus.getDefault().post(new BroadCastEvent(BroadCastEvent.BroadCastType.MY_STORY_ACTIVITY_SHOW_SNACK_BAR, "故事更新成功"));
-                                    finish();
-                                }
-
-                                @Override
-                                public void onFailed(String reason) {
-                                    showSnack("故事更新失敗=" + reason);
-                                }
-                            });
-                        }
+            Common.getMember(false, new Common.CallbackMember() {
+                @Override
+                public void onMember(Member member) {
+                    if(member==null){
+                        showSnack("故事新增失敗="+"找不到會員");
+                        return;
                     }
-                });
-            }
+                    ArrayList<String> alTag = new ArrayList();
+
+                    //TODO 日期、地點、取得座標、hash tag
+                    musicStory.setStoryTitle(met_story_title.getText().toString());
+                    musicStory.setStoryContent(met_story_content.getText().toString());
+                    musicStory.setEmail(member.getEmail());
+                    musicStory.setUid(member.getUid());
+                    musicStory.setName(member.getName());
+                    musicStory.setStoryDate("");
+                    musicStory.setCreateTime(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
+                    musicStory.setLocation("");
+                    musicStory.setLongitude("");
+                    musicStory.setLatitude("");
+                    musicStory.setTag(alTag);
+
+                    if(type==TYPE_ADD){
+                        Firestore.insertMusicStory(musicStory, clpb_loading, new Firestore.Callback() {
+                            @Override
+                            public void onSuccess(Object... object) {
+                                EventBus.getDefault().post(new BroadCastEvent(BroadCastEvent.BroadCastType.SEARCH_ACTIVITY_SHOW_SNACK_BAR, "故事新增成功"));
+                                finish();
+                            }
+
+                            @Override
+                            public void onFailed(String reason) {
+                                showSnack("故事新增失敗=" + reason);
+                            }
+                        });
+                    }else if(type==TYPE_EDIT){
+                        Firestore.updateMusicStory(storyDocumentId, musicStory, clpb_loading, new Firestore.Callback() {
+                            @Override
+                            public void onSuccess(Object... object) {
+                                EventBus.getDefault().post(new BroadCastEvent(BroadCastEvent.BroadCastType.MY_STORY_ACTIVITY_SHOW_SNACK_BAR, "故事更新成功"));
+                                finish();
+                            }
+
+                            @Override
+                            public void onFailed(String reason) {
+                                showSnack("故事更新失敗=" + reason);
+                            }
+                        });
+                    }
+                }
+            });
             return true;
         }else{
             return super.onOptionsItemSelected(item);
