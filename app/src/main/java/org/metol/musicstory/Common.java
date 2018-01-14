@@ -2,14 +2,11 @@ package org.metol.musicstory;
 
 import android.app.Application;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.metol.musicstory.database.Firestore;
 import org.metol.musicstory.model.Member;
-import org.metol.musicstory.model.MusicStory;
-import org.metol.musicstory.model.Setting;
 import org.metol.musicstory.util.SharedPreferencesManager;
 import org.metol.musicstory.util.TapTargetManager;
 
@@ -32,7 +29,7 @@ import org.metol.musicstory.util.TapTargetManager;
 public class Common extends Application {
     private static Common app = null;
     private static FirebaseFirestore db = null;
-    private static String uid = "";
+    private static String email = "";
     private static Member member;
     private static TapTargetManager tapTargetManager;
 
@@ -70,24 +67,24 @@ public class Common extends Application {
         return db;
     }
 
-    public static void setUid(String uid){
-        Common.uid = uid;
-        SharedPreferencesManager.putString(SharedPreferencesManager.UID, uid);
+    public static void setEmail(String email){
+        Common.email = email;
+        SharedPreferencesManager.putString(SharedPreferencesManager.EMAIL, email);
     }
 
-    public static String getUid(){
-        if(TextUtils.isEmpty(uid)){
-            uid = SharedPreferencesManager.getString(SharedPreferencesManager.UID, "");
+    public static String getEmail(){
+        if(TextUtils.isEmpty(email)){
+            email = SharedPreferencesManager.getString(SharedPreferencesManager.EMAIL, "");
         }else{
             getMember(false, new CallbackMember() {
                 @Override
                 public void onMember(Member member) {
-                    uid = member.getUid();
+                    email = member.getEmail();
                 }
             });
         }
 
-        return uid;
+        return email;
     }
 
     public static void setMember(Member member){
@@ -96,11 +93,11 @@ public class Common extends Application {
 
     public static void getMember(boolean forceReload, CallbackMember callback){
         if(forceReload || member==null) {
-            Firestore.getMember(getUid(), null, new Firestore.Callback() {
+            Firestore.getMember(getEmail(), null, new Firestore.Callback() {
                 @Override
                 public void onSuccess(Object... object) {
                     if(object[0] instanceof Member){
-                        setUid(((Member)object[0]).getUid());
+                        setEmail(((Member)object[0]).getEmail());
                         setMember((Member)object[0]);
                         callback.onMember((Member)object[0]);
                     }else{

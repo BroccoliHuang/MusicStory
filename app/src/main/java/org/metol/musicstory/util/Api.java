@@ -10,6 +10,7 @@ import android.util.Log;
 import org.json.JSONObject;
 import org.metol.musicstory.Common;
 import org.metol.musicstory.R;
+import org.metol.musicstory.model.Constants;
 import org.metol.musicstory.model.KKBOX.Albums;
 import org.metol.musicstory.model.KKBOX.Artists;
 import org.metol.musicstory.model.KKBOX.Search.Search;
@@ -125,7 +126,7 @@ public class Api {
                         if(jsonObject==null) return;
                         String birthDay = jsonObject.optString("birthday");
                         Log.i("develop", "birthDay="+birthDay);
-                        callbackFBAccountData.onSuccess("fb-"+jsonObject.optString("id"), jsonObject.optString("name"), jsonObject.optString("gender"), birthDay, jsonObject.optString("email"));
+                        callbackFBAccountData.onSuccess(jsonObject.optString("email"), Constants.PREFIX_FB+jsonObject.optString("id"), jsonObject.optString("name"), jsonObject.optString("gender"), birthDay);
                     }
                 }
         ).executeAsync();
@@ -232,7 +233,7 @@ public class Api {
     }
 
     public interface CallbackFBAccountData {
-        void onSuccess(String uid, String name, String gender, String birthday, String email);
+        void onSuccess(String email, String id, String name, String gender, String birthday);
         void onUnSuccess(int stateCode, String reason);
         void onFailed();
     }

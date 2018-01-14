@@ -25,6 +25,8 @@ public class Constants {
     public static final int HTTP_NOT_IMPLEMENTED = 501;
 
 
+    public static final String PREFIX_FB        = "fb-";
+    public static final String PREFIX_GOOGLE    = "g-";
 
     public static final int CATEGORY_ALL                        = 0;
     public static final int CATEGORY_SHEET                      = 1;
@@ -43,4 +45,7 @@ public class Constants {
     public static final String ARGUMENTS_STORY_ID               = "ARGUMENTS_STORY_ID";
     public static final String ARGUMENTS_ANNOUNCEMENT_TITLE     = "ARGUMENTS_ANNOUNCEMENT_TITLE";
     public static final String ARGUMENTS_ANNOUNCEMENT_CONTENT   = "ARGUMENTS_ANNOUNCEMENT_CONTENT";
+
+    public static final int REQUEST_CODE_LOGIN_SEARCH_ADD_STORY = 0;
+    public static final int REQUEST_CODE_LOGIN_PROFILE          = 1;
 }

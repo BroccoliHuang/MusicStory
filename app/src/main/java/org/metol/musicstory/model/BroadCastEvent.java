@@ -8,6 +8,7 @@ public class BroadCastEvent {
     public enum BroadCastType {
         SEARCH_ACTIVITY_SHOW_SNACK_BAR,
         MY_STORY_ACTIVITY_SHOW_SNACK_BAR,
+        MAIN_ACTIVITY_REFRESH_AFTER_LOGIN_OR_LOGOUT,
         FINISH
     }
 

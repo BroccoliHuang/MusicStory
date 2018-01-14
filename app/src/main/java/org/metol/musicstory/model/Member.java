@@ -8,10 +8,10 @@ import android.support.annotation.Keep;
 
 @Keep
 public class Member {
+    public String email;
     public String uid;
     public String name;
     public String gender;
-    public String email;
     public String birthDate;
     public Integer edm;
     public Integer status;
@@ -20,30 +20,14 @@ public class Member {
 
     }
 
-    public Member(String uid, String name, String gender, String email, String birthDate, Integer edm, Integer status) {
+    public Member(String email, String uid, String name, String gender, String birthDate, Integer edm, Integer status) {
+        this.email = email;
         this.uid = uid;
         this.name = name;
         this.gender = gender;
-        this.email = email;
         this.birthDate = birthDate;
         this.edm = edm;
         this.status = status;
-    }
-
-    public String getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(String birth_date) {
-        this.birthDate = birth_date;
-    }
-
-    public Integer getEdm() {
-        return edm;
-    }
-
-    public void setEdm(Integer edm) {
-        this.edm = edm;
     }
 
     public String getEmail() {
@@ -60,6 +44,22 @@ public class Member {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(String birth_date) {
+        this.birthDate = birth_date;
+    }
+
+    public Integer getEdm() {
+        return edm;
+    }
+
+    public void setEdm(Integer edm) {
+        this.edm = edm;
     }
 
     public String getName() {

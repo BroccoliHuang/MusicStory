@@ -100,6 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/met_birth"
                 android:layout_marginTop="5dp"
+                android:enabled="false"
                 android:hint="電子信箱"
                 android:textSize="18sp"
                 app:met_floatingLabel="highlight"

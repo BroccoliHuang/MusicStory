@@ -31,6 +31,7 @@ public class Firestore {
 
     //Member
     private static final String COLLECTION_MEMBER = "Member";
+    private static final String FIELD_EMAIL = "email";
     private static final String FIELD_UID = "uid";
     private static final String FIELD_CREATE_TIME = "createTime";
 
@@ -67,23 +68,23 @@ public class Firestore {
     }
 
     public static void insertMember(Member member, @Nullable ContentLoadingProgressBar progressBar, @Nullable Callback callback){
-        getMember(member.getUid(), progressBar, new Callback() {
+        getMember(member.getEmail(), progressBar, new Callback() {
             @Override
             public void onSuccess(Object... object) {
-                if(callback!=null) callback.onSuccess(((Member)object[0]).getUid());
+                if(callback!=null) callback.onSuccess(((Member)object[0]).getEmail());
             }
 
             @Override
             public void onFailed(String reason) {
                 if(progressBar!=null) progressBar.show();
                 Common.getFirebaseFirestore().collection(COLLECTION_MEMBER)
-                        .document(member.getUid())
+                        .document(member.getEmail())
                         .set(member)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 if(progressBar!=null) progressBar.hide();
-                                if(callback!=null) callback.onSuccess(member.getUid());
+                                if(callback!=null) callback.onSuccess(member.getEmail());
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {
@@ -97,10 +98,10 @@ public class Firestore {
         });
     }
 
-    public static void getMember(String uid, @Nullable ContentLoadingProgressBar progressBar, @Nullable Callback callback){
+    public static void getMember(String email, @Nullable ContentLoadingProgressBar progressBar, @Nullable Callback callback){
         if(progressBar!=null) progressBar.show();
         Common.getFirebaseFirestore().collection(COLLECTION_MEMBER)
-                .document(uid)
+                .document(email)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -126,10 +127,44 @@ public class Firestore {
                 });
     }
 
+    public static void getMemberByUid(String uid, @Nullable ContentLoadingProgressBar progressBar, @Nullable Callback callback){
+        if(progressBar!=null) progressBar.show();
+        Common.getFirebaseFirestore().collection(COLLECTION_MEMBER)
+                .whereEqualTo(FIELD_UID, uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(progressBar!=null) progressBar.hide();
+                        if (task.isSuccessful()) {
+                            try {
+                                if(task.getResult()!=null && task.getResult().getDocuments()!=null && task.getResult().getDocuments().size()>0){
+                                    callback.onSuccess(task.getResult().getDocuments().get(0).toObject(Member.class));
+                                }else{
+                                    callback.onFailed("尋找故事失敗");
+                                }
+                            }catch (IllegalStateException ise){
+                                callback.onSuccess();
+                            }
+                        } else {
+                            callback.onFailed("尋找故事失敗");
+                        }
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if(progressBar!=null) progressBar.hide();
+                        callback.onFailed("尋找故事失敗="+e.getMessage());
+                    }
+                });
+    }
+
     public static void updateMember(Member member, @Nullable ContentLoadingProgressBar progressBar, @Nullable Callback callback){
         if(progressBar!=null) progressBar.show();
         Common.getFirebaseFirestore().collection(COLLECTION_MEMBER)
-                .document(member.getUid())
+                .document(member.getEmail())
                 .set(member)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -167,10 +202,10 @@ public class Firestore {
                 });
     }
 
-    public static void getMusicStoryByUid(String uid, @Nullable ContentLoadingProgressBar progressBar, @Nullable Callback callback){
+    public static void getMusicStoryByEmail(String email, @Nullable ContentLoadingProgressBar progressBar, @Nullable Callback callback){
         if(progressBar!=null) progressBar.show();
         Common.getFirebaseFirestore().collection(COLLECTION_MUSICSTORY)
-                .whereEqualTo(FIELD_UID, uid)
+                .whereEqualTo(FIELD_EMAIL, email)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -190,7 +225,6 @@ public class Firestore {
                         } else {
                             callback.onFailed("尋找故事失敗");
                         }
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

@@ -20,6 +20,7 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 
 import org.metol.musicstory.R;
+import org.metol.musicstory.model.Constants;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
@@ -72,23 +73,31 @@ public class ImageUtils {
     /**
      * @param type FbAvatarType
      * */
-    public static void setFbAvatarImage(Context cnx, String uid, String type, ImageView imageView){
-        /**
-         * type:small, normal, album, large, square
-         * */
-        Glide.with(cnx)
-                .load("https://graph.facebook.com/"+uid.substring(3)+"/picture?type="+ (TextUtils.isEmpty(type)?"normal":type))
-                .crossFade()
-                .placeholder(cnx.getResources().getDrawable(R.drawable.default_avatar))
-                .transform(new CircleTransform(cnx))
-                .into(imageView);
+    public static void setAvatarImage(Context cnx, String uid, String type, ImageView imageView){
+        if(uid.startsWith(Constants.PREFIX_FB)){
+            /**
+             * type:small, normal, album, large, square
+             * */
+            Glide.with(cnx)
+                    .load("https://graph.facebook.com/"+uid.substring(Constants.PREFIX_FB.length())+"/picture?type="+ (TextUtils.isEmpty(type)?"normal":type))
+                    .crossFade()
+                    .placeholder(cnx.getResources().getDrawable(R.drawable.default_avatar))
+                    .transform(new CircleTransform(cnx))
+                    .into(imageView);
+        }else{
+            //TODO 其他或預設頭像
+        }
     }
 
-    public static void getDrawableFbAvatarFromUrl(Context cnx, String uid, String type, Callback callback) {
-        getDrawableFromUrl(cnx, "https://graph.facebook.com/" + uid.substring(3) + "/picture?type"+ (TextUtils.isEmpty(type)?"normal":type), callback);
+    public static void getDrawableAvatarFromUrl(Context cnx, String uid, String type, Callback callback) {
+        if(uid.startsWith(Constants.PREFIX_FB)){
+            getDrawableFromUrl(cnx, "https://graph.facebook.com/" + uid.substring(Constants.PREFIX_FB.length()) + "/picture?type"+ (TextUtils.isEmpty(type)?"normal":type), callback);
+        }else{
+            //TODO 其他或預設頭像
+        }
     }
     //TODO 這裡寫法很醜，應急搶救部分手機toolbar上item圖案顯示太小
-    public static void getDrawableFromUrl(Context cnx, String url, Callback callback) {
+    private static void getDrawableFromUrl(Context cnx, String url, Callback callback) {
         Glide.with(cnx)
                 .load(url)
                 .asBitmap()

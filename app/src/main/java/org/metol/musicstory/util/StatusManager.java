@@ -11,7 +11,7 @@ import org.metol.musicstory.Common;
 public class StatusManager {
     public static void Logout(){
         LoginManager.getInstance().logOut();
-        SharedPreferencesManager.putString(SharedPreferencesManager.UID, "");
-        Common.setUid("");
+        SharedPreferencesManager.putString(SharedPreferencesManager.EMAIL, "");
+        Common.setEmail("");
     }
 }

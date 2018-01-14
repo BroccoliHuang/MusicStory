@@ -178,6 +178,7 @@ public class EditStoryActivity extends BaseActivity {
                         //TODO 日期、地點、取得座標、hash tag
                         musicStory.setStoryTitle(met_story_title.getText().toString());
                         musicStory.setStoryContent(met_story_content.getText().toString());
+                        musicStory.setEmail(member.getEmail());
                         musicStory.setUid(member.getUid());
                         musicStory.setName(member.getName());
                         musicStory.setStoryDate("");

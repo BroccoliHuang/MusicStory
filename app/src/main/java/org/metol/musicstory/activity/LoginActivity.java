@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ import org.metol.musicstory.util.Api;
 import org.metol.musicstory.util.StatusManager;
 import org.metol.musicstory.util.SystemManager;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.BindView;
@@ -135,8 +137,8 @@ public class LoginActivity extends AppCompatActivity {
 					tv_no_login.setVisibility(View.GONE);
 					Api.getFBAccountData(loginResult.getAccessToken().getUserId(), AccessToken.getCurrentAccessToken().getPermissions(), new Api.CallbackFBAccountData() {
 						@Override
-						public void onSuccess(String uid, String name, String gender, String birthday, String email) {
-							Firestore.insertMember(new Member(uid, name, gender, email, birthday, 0, 0), null, new Firestore.Callback() {
+						public void onSuccess(String email, String id, String name, String gender, String birthday) {
+							Firestore.insertMember(new Member(email, id, name, gender, birthday, 0, 0), null, new Firestore.Callback() {
 								@Override
 								public void onSuccess(Object... object) {
 									afterLogin((String)object[0]);
@@ -181,15 +183,26 @@ public class LoginActivity extends AppCompatActivity {
 				}
 			});
 		}else{
-			afterLogin("fb-"+accessToken.getUserId());
+			Firestore.getMemberByUid(Constants.PREFIX_FB + accessToken.getUserId(), null, new Firestore.Callback() {
+				@Override
+				public void onSuccess(Object... object) {
+					afterLogin(((Member)object[0]).getEmail());
+				}
+
+				@Override
+				public void onFailed(String reason) {
+					StatusManager.Logout();
+					afterCheckVersion();
+				}
+			});
 		}
 	}
 
-	private void afterLogin(String uid){
-		Firestore.getMember(uid, null, new Firestore.Callback() {
+	private void afterLogin(String email){
+		Firestore.getMember(email, null, new Firestore.Callback() {
 			@Override
 			public void onSuccess(Object... object) {
-				Common.setUid(uid);
+				Common.setEmail(email);
 				Common.setMember((Member)object[0]);
 				startTutorialOrMain();
 			}
@@ -207,7 +220,9 @@ public class LoginActivity extends AppCompatActivity {
 			@Override
 			public void run() {
 				if(getIntent().getBooleanExtra(IS_INTENT_BY_ACTIVITY, false)) {
-					setResult(RESULT_OK);
+					if(!TextUtils.isEmpty(Common.getEmail())){
+						setResult(RESULT_OK, getIntent());
+					}
 					finish();
 				}else{
 					Intent intent = new Intent();

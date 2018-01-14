@@ -85,7 +85,7 @@ public class ProfileActivity extends BaseActivity {
                 met_email = ((MaterialEditText)inflated.findViewById(R.id.met_email));
                 btn_logout = ((Button)inflated.findViewById(R.id.btn_logout));
 
-                ImageUtils.setFbAvatarImage(ProfileActivity.this, Common.getUid(), ImageUtils.FbAvatarType.TYPE_LARGE, iv_avatar);
+                ImageUtils.setAvatarImage(ProfileActivity.this, mMember.getUid(), ImageUtils.FbAvatarType.TYPE_LARGE, iv_avatar);
                 tv_name.setText(member.getName());
                 if(!TextUtils.isEmpty(member.getGender())) {
                     rb_male.setChecked(member.getGender().equals("male"));
@@ -149,15 +149,15 @@ public class ProfileActivity extends BaseActivity {
                 btn_logout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        StatusManager.Logout();
-
                         new AlertDialog.Builder(ProfileActivity.this)
                                 .setTitle("登出")
-                                .setMessage("登出後即離開")
+                                .setMessage("確定要登出嗎?")
                                 .setPositiveButton("好", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        EventBus.getDefault().post(new BroadCastEvent(BroadCastEvent.BroadCastType.FINISH, null));
+                                        StatusManager.Logout();
+                                        EventBus.getDefault().post(new BroadCastEvent(BroadCastEvent.BroadCastType.MAIN_ACTIVITY_REFRESH_AFTER_LOGIN_OR_LOGOUT, null));
+                                        finish();
                                     }
                                 })
                                 .setNegativeButton("不要", null)

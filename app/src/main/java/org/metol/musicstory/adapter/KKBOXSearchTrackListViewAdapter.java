@@ -98,16 +98,19 @@ public class KKBOXSearchTrackListViewAdapter extends RecyclerView.Adapter<Recycl
                 holder.iv_add_story.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        if(TextUtils.isEmpty(Common.getUid())){
-                            cnx.startActivity(new Intent(cnx, LoginActivity.class).putExtra(LoginActivity.IS_INTENT_BY_ACTIVITY, true), ActivityOptions.makeCustomAnimation(cnx, R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
-                        }else{
-                            Bundle bundle = new Bundle();
-                            MusicStory musicStory = new MusicStory(tracks.getAlbum().getArtist().getId(), tracks.getAlbum().getArtist().getName(), tracks.getAlbum().getId(), tracks.getAlbum().getName(), tracks.getId(), tracks.getName(), tracks.getAlbum().getImages().get(tracks.getAlbum().getImages().size() - 1).getUrl(), "", "", "", "", "", "", "", "", "", null);
-                            bundle.putParcelable(Constants.ARGUMENTS_MUSICSTORY, musicStory);
-                            Intent intent = new Intent(cnx, EditStoryActivity.class);
-                            intent.putExtra(Constants.ARGUMENTS_TYPE, EditStoryActivity.TYPE_ADD);
-                            intent.putExtra(Constants.ARGUMENTS_MUSICSTORY, bundle);
+                        Bundle bundle = new Bundle();
+                        MusicStory musicStory = new MusicStory(tracks.getAlbum().getArtist().getId(), tracks.getAlbum().getArtist().getName(), tracks.getAlbum().getId(), tracks.getAlbum().getName(), tracks.getId(), tracks.getName(), tracks.getAlbum().getImages().get(tracks.getAlbum().getImages().size() - 1).getUrl(), "", "", "", "", "", "", "", "", "", "", null);
+                        bundle.putParcelable(Constants.ARGUMENTS_MUSICSTORY, musicStory);
+                        Intent intent = new Intent().putExtra(LoginActivity.IS_INTENT_BY_ACTIVITY, true);
+                        intent.putExtra(Constants.ARGUMENTS_TYPE, EditStoryActivity.TYPE_ADD);
+                        intent.putExtra(Constants.ARGUMENTS_MUSICSTORY, bundle);
 
+                        if(TextUtils.isEmpty(Common.getEmail())){
+                            intent.setClass(cnx, LoginActivity.class);
+                            intent.putExtra(LoginActivity.IS_INTENT_BY_ACTIVITY, true);
+                            ((SearchActivity)cnx).startActivityForResult(intent, Constants.REQUEST_CODE_LOGIN_SEARCH_ADD_STORY, ActivityOptions.makeCustomAnimation(cnx, R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
+                        }else{
+                            intent.setClass(cnx, EditStoryActivity.class);
                             cnx.startActivity(intent, ActivityOptions.makeCustomAnimation(cnx, R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
                         }
                     }

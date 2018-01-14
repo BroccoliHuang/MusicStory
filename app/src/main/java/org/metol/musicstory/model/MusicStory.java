@@ -21,6 +21,7 @@ public class MusicStory implements Parcelable {
     public String coverUrl;
     public String storyTitle;
     public String storyContent;
+    public String email;
     public String uid;
     public String name;
     public String storyDate;
@@ -34,7 +35,7 @@ public class MusicStory implements Parcelable {
 
     }
 
-    public MusicStory(String artistId, String artistName, String albumId, String albumName, String songId, String songName, String coverUrl, String storyTitle, String storyContent, String uid, String name, String storyDate, String createTime, String location, String longitude, String latitude, ArrayList<String> tag){
+    public MusicStory(String artistId, String artistName, String albumId, String albumName, String songId, String songName, String coverUrl, String storyTitle, String storyContent, String email, String uid, String name, String storyDate, String createTime, String location, String longitude, String latitude, ArrayList<String> tag){
         this.artistId = artistId;
         this.artistName = artistName;
         this.albumId = albumId;
@@ -44,6 +45,7 @@ public class MusicStory implements Parcelable {
         this.coverUrl = coverUrl;
         this.storyTitle = storyTitle;
         this.storyContent = storyContent;
+        this.email = email;
         this.uid = uid;
         this.name = name;
         this.storyDate = storyDate;
@@ -64,6 +66,7 @@ public class MusicStory implements Parcelable {
         coverUrl = parcel.readString();
         storyTitle = parcel.readString();
         storyContent = parcel.readString();
+        email = parcel.readString();
         uid = parcel.readString();
         name = parcel.readString();
         storyDate = parcel.readString();
@@ -85,6 +88,7 @@ public class MusicStory implements Parcelable {
         dest.writeString(coverUrl);
         dest.writeString(storyTitle);
         dest.writeString(storyContent);
+        dest.writeString(email);
         dest.writeString(uid);
         dest.writeString(name);
         dest.writeString(storyDate);
@@ -180,6 +184,14 @@ public class MusicStory implements Parcelable {
 
     public void setStoryContent(String storyContent) {
         this.storyContent = storyContent;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUid() {

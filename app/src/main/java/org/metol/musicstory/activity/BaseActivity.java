@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -45,6 +44,7 @@ import org.metol.musicstory.adapter.ViewPagerAdapter;
 import org.metol.musicstory.fragment.BaseFragment;
 import org.metol.musicstory.fragment.CardBottomSheetFragment;
 import org.metol.musicstory.model.BroadCastEvent;
+import org.metol.musicstory.model.Member;
 import org.metol.musicstory.model.MusicStory;
 import org.metol.musicstory.model.Constants;
 import org.metol.musicstory.util.ImageUtils;
@@ -60,8 +60,6 @@ import butterknife.ButterKnife;
  * Created by Broccoli.Huang on 2018/1/3.
  */
 public abstract class BaseActivity extends AppCompatActivity{
-    public static final int LOGIN_REQUEST_CODE = 0;
-
     @BindView(R.id.cl_main)             CoordinatorLayout       mCL_main;
     @BindView(R.id.toolbar)             Toolbar                 mToolbar;
     @BindView(R.id.tv_toolbar_title)    TextView                mToolbarTitle;
@@ -368,18 +366,13 @@ public abstract class BaseActivity extends AppCompatActivity{
                     }
                 }
             }
-        }else if(requestCode == LOGIN_REQUEST_CODE && resultCode == RESULT_OK){
-            ImageUtils.getDrawableFbAvatarFromUrl(BaseActivity.this, Common.getUid(), ImageUtils.FbAvatarType.TYPE_SMALL, new ImageUtils.Callback() {
-                @Override
-                public void onDrawable(Drawable drawable) {
-                    if (drawable != null) mi_profile.setIcon(drawable);
-                }
-
-                @Override
-                public void onBitmap(Bitmap bitmap) {
-                }
-            });
+        }else if(requestCode == Constants.REQUEST_CODE_LOGIN_PROFILE && resultCode == RESULT_OK){
+            EventBus.getDefault().post(new BroadCastEvent(BroadCastEvent.BroadCastType.MAIN_ACTIVITY_REFRESH_AFTER_LOGIN_OR_LOGOUT, null));
             intentInfoActivity();
+        }else if(requestCode == Constants.REQUEST_CODE_LOGIN_SEARCH_ADD_STORY && resultCode == RESULT_OK){
+            EventBus.getDefault().post(new BroadCastEvent(BroadCastEvent.BroadCastType.MAIN_ACTIVITY_REFRESH_AFTER_LOGIN_OR_LOGOUT, null));
+            data.setClass(BaseActivity.this, EditStoryActivity.class);
+            startActivity(data, ActivityOptions.makeCustomAnimation(BaseActivity.this, R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -396,33 +389,49 @@ public abstract class BaseActivity extends AppCompatActivity{
         mi_profile.setVisible(isInfoVisible());
 
         if(isInfoVisible()) {
-            if(TextUtils.isEmpty(Common.getUid())){
+            if(TextUtils.isEmpty(Common.getEmail())){
                 mi_profile.setIcon(R.drawable.ic_avatar_black_24dp);
             }else{
-                ImageUtils.getDrawableFbAvatarFromUrl(BaseActivity.this, Common.getUid(), ImageUtils.FbAvatarType.TYPE_SMALL, new ImageUtils.Callback() {
-                    @Override
-                    public void onDrawable(Drawable drawable) {
-                        if (drawable != null) mi_profile.setIcon(drawable);
-                    }
-
-                    @Override
-                    public void onBitmap(Bitmap bitmap) {
-                    }
-                });
+                setProfileIcon();
             }
         }
         return true;
     }
+
+    protected void setProfileIcon(){
+        if(!isInfoVisible()) return;
+
+        if(TextUtils.isEmpty(Common.getEmail())){
+            mi_profile.setIcon(R.drawable.ic_avatar_black_24dp);
+        }else{
+            Common.getMember(false, new Common.CallbackMember() {
+                @Override
+                public void onMember(Member member) {
+                    ImageUtils.getDrawableAvatarFromUrl(BaseActivity.this, member.getUid(), ImageUtils.FbAvatarType.TYPE_SMALL, new ImageUtils.Callback() {
+                        @Override
+                        public void onDrawable(Drawable drawable) {
+                            if (drawable != null) mi_profile.setIcon(drawable);
+                        }
+
+                        @Override
+                        public void onBitmap(Bitmap bitmap) {
+                        }
+                    });
+                }
+            });
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == mi_search.getItemId()) {
             mSearchView.open(true, item);
             return true;
         }else if(item.getItemId() == mi_profile.getItemId()) {
-            if(TextUtils.isEmpty(Common.getUid())){
+            if(TextUtils.isEmpty(Common.getEmail())){
                 Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
                 intent.putExtra(LoginActivity.IS_INTENT_BY_ACTIVITY, true);
-                startActivityForResult(intent, BaseActivity.LOGIN_REQUEST_CODE, ActivityOptions.makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
+                startActivityForResult(intent, Constants.REQUEST_CODE_LOGIN_PROFILE, ActivityOptions.makeCustomAnimation(this, R.anim.slide_in_right, R.anim.slide_out_left).toBundle());
             }else{
                 intentInfoActivity();
             }

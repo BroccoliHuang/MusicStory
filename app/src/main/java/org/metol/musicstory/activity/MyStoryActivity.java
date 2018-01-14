@@ -9,7 +9,6 @@ import android.view.View;
 import com.getkeepsafe.taptargetview.TapTarget;
 import com.melnykov.fab.FloatingActionButton;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.metol.musicstory.Common;
@@ -62,7 +61,7 @@ public class MyStoryActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Firestore.getMusicStoryByUid(Common.getUid(), getProgressBar(), new Firestore.Callback() {
+        Firestore.getMusicStoryByEmail(Common.getEmail(), getProgressBar(), new Firestore.Callback() {
             @Override
             public void onSuccess(Object... object) {
                 rv_my_story.setAdapter(new MyStoryAdapter((ArrayList<MusicStory>)object[0], (ArrayList<String>)object[1]));

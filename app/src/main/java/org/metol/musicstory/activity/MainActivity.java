@@ -8,12 +8,13 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.metol.musicstory.Common;
 import org.metol.musicstory.fragment.MusicStoryListFragment;
+import org.metol.musicstory.model.BroadCastEvent;
 import org.metol.musicstory.model.Constants;
-import org.metol.musicstory.util.TapTargetManager;
 import org.metol.musicstory.R;
 import org.metol.musicstory.fragment.CardBottomSheetFragment;
 import org.metol.musicstory.util.SharedPreferencesManager;
@@ -58,6 +59,13 @@ public class MainActivity extends BaseActivity {
 		}
 
 		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+	}
+
+	@Subscribe(threadMode = ThreadMode.MAIN)
+	public void onEventMainThread(BroadCastEvent event) {
+		if(event.getEventType() == BroadCastEvent.BroadCastType.MAIN_ACTIVITY_REFRESH_AFTER_LOGIN_OR_LOGOUT) {
+			setProfileIcon();
+		}
 	}
 
 	private int quitCount = 0;
