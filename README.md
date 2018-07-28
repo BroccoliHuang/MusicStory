@@ -2,7 +2,7 @@
 =====
 
 <p align="center">
-  <img src="https://github.com/tn00373427/MusicStory/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png">
+  <img src="https://github.com/BroccoliHuang/MusicStory/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png">
 </p>
 
 <a href="https://play.google.com/store/apps/details?id=org.metol.musicstory">
@@ -45,13 +45,13 @@
 
 Author
 -
-Broccoli Huang(@tn00373427 on GitHub) - [Facebook](https://www.facebook.com/tn00373427) | [Mail](mailto:tn00373427@gmail.com) | [GitHub](https://github.com/tn00373427)
+Broccoli Huang(@BroccoliHuang on GitHub) - [Facebook](https://www.facebook.com/tn00373427) | [Mail](mailto:tn00373427@gmail.com) | [GitHub](https://github.com/BroccoliHuang)
 
 APP畫面
 -
-<img src="https://github.com/tn00373427/resource/blob/master/MusicStory/Screenshots/1.png" height="480" width="270"/><img src="https://github.com/tn00373427/resource/blob/master/MusicStory/Screenshots/2.png" height="480" width="270"/><img src="https://github.com/tn00373427/resource/blob/master/MusicStory/Screenshots/3.png" height="480" width="270"/>
+<img src="https://github.com/BroccoliHuang/resource/blob/master/MusicStory/Screenshots/1.png" height="480" width="270"/><img src="https://github.com/BroccoliHuang/resource/blob/master/MusicStory/Screenshots/2.png" height="480" width="270"/><img src="https://github.com/BroccoliHuang/resource/blob/master/MusicStory/Screenshots/3.png" height="480" width="270"/>
 <br>
-<img src="https://github.com/tn00373427/resource/blob/master/MusicStory/Screenshots/4.png" height="480" width="270"/><img src="https://github.com/tn00373427/resource/blob/master/MusicStory/Screenshots/5.png" height="480" width="270"/><img src="https://github.com/tn00373427/resource/blob/master/MusicStory/Screenshots/6.png" height="480" width="270"/>
+<img src="https://github.com/BroccoliHuang/resource/blob/master/MusicStory/Screenshots/4.png" height="480" width="270"/><img src="https://github.com/BroccoliHuang/resource/blob/master/MusicStory/Screenshots/5.png" height="480" width="270"/><img src="https://github.com/BroccoliHuang/resource/blob/master/MusicStory/Screenshots/6.png" height="480" width="270"/>
 <br>
-<img src="https://github.com/tn00373427/resource/blob/master/MusicStory/Screenshots/7.png" height="480" width="270"/><img src="https://github.com/tn00373427/resource/blob/master/MusicStory/Screenshots/8.png" height="480" width="270"/><img src="https://github.com/tn00373427/resource/blob/master/MusicStory/Screenshots/9.png" height="480" width="270"/>
+<img src="https://github.com/BroccoliHuang/resource/blob/master/MusicStory/Screenshots/7.png" height="480" width="270"/><img src="https://github.com/BroccoliHuang/resource/blob/master/MusicStory/Screenshots/8.png" height="480" width="270"/><img src="https://github.com/BroccoliHuang/resource/blob/master/MusicStory/Screenshots/9.png" height="480" width="270"/>
 <br>
